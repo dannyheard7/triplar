@@ -1,0 +1,11 @@
+node_modules/
+.idea/
+*.coverage
+__pycache__/
+._*
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
