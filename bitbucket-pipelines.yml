@@ -19,6 +19,12 @@ pipelines:
           - cd frontend/
           - npm install
           - npm test
+  branches:
+    production:
+    - step:
+       script:
+         - ssh dannyheard7@35.237.231.255 'cd triplar && git pull origin production'  # Need to build webpack files & push to server, don't think this will work
+         # Also need to run some script to run the server?
 definitions:
   caches:
     frontend-node: frontend/node_modules
