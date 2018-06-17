@@ -28,7 +28,7 @@ class UserManagerTestCase(TestCase):
         self.user_manager.create_user(email=self.faker.email(), password=fake_password)
         self.user_mock.return_value.set_password.assert_called_once_with(fake_password)
 
-    # Assumes test isn't using a database
+    # Assumes tests isn't using a database
     def test_create_user_save_called(self):
         self.user_manager.create_user(email=self.faker.email(), password=self.faker.password(length=9))
         self.user_mock.return_value.save.assert_called_once_with(using=None)
@@ -61,7 +61,7 @@ class UserManagerTestCase(TestCase):
                                            password=self.faker.password(length=9))
         self.assertTrue(self.user_mock.is_superuser)
 
-    # Assumes test isn't using a database
+    # Assumes tests isn't using a database
     @patch('apps.accounts.managers.UserManager.create_user')
     def test_create_superuser_save_called(self, create_user):
         create_user.return_value = self.user_mock

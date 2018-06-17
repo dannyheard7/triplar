@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<RegistrationContainer /> renders correctly 1`] = `
+<RegistrationForm
+  errors={Array []}
+  onChange={[Function]}
+  onSubmit={[Function]}
+/>
+`;
