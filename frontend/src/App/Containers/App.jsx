@@ -3,14 +3,11 @@ import axios from "axios";
 import {BrowserRouter, Redirect, Route} from "react-router-dom";
 
 import LoggedInContainer from "App/Containers/LoggedInContainer";
-import LoggedInRoute from "App/Components/LoggedInRoute";
 import LoggedOutRoute from "App/Components/LoggedOutRoute";
 import NavigationBar from "App/Components/NavigationBar";
 
 import LoginContainer from "Auth/Containers/LoginContainer";
 import RegistrationContainer from "Auth/Containers/RegistrationContainer";
-
-require('App/css/bootstrap.min.css');
 
 export default class App extends React.Component {
     constructor(props) {
@@ -37,8 +34,8 @@ export default class App extends React.Component {
 
 
                         <LoggedInContainer>
-                            {/*<Redirect from="/" exact to="/boards"/>*/}
-                            {/*<Redirect from="" exact to="/boards"/>*/}
+                            {<Redirect exact from="/" exact to="/trips"/>}
+                            {<Redirect exact from="" exact to="/trips"/>}
                         </LoggedInContainer>
                     </div>
                 </div>

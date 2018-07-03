@@ -14,7 +14,7 @@ export class LoggedOutRoute extends React.Component {
             );
         } else {
             return (
-                <Redirect to="/boards" />
+                <Redirect to="/trips" />
             );
         }
     }

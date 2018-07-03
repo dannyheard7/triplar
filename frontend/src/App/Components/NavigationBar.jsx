@@ -22,10 +22,10 @@ export class NavigationBar extends React.Component {
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 {isAuthenticated &&
-                    <Link to='/board' activeClassName="active" className="navbar-brand">Triplar</Link>
+                    <Link to='/board' activeclassname="active" className="navbar-brand">Triplar</Link>
                 }
                 {!isAuthenticated &&
-                    <Link to='/login' activeClassName="active" className="navbar-brand">Triplar</Link>
+                    <Link to='/login' activeclassname="active" className="navbar-brand">Triplar</Link>
                 }
 
                 <button className="navbar-toggler" type="button" data-toggle="collapse"
@@ -34,9 +34,11 @@ export class NavigationBar extends React.Component {
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
+
+
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     {!isAuthenticated &&
-                        <ul className="navbar-nav mr-auto float-right">
+                        <ul className="navbar-nav ml-auto">
                             <li className="nav-item" id="login-nav-item">
                                 <Link to='/login' className="nav-link">Login</Link>
                             </li>
@@ -46,10 +48,10 @@ export class NavigationBar extends React.Component {
                         </ul>
                     }
                     {isAuthenticated &&
-                         <ul className="navbar-nav mr-auto float-right">
+                         <ul className="navbar-nav ml-auto">
                              <li className="nav-item dropdown">
-                                 <a className="nav-link dropdown-toggle" id="user-dropdown" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                 <a className="nav-link dropdown-toggle" href="#" id="user-dropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" className="nav-link dropdown-toggle">
                                      {user.email}
                                  </a>
                                  <div className="dropdown-menu" aria-labelledby="user-dropdown">

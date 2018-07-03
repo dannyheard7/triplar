@@ -6,8 +6,8 @@ export default class FormFieldGroup extends React.Component {
             <div className="form-group">
                 <label>{this.props.label}</label>
                 <input name={this.props.name} type={this.props.type} onChange={this.props.onChange}
-                             value={this.props.value} required={this.props.required}  class="form-control" />
-                {this.props.help && <small class="form-text text-muted">{this.props.help}</small>}
+                             value={this.props.value} required={this.props.required}  className="form-control" />
+                {this.props.help && <small className="form-text text-muted">{this.props.help}</small>}
                 {this.props.errors &&
                     <li className="list-unstyled">
                         {this.props.errors.map(this.createErrorItem)}

@@ -5,7 +5,7 @@ exports[`<NavigationBar /> when not authenticated renders correctly 1`] = `
   className="navbar navbar-expand-lg navbar-light bg-light"
 >
   <Link
-    activeClassName="active"
+    activeclassname="active"
     className="navbar-brand"
     replace={false}
     to="/login"
@@ -30,7 +30,7 @@ exports[`<NavigationBar /> when not authenticated renders correctly 1`] = `
     id="navbarSupportedContent"
   >
     <ul
-      className="navbar-nav mr-auto float-right"
+      className="navbar-nav ml-auto"
     >
       <li
         className="nav-item"

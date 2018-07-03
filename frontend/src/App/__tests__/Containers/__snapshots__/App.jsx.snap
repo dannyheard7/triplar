@@ -15,7 +15,20 @@ exports[`<App /> when authenticated renders correctly 1`] = `
         component={[Function]}
         path="/register"
       />
-      <withRouter(Connect(LoggedInContainer)) />
+      <withRouter(Connect(LoggedInContainer))>
+        <Redirect
+          exact={true}
+          from="/"
+          push={false}
+          to="/trips"
+        />
+        <Redirect
+          exact={true}
+          from=""
+          push={false}
+          to="/trips"
+        />
+      </withRouter(Connect(LoggedInContainer))>
     </div>
   </div>
 </BrowserRouter>
@@ -36,7 +49,20 @@ exports[`<App /> when not authenticated renders correctly 1`] = `
         component={[Function]}
         path="/register"
       />
-      <withRouter(Connect(LoggedInContainer)) />
+      <withRouter(Connect(LoggedInContainer))>
+        <Redirect
+          exact={true}
+          from="/"
+          push={false}
+          to="/trips"
+        />
+        <Redirect
+          exact={true}
+          from=""
+          push={false}
+          to="/trips"
+        />
+      </withRouter(Connect(LoggedInContainer))>
     </div>
   </div>
 </BrowserRouter>
