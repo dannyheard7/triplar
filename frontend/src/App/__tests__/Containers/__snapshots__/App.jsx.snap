@@ -1,39 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<App /> when authenticated renders correctly 1`] = `
-<BrowserRouter>
-  <div>
-    <Connect(NavigationBar) />
-    <div
-      className="container"
-    >
-      <withRouter(Connect(LoggedOutRoute))
-        component={[Function]}
-        path="/login"
-      />
-      <withRouter(Connect(LoggedOutRoute))
-        component={[Function]}
-        path="/register"
-      />
-      <withRouter(Connect(LoggedInContainer))>
-        <Redirect
-          exact={true}
-          from="/"
-          push={false}
-          to="/trips"
-        />
-        <Redirect
-          exact={true}
-          from=""
-          push={false}
-          to="/trips"
-        />
-      </withRouter(Connect(LoggedInContainer))>
-    </div>
-  </div>
-</BrowserRouter>
-`;
-
 exports[`<App /> when not authenticated renders correctly 1`] = `
 <BrowserRouter>
   <div>

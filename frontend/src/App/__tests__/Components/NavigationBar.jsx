@@ -12,7 +12,7 @@ const renderer = new ShallowRenderer();
 describe('<NavigationBar />', () => {
 
     describe('when authenticated', () => {
-        const user = {'email': faker.internet.email()};
+        const user = {'email': "test@example.com"};
         const dispatchStub = jest.fn();
 
         const props = {
@@ -56,7 +56,7 @@ describe('<NavigationBar />', () => {
 
         test('renders correctly', () => {
             const result = renderer.render(<NavigationBar  />);
-            // expect(result).toMatchSnapshot(); // How to do this with the changing email? - Property Matchers
+            expect(result).toMatchSnapshot();
         });
 
     });

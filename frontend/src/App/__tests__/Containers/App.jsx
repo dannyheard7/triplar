@@ -5,6 +5,8 @@ const renderer = new ShallowRenderer();
 const faker = require('faker');
 
 import App from "App/Containers/App";
+import {shallow} from "enzyme/build/index";
+import {Redirect} from "react-router-dom";
 
 describe('<App />', () => {
 
@@ -16,9 +18,9 @@ describe('<App />', () => {
             user: user,
         };
 
-        test('renders correctly', () => {
-            const result = renderer.render(<App/>);
-            expect(result).toMatchSnapshot();
+        test.skip('redirects to trips/', () => {
+            const container = shallow(<App {...props}/>);
+            expect(container.find(Redirect)).toHaveLength(1);
         });
     });
 
