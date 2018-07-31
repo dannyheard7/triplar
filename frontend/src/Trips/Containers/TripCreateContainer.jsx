@@ -42,7 +42,7 @@ export default class TripCreate extends React.Component {
 
     render () {
         return (
-            <div className="panel">
+            <div className="card">
                 <TripForm onChange={this.handleChange} onSubmit={this.handleSubmit} submitLabel="Create"
                            errors={this.state.errors} />
             </div>

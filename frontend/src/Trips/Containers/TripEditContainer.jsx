@@ -41,7 +41,7 @@ export default class TripEditContainer extends React.Component {
     }
 
     render() {
-        return <TripForm onChange={this.handleChange} onSubmit={this.handleSubmit} name={this.state.trip.name}
+        return <TripForm onChange={this.handleChange} onSubmit={this.handleSubmit} trip={this.state.trip}
                 errors={this.state.errors} submitLabel="Update" />
     }
 }

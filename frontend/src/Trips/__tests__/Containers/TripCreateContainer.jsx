@@ -8,7 +8,6 @@ import TripCreateContainer from "Trips/Containers/TripCreateContainer";
 import TripForm from "Trips/Components/TripForm";
 
 const faker = require('faker');
-const expect = require('chai').expect;
 
 
 describe('<TripCreateContainer />', () => {
@@ -18,7 +17,7 @@ describe('<TripCreateContainer />', () => {
         const container = shallow(<TripCreateContainer />);
         container.find(TripForm).prop('onSubmit')();
 
-        expect(stub.called).to.be.true;
+        expect(stub.called).toBeTruthy();
     }));
 
     it('calls handle change after receiving change from <TripForm />', sinon.test(function () {
@@ -27,7 +26,7 @@ describe('<TripCreateContainer />', () => {
         const container = shallow(<TripCreateContainer />);
         container.find(TripForm).prop('onChange')();
 
-        expect(stub.called).to.be.true;
+        expect(stub.called).toBeTruthy();
     }));
 
     it('renders a <TripForm /> object', () => {

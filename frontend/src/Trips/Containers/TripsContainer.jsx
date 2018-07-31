@@ -29,7 +29,7 @@ export default class TripsContainer extends React.Component {
 
     render() {
         return (
-            <div className="row">
+            <div>
                 <TripListContainer createdTrip={this.state.createdTrip}/>
                 <div className="row">
                     <div className="col md-2">

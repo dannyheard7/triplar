@@ -16,17 +16,14 @@ exports[`<App /> when authenticated renders correctly 1`] = `
         path="/register"
       />
       <withRouter(Connect(LoggedInContainer))>
-        <Redirect
+        <withRouter(Connect(LoggedInRoute))
+          component={[Function]}
           exact={true}
-          from="/"
-          push={false}
-          to="/trips"
+          path="/trips"
         />
-        <Redirect
-          exact={true}
-          from=""
-          push={false}
-          to="/trips"
+        <withRouter(Connect(LoggedInRoute))
+          component={[Function]}
+          path="/trips/:id"
         />
       </withRouter(Connect(LoggedInContainer))>
     </div>
@@ -50,17 +47,14 @@ exports[`<App /> when not authenticated renders correctly 1`] = `
         path="/register"
       />
       <withRouter(Connect(LoggedInContainer))>
-        <Redirect
+        <withRouter(Connect(LoggedInRoute))
+          component={[Function]}
           exact={true}
-          from="/"
-          push={false}
-          to="/trips"
+          path="/trips"
         />
-        <Redirect
-          exact={true}
-          from=""
-          push={false}
-          to="/trips"
+        <withRouter(Connect(LoggedInRoute))
+          component={[Function]}
+          path="/trips/:id"
         />
       </withRouter(Connect(LoggedInContainer))>
     </div>

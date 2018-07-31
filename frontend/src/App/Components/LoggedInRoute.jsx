@@ -12,9 +12,10 @@ export class LoggedInRoute extends React.Component {
                 <Route {...rest} Component/>
             );
         } else {
-            return (
+            return null;
+            /* return (
                 <Redirect to={{pathname: '/login', state: {from: this.props.location}}}/>
-            );
+            ); */
         }
     }
 }
