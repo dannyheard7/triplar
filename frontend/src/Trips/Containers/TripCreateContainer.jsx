@@ -14,7 +14,7 @@ export default class TripCreate extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.create = this.create.bind(this);
+       // this.create = this.create.bind(this);
     }
 
     handleChange(event) {

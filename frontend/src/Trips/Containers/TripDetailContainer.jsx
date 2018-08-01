@@ -3,7 +3,7 @@ import axios from "axios";
 
 import TripDetail from "Trips/Components/TripDetail";
 import TripManagementRow from "Trips/Components/TripManagementRow";
-// import TripDelete from "Trips/Components/TripDelete";
+import TripDelete from "Trips/Components/TripDelete";
 import TripEditContainer from "Trips/Containers/TripEditContainer";
 
 export default class TripDetailContainer extends React.Component {
@@ -54,9 +54,8 @@ export default class TripDetailContainer extends React.Component {
         return (
             <div>
                 <TripDetail trip={trip} />
-                {/*<CardListContainer cards={trip.cards} trip={trip}/>*/}
                 <TripManagementRow trip={trip} onEditClick={this.onEditClick} onDeleteClick={this.onDeleteClick} />
-                {/*{this.state.delete && <TripDelete trip={trip} router={this.props.router}/>}*/}
+                {this.state.delete && <TripDelete trip={trip} router={this.props.router}/>}
             </div>
         );
     }
