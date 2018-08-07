@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import api from "utils/api.js";
 
 export default class TripDelete extends React.Component {
     constructor(props) {
@@ -9,7 +9,7 @@ export default class TripDelete extends React.Component {
     }
 
     onDelete(e){
-        axios.delete("/trips/" + this.props.trip.id).then(response => {
+        api.deleteTrip(this.props.trip.id).then(response => {
             if (response.status === 204) {
                 this.props.router.push('/trips');
             }

@@ -1,6 +1,6 @@
 import React from "react";
 import {shallow} from "enzyme";
-import mockAxios from 'jest-mock-axios';
+import api from "utils/api.js"
 
 import TripCreateContainer from "Trips/Containers/TripCreateContainer";
 import TripForm from "Trips/Components/TripForm";
@@ -16,15 +16,6 @@ describe('<TripCreateContainer />', () => {
         },
     };
 
-    test('calls handle submit after receiving submit from <TripForm />', () => {
-        const stub = jest.spyOn(TripCreateContainer.prototype, 'handleSubmit');
-
-        const container = shallow(<TripCreateContainer />);
-        container.find(TripForm).prop('onSubmit')(event);
-
-        expect(stub).toBeCalled();
-    });
-
     test('calls handle change after receiving change from <TripForm />', (function () {
         const stub = jest.spyOn(TripCreateContainer.prototype, 'handleChange');
 
@@ -33,6 +24,18 @@ describe('<TripCreateContainer />', () => {
 
         expect(stub).toBeCalled();
     }));
+
+    test('calls handle submit after receiving submit from <TripForm />', () => {
+        const stub = jest.spyOn(TripCreateContainer.prototype, 'handleSubmit');
+
+        let container = shallow(<TripCreateContainer />);
+        container.instance().create = jest.fn(); // Mock api call function
+        container.instance().forceUpdate();
+
+        container.find(TripForm).prop('onSubmit')(event);
+
+        expect(stub).toBeCalled();
+    });
 
     test('renders a <TripForm /> object', () => {
         const container = shallow(<TripCreateContainer />);
@@ -58,49 +61,45 @@ describe('<TripCreateContainer />', () => {
         expect(container.find(TripForm).props().errors).toEqual(errors);
     });
 
-    describe('api', () => {
-        afterEach(() => {
-            mockAxios.reset();
-        });
+    test('unsuccesful trip create updates state errors',  async () => {
+        const errors = [faker.random.word(), faker.random.word()];
+        api.createTrip = jest.fn().mockReturnValueOnce(new Promise((resolve, reject) => {
+            let response = {status: 400, data: errors};
+            resolve(response);
+        }));
 
-        test('trip information sent correctly', () => {
-            const spy = jest.fn();
-            const container = shallow(<TripCreateContainer  onTripCreate={spy}/>);
+        const spy = jest.fn();
+        const container = shallow(<TripCreateContainer onTripCreate={spy}/>);
 
-            const trip = {'name': faker.random.word()};
-            container.setState({trip: trip});
-            container.instance().create();
+        const trip = {'name': faker.random.word()};
+        container.setState({'trip': trip});
+        container.instance().create();
+        await Promise.resolve();
 
-            expect(mockAxios.post).toHaveBeenCalledWith('/trips/', trip);
-        });
-
-
-        test('succesful trip create calls onTripCreate prop',  () => {
-            const spy = jest.fn();
-            const container = shallow(<TripCreateContainer onTripCreate={spy}/>);
-
-            container.setState({'name': faker.random.word()});
-            container.instance().create();
-
-            let responseObj = { status: 201, data: jest.fn() };
-            mockAxios.mockResponse(responseObj);
-
-            expect(spy).toBeCalled();
-        });
-
-        test('unsuccesful trip create updates state errors', function (done) {
-            const spy = jest.fn();
-            const container = shallow(<TripCreateContainer onTripCreate={spy}/>);
-
-            container.setState({'name': faker.random.word()});
-            container.instance().create();
-
-            const errors = jest.fn();
-            let responseObj = { status: 400, data: errors };
-            mockAxios.mockResponse(responseObj);
-
-            expect(container.state('errors')).toEqual(errors);
-            expect(spy).not.toBeCalled();
-        });
+        expect(container.state('errors')).toEqual(errors);
+        expect(container.state('trip')).toEqual(trip);
+        expect(spy).not.toBeCalled();
     });
+
+    test('succesful trip create calls onTripCreate prop', async () => {
+        const trip = {'name': faker.random.word()};
+        api.createTrip = jest.fn().mockImplementationOnce(test => {
+            return new Promise((resolve, reject) => {
+                let response = {status: 201, data: test};
+                resolve(response);
+            });
+        });
+
+        const spy = jest.fn();
+        const container = shallow(<TripCreateContainer onTripCreate={spy}/>);
+
+        container.setState({'trip': trip});
+        container.instance().create();
+        await Promise.resolve();
+
+        expect(spy).toHaveBeenCalledWith(trip);
+        expect(container.state('trip')).toEqual({});
+        expect(container.state('errors')).toEqual([]);
+    });
+
 });

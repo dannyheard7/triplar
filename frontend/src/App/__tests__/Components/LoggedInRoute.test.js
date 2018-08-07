@@ -1,17 +1,14 @@
 import React from "react";
 import {shallow} from "enzyme";
-import sinon from "sinon";
 import {LoggedInRoute} from "App/Components/LoggedInRoute";
 import {Route, Redirect} from "react-router-dom"
 
 
 describe('<LoggedInRoute />', () => {
     test('when authenticated', () => {
-        const componentSpy = sinon.spy();
-
         const props = {
             isAuthenticated: true,
-            Component: componentSpy
+            Component: jest.fn()
         };
 
         test('renders the component route', () => {

@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import api from "utils/api.js";
 
 import TripList from "Trips/Components/TripList";
 
@@ -13,9 +13,8 @@ export default class TripListContainer extends React.Component {
     }
 
     componentDidMount() {
-        axios.get("/trips/").then(res => {
-            const trips = res.data;
-            this.setState({trips: trips});
+        api.getTrips().then(res => {
+            this.setState({trips: res.data});
         });
     }
 

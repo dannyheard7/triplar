@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import api from "utils/api.js"
 
 import TripForm from "Trips/Components/TripForm";
 
@@ -14,7 +14,6 @@ export default class TripCreate extends React.Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-       // this.create = this.create.bind(this);
     }
 
     handleChange(event) {
@@ -26,11 +25,11 @@ export default class TripCreate extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.create()
-    }
+        this.create();
+    };
 
-    create () {
-        axios.post("/trips/", this.state.trip).then(response => {
+    create() {
+        api.createTrip(this.state.trip).then(response => {
             if (response.status === 201) {
                 this.setState({trip: {}, errors: []});
                 this.props.onTripCreate(response.data);

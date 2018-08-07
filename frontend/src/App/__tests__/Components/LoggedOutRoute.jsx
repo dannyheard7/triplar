@@ -1,6 +1,5 @@
 import React from "react";
 import {shallow} from "enzyme";
-import sinon from "sinon";
 import {LoggedOutRoute} from "App/Components/LoggedOutRoute";
 import {Route, Redirect} from "react-router-dom"
 
@@ -19,11 +18,9 @@ describe('<LoggedOutRoute />', () => {
     });
 
     test('when not authenticated', () => {
-        const componentSpy = sinon.spy();
-
         const props = {
             isAuthenticated: false,
-            Component: componentSpy
+            Component: jest.fn()
         };
 
         test('renders the component route', () => {

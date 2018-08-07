@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import api from "utils/api.js";
 
 import TripForm from "Trips/Components/TripForm";
 
@@ -30,7 +30,7 @@ export default class TripEditContainer extends React.Component {
     }
 
     update() {
-        axios.patch("/trips/" + this.props.trip.id, this.state.trip).then(response => {
+        api.patchTrip(this.state.trip).then(response => {
             if (response.status === 200) {
                 this.setState({trip: response.data, errors: []});
                 this.props.onUpdate(response.data);

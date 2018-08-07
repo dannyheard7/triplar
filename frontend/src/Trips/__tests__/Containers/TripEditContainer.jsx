@@ -1,6 +1,6 @@
 import React from "react";
 import {shallow} from "enzyme";
-import mockAxios from 'jest-mock-axios';
+import api from "utils/api.js";
 
 import TripEditContainer from "Trips/Containers/TripEditContainer";
 import TripForm from "Trips/Components/TripForm";
@@ -60,35 +60,38 @@ describe('<TripEditContainer />', () => {
     });
 
     describe('api', () => {
-        it('succesful trip update calls onUpdate props function', function (done) {
+        it('succesful trip update calls onUpdate props function', async () => {
             const spy = jest.fn();
             let trip = {'id': faker.random.number(), 'name': faker.random.word()};
+
+            api.patchTrip = jest.fn().mockImplementationOnce(trip => {
+                return new Promise((resolve, reject) => {
+                    let response = {status: 200, data: trip};
+                    resolve(response);
+                });
+            });
+
             const container = shallow(<TripEditContainer onUpdate={spy} trip={trip}/>);
 
             container.setState({'name': faker.random.word()});
             container.instance().update();
-
-            expect(mockAxios.patch).toHaveBeenCalledWith('/trips/' + trip['id']);
-
-            let responseObj = {status: 200, data: jest.fn()};
-            mockAxios.mockResponse(responseObj);
+            await Promise.resolve();
 
             expect(spy).toBeCalled();
         });
 
-        it('unsuccesful trip update updates state errors', function (done) {
+        it('unsuccesful trip update updates state errors', async () => {
             const spy = jest.fn();
             let trip = {'id': faker.random.number(), 'name': faker.random.word()};
+            const errors = [faker.random.word(), faker.random.word()];
+            api.patchTrip = jest.fn().mockReturnValueOnce(new Promise((resolve, reject) => {
+                let response = {status: 400, data: errors};
+                resolve(response);
+            }));
 
             const container = shallow(<TripEditContainer onUpdate={spy} trip={trip}/>);
-            container.setState({'name': faker.random.word()});
             container.instance().update();
-
-            const errors = jest.fn();
-            expect(mockAxios.patch).toHaveBeenCalledWith('/trips/' + trip['id']);
-
-            let responseObj = {status: 400, data: errors};
-            mockAxios.mockResponse(responseObj);
+            await Promise.resolve();
 
             expect(spy).not.toBeCalled();
             expect(container.state('errors')).toEqual(errors);

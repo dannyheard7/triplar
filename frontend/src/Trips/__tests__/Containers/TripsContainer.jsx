@@ -8,6 +8,8 @@ import ShallowRenderer from "react-test-renderer/shallow";
 
 const renderer = new ShallowRenderer();
 
+import mockAxios from "axios";
+
 describe('<TripsContainer />', () => {
     let overview = null;
     const event = {
@@ -44,6 +46,7 @@ describe('<TripsContainer />', () => {
         it('does not render <TripCreateContainer /> after a trip has been created', () => {
             expect(overview.find(TripCreateContainer).length).toEqual(1);
             overview.find(TripCreateContainer).prop('onTripCreate')(event);
+            overview.update();
 
             expect(overview.state('showTripCreate')).toEqual(false);
             expect(overview.find(TripCreateContainer).length).toEqual(0);
@@ -65,4 +68,8 @@ describe('<TripsContainer />', () => {
         container.setState({createdTrip: createdTrip});
         expect(container.find(TripListContainer).props().createdTrip).toEqual(createdTrip);
     });
+
+    test.skip('Once trip has been created, all state of the new trip is cleared', () => {
+
+    })
 });

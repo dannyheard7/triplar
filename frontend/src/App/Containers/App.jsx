@@ -15,7 +15,10 @@ import TripDetailContainer from "Trips/Containers/TripDetailContainer";
 export default class App extends React.Component {
     constructor(props) {
         super(props);
+        this.setupAxios();
+    }
 
+    setupAxios() {
         // Custom axios validation function
         axios.defaults.validateStatus = function (status) {
             return (status >= 200 && status < 300) || (status === 400)

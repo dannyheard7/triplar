@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import api from "utils/api.js"
 
 import TripDetail from "Trips/Components/TripDetail";
 import TripManagementRow from "Trips/Components/TripManagementRow";
@@ -22,11 +22,8 @@ export default class TripDetailContainer extends React.Component {
     }
 
     componentDidMount() {
-        let url = "/trips/" + this.props.match.params.id;
-
-        axios.get(url).then(res => {
-            const trip = res.data;
-            this.setState({ trip });
+        api.getTrip(this.props.match.params.id).then(response => {
+            this.setState({ trip: response.data })
         });
     }
 

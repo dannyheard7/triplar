@@ -24,4 +24,3 @@ var localStorageMock = (function() {
 Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 
 global.XMLHttpRequest = undefined;
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;

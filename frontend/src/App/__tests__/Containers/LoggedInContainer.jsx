@@ -8,6 +8,7 @@ const faker = require('faker');
 
 import {LoggedInContainer} from "App/Containers/LoggedInContainer";
 
+jest.unmock('axios');
 
 describe('<LoggedInContainer />', () => {
 
@@ -16,6 +17,7 @@ describe('<LoggedInContainer />', () => {
             token: faker.random.number(),
             isAuthenticated: true
         };
+
 
         const container = shallow(<LoggedInContainer {...props}><React.Component/></LoggedInContainer>);
         expect(axios.defaults.headers.common['Authorization']).toEqual('JWT ' + props.token);
