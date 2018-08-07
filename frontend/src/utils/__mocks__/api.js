@@ -1,6 +1,19 @@
 const faker = require('faker');
 
 export default {
+    registerUser(email, password, firstName, lastName) {
+        return new Promise((resolve, reject) => {
+           let response = {status: 201, data:  {'user': faker.internet.email()}}
+           resolve(response);
+        });
+    },
+
+    getLoginToken(email, password) {
+        return new Promise((resolve, reject) => {
+            let response = {status: 200, data: {'user': faker.internet.email(), 'token': faker.random.number() }};
+            resolve(response);
+        })
+    },
 
     getTrips() {
         return new Promise((resolve, reject) => {

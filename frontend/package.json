@@ -24,7 +24,6 @@
   },
   "proxy": "http://localhost:8000/",
   "devDependencies": {
-    "axios-mock-adapter": "^1.15.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "faker": "^4.1.0",

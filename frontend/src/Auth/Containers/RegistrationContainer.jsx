@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import api from "utils/api.js";
 
 import RegistrationForm from "Auth/Components/RegistrationForm";
 
@@ -50,10 +50,7 @@ export default class RegistrationContainer extends React.Component {
         const firstName = this.state.firstName;
         const lastName = this.state.lastName;
 
-        axios.post("/register/", {
-            'email': email, 'password': password, 'first_name': firstName,
-            'last_name': lastName
-        }).then(response => {
+        api.registerUser(email, password, firstName, lastName).then(response => {
             let data = response.data;
 
             if (response.status === 201) {

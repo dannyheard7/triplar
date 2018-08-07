@@ -18,7 +18,6 @@ describe('<LoggedInContainer />', () => {
             isAuthenticated: true
         };
 
-
         const container = shallow(<LoggedInContainer {...props}><React.Component/></LoggedInContainer>);
         expect(axios.defaults.headers.common['Authorization']).toEqual('JWT ' + props.token);
     });

@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import api from "utils/api.js";
 import {connect} from "react-redux";
 
 import {login} from "Auth/actions";
@@ -38,7 +38,7 @@ export class LoginContainer extends React.Component {
         const email = this.state.email;
         const password = this.state.password;
 
-        axios.post("/token/", {'email': email, 'password': password}).then(response => {
+        api.getLoginToken(email, password).then(response => {
             let data = response.data;
 
             if (response.status === 400) {
