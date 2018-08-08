@@ -9,7 +9,7 @@ export default class TripsContainer extends React.Component {
 
         this.state = {
             showTripCreate: false,
-            createdTrip: null
+            updateTripsList: false
         };
 
         this.onClick = this.onClick.bind(this);
@@ -17,20 +17,20 @@ export default class TripsContainer extends React.Component {
     }
 
     onClick() {
-        this.setState({showTripCreate: !this.state.showTripCreate});
+        this.setState({showTripCreate: !this.state.showTripCreate, updateTripsList: false});
     }
 
-    onTripCreate(trip) {
+    onTripCreate() {
         this.setState({
             showTripCreate: false,
-            createdTrip: trip
+            updateTripsList: true,
         });
     }
 
     render() {
         return (
             <div>
-                <TripListContainer createdTrip={this.state.createdTrip}/>
+                <TripListContainer update={this.state.updateTripsList}/>
                 <div className="row">
                     <div className="col md-2">
                         <button className="btn btn-primary" onClick={this.onClick}>New Trip</button>

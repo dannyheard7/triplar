@@ -15,26 +15,22 @@ describe('<TripListContianer />', () => {
         expect(container.find(TripList).length).toEqual(1);
     });
 
-    it('updates state after receiving trip from props', () => {
+    test('calls getTrips after receiving update signal from props', () => {
         const container = shallow(<TripListContainer />);
-        let trip = jest.fn();
+        container.instance().getTrips = jest.fn();
+        container.setProps({update: true});
 
-        container.setProps({createdTrip: trip});
-        expect(container.state('trips')).toEqual([trip]);
+        expect(container.instance().getTrips).toBeCalled();
     });
 
-    it('retains old trips after receiving new trip from props', () => {
+    test('calls getTrips on mount', () => {
+        const spy = jest.spyOn(TripListContainer.prototype, "getTrips");
         const container = shallow(<TripListContainer />);
 
-        let trips = [faker.random.word()];
-        container.setState({trips: trips});
-
-        let newTrip = faker.random.word();
-        container.setProps({createdTrip: newTrip});
-
-        expect(container.state('trips')).toEqual(trips.concat([newTrip]));
+        expect(spy).toBeCalled();
     });
-    test('sets trips returned from server as state on mount', async () => {
+
+    test('update sets trips returned from server as state', async () => {
         let trips = [faker.random.word(), faker.random.word()];
 
         // Need to refactor into a better way of changes mocks for a single test

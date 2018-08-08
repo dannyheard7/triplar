@@ -32,16 +32,16 @@ describe('<TripsContainer />', () => {
             overview.setState({showTripCreate: true});
         });
 
-        it('renders <TripCreateContainer /> component when tripCreateVisible is true', () => {
+        test('renders <TripCreateContainer /> component when tripCreateVisible is true', () => {
             expect(overview.find(TripCreateContainer).length).toEqual(1);
         });
 
-        it('updates state.tripCreateVisible when create button clicked', () => {
+        test('updates state.tripCreateVisible when create button clicked', () => {
             overview.find('.btn').simulate('click');
             expect(overview.state('showTripCreate')).toEqual(false);
         });
 
-        it('does not render <TripCreateContainer /> after a trip has been created', () => {
+        test('does not render <TripCreateContainer /> after a trip has been created', () => {
             expect(overview.find(TripCreateContainer).length).toEqual(1);
             overview.find(TripCreateContainer).prop('onTripCreate')(event);
             overview.update();
@@ -50,24 +50,12 @@ describe('<TripsContainer />', () => {
             expect(overview.find(TripCreateContainer).length).toEqual(0);
         });
 
-        it('The state contains the new trip from <TripCreateContainer /> after a trip has been created', () => {
+        test('State.updateTripsList is set to true after a trip is created', () => {
             let trip = jest.fn();
             overview.find(TripCreateContainer).prop('onTripCreate')(trip);
 
-            expect(overview.state('createdTrip')).toEqual(trip);
+            expect(overview.state('updateTripsList')).toBeTruthy();
         });
     });
 
-    it('createdTrip state change updates TripListContainer Prop', function () {
-        const container = shallow(<TripsContainer />);
-        expect(container.find(TripListContainer).props().createdTrip).toEqual(container.state('createdTrip'));
-
-        let createdTrip = jest.fn();
-        container.setState({createdTrip: createdTrip});
-        expect(container.find(TripListContainer).props().createdTrip).toEqual(createdTrip);
-    });
-
-    test.skip('Once trip has been created, all state of the new trip is cleared', () => {
-
-    })
 });

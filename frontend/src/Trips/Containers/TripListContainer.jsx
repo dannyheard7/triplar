@@ -13,17 +13,19 @@ export default class TripListContainer extends React.Component {
     }
 
     componentDidMount() {
-        api.getTrips().then(res => {
-            this.setState({trips: res.data});
-        });
+        this.getTrips();
     }
 
     componentWillReceiveProps(props) {
-        if (props.createdTrip) {
-            this.setState({
-                trips: this.state.trips.concat([props.createdTrip])
-            });
+        if(props.update) {
+            this.getTrips();
         }
+    }
+
+    getTrips() {
+        api.getTrips().then(res => {
+            this.setState({trips: res.data});
+        });
     }
 
     render() {
