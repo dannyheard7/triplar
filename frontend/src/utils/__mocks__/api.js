@@ -38,5 +38,12 @@ export default {
             let response = {status: 200, data: trip};
             resolve(response);
         });
-    }
+    },
+
+    deleteTrip(tripId) {
+        return new Promise((resolve, reject) => {
+            let response = {status: 204};
+            resolve(response)
+        })
+    },
 }

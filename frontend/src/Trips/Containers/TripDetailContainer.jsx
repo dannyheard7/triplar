@@ -52,7 +52,7 @@ export default class TripDetailContainer extends React.Component {
             <div>
                 <TripDetail trip={trip} />
                 <TripManagementRow trip={trip} onEditClick={this.onEditClick} onDeleteClick={this.onDeleteClick} />
-                {this.state.delete && <TripDelete trip={trip} router={this.props.router}/>}
+                {this.state.delete && <TripDelete trip={trip} />}
             </div>
         );
     }

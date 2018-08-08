@@ -8,8 +8,6 @@ import ShallowRenderer from "react-test-renderer/shallow";
 
 const renderer = new ShallowRenderer();
 
-import mockAxios from "axios";
-
 describe('<TripsContainer />', () => {
     let overview = null;
     const event = {

@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TripDelete /> <TripDelete /> renders correctly 1`] = `
+<div
+  className="modal"
+  role="dialog"
+>
+  <div
+    className="modal-dialog"
+    role="document"
+  >
+    <div
+      className="modal-content"
+    >
+      <div
+        className="modal-header"
+      >
+        <h5
+          className="modal-title"
+        >
+          Delete 
+          Trip Test
+        </h5>
+        <button
+          aria-label="Close"
+          className="close"
+          data-dismiss="modal"
+          type="button"
+        >
+          <span
+            aria-hidden="true"
+          >
+            ×
+          </span>
+        </button>
+      </div>
+      <div
+        className="modal-body"
+      >
+        <p>
+           Are you sure you want to delete the trip '
+          Trip Test
+          '?
+        </p>
+      </div>
+      <div
+        className="modal-footer"
+      >
+        <button
+          className="btn btn-danger"
+          type="button"
+        >
+          Delete Trip
+        </button>
+        <button
+          className="btn btn-secondary"
+          data-dismiss="modal"
+          type="button"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

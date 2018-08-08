@@ -7,7 +7,7 @@ const faker = require('faker');
 
 describe('<TripDetail />', () => {
     describe('with no trip prop', () => {
-        test('displays no <ListGroupItem /> component', () => {
+        test.skip('displays no <ListGroupItem /> component', () => {
         });
     });
 

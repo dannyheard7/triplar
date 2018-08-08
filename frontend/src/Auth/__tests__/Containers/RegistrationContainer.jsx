@@ -5,6 +5,7 @@ import ShallowRenderer from 'react-test-renderer/shallow';
 
 import RegistrationContainer from "Auth/Containers/RegistrationContainer";
 import RegistrationForm from "Auth/Components/RegistrationForm";
+import {Redirect} from "react-router-dom";
 
 const renderer = new ShallowRenderer();
 const faker = require('faker');
@@ -61,33 +62,33 @@ describe('<RegistrationContainer />', () => {
         expect(container.find(RegistrationForm).props().errors).toEqual(errors);
     });
 
-    describe('api', () => {
-        test.skip('redirects to login page on succesful registration', async () => {
-            const container = shallow(<RegistrationContainer />);
+    test('redirects to login page on succesful registration', async () => {
+        const container = shallow(<RegistrationContainer />);
 
-            container.instance().register();
-            await Promise.resolve();
+        container.instance().register();
+        await Promise.resolve();
+        container.update();
 
-            // expect(routerSpy.push.called).toBeTruthy();
-        });
-
-        test('unsuccesful registration updates state errors', async () => {
-            const container = shallow(<RegistrationContainer />);
-
-            const errors = [faker.lorem.word, faker.lorem.word];
-            api.registerUser = jest.fn().mockReturnValueOnce(new Promise((resolve, reject) => {
-                let response = {status: 400, data: errors};
-                resolve(response);
-            }));
-
-            container.instance().register();
-            await Promise.resolve();
-
-            expect(container.state('errors')).toEqual(errors);
-        });
-
-        test.skip('registration form sends data to API', function (done) {
-
-        });
+         expect(container.find(Redirect)).toHaveLength(1);
     });
+
+    test('unsuccesful registration updates state errors', async () => {
+        const container = shallow(<RegistrationContainer />);
+
+        const errors = [faker.lorem.word, faker.lorem.word];
+        api.registerUser = jest.fn().mockReturnValueOnce(new Promise((resolve, reject) => {
+            let response = {status: 400, data: errors};
+            resolve(response);
+        }));
+
+        container.instance().register();
+        await Promise.resolve();
+
+        expect(container.state('errors')).toEqual(errors);
+    });
+
+    test.skip('registration form sends data to API', function (done) {
+
+    });
+
 });
