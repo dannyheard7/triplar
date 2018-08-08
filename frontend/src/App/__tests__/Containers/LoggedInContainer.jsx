@@ -8,6 +8,7 @@ const faker = require('faker');
 
 import {LoggedInContainer} from "App/Containers/LoggedInContainer";
 
+jest.unmock('axios');
 
 describe('<LoggedInContainer />', () => {
 

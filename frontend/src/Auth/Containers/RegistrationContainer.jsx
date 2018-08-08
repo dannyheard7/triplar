@@ -1,5 +1,6 @@
 import React from "react";
-import axios from "axios";
+import api from "utils/api.js";
+import { Redirect } from 'react-router'
 
 import RegistrationForm from "Auth/Components/RegistrationForm";
 
@@ -13,7 +14,8 @@ export default class RegistrationContainer extends React.Component {
             confirmPassword: '',
             firstName: '',
             lastName: '',
-            errors: []
+            errors: [],
+            redirect: false
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -50,15 +52,11 @@ export default class RegistrationContainer extends React.Component {
         const firstName = this.state.firstName;
         const lastName = this.state.lastName;
 
-        axios.post("/register/", {
-            'email': email, 'password': password, 'first_name': firstName,
-            'last_name': lastName
-        }).then(response => {
+        api.registerUser(email, password, firstName, lastName).then(response => {
             let data = response.data;
 
             if (response.status === 201) {
-                //this.props.dispatch(login(data.user, data.token)); - after confirming email?
-                // TODO: need to redirect to login
+                this.setState({redirect: true});
             } else if (response.status === 400) {
                 this.setState({errors: data});
             }
@@ -66,9 +64,16 @@ export default class RegistrationContainer extends React.Component {
     }
 
     render() {
-        return (
-            <RegistrationForm onSubmit={this.handleSubmit} onChange={this.handleChange}
-                              errors={this.state.errors}/>
-        );
+
+        if(this.state.redirect) {
+            return (
+                <Redirect to="/login" />
+            );
+        } else {
+            return (
+                <RegistrationForm onSubmit={this.handleSubmit} onChange={this.handleChange}
+                                  errors={this.state.errors}/>
+            );
+        }
     }
 }

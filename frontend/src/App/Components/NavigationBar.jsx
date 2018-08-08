@@ -22,7 +22,7 @@ export class NavigationBar extends React.Component {
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 {isAuthenticated &&
-                    <Link to='/board' activeclassname="active" className="navbar-brand">Triplar</Link>
+                    <Link to='/trips' activeclassname="active" className="navbar-brand">Triplar</Link>
                 }
                 {!isAuthenticated &&
                     <Link to='/login' activeclassname="active" className="navbar-brand">Triplar</Link>

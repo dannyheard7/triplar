@@ -1,5 +1,6 @@
 import React from "react";
 import ShallowRenderer from 'react-test-renderer/shallow';
+import axios from "axios";
 
 const renderer = new ShallowRenderer();
 const faker = require('faker');
@@ -8,6 +9,7 @@ import App from "App/Containers/App";
 import {shallow} from "enzyme/build/index";
 import {Redirect} from "react-router-dom";
 
+jest.unmock('axios');
 describe('<App />', () => {
 
     describe('when authenticated', () => {
@@ -30,7 +32,7 @@ describe('<App />', () => {
         };
 
         test('renders correctly', () => {
-            const result = renderer.render(<App  />);
+            const result = renderer.render(<App {...props} />);
             expect(result).toMatchSnapshot();
         });
     });

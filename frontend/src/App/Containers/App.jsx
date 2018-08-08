@@ -3,16 +3,22 @@ import axios from "axios";
 import {BrowserRouter, Redirect, Route} from "react-router-dom";
 
 import LoggedInContainer from "App/Containers/LoggedInContainer";
+import LoggedInRoute from "App/Components/LoggedInRoute";
 import LoggedOutRoute from "App/Components/LoggedOutRoute";
 import NavigationBar from "App/Components/NavigationBar";
 
 import LoginContainer from "Auth/Containers/LoginContainer";
 import RegistrationContainer from "Auth/Containers/RegistrationContainer";
+import TripsContainer from "Trips/Containers/TripsContainer";
+import TripDetailContainer from "Trips/Containers/TripDetailContainer";
 
 export default class App extends React.Component {
     constructor(props) {
         super(props);
+        this.setupAxios();
+    }
 
+    setupAxios() {
         // Custom axios validation function
         axios.defaults.validateStatus = function (status) {
             return (status >= 200 && status < 300) || (status === 400)
@@ -34,8 +40,8 @@ export default class App extends React.Component {
 
 
                         <LoggedInContainer>
-                            {<Redirect exact from="/" exact to="/trips"/>}
-                            {<Redirect exact from="" exact to="/trips"/>}
+                            <LoggedInRoute path="/trips" exact component={TripsContainer}/>
+                            <LoggedInRoute path="/trips/:id" component={TripDetailContainer}/>
                         </LoggedInContainer>
                     </div>
                 </div>
