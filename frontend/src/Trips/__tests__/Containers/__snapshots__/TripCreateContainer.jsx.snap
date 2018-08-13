@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TripCreateContainer /> renders correctly 1`] = `
+<div
+  className="card"
+>
+  <TripFormContainer
+    apiFunction={[Function]}
+    onSuccess={[Function]}
+    submitLabel="Create"
+    trip={Object {}}
+  />
+</div>
+`;

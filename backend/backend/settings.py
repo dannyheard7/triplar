@@ -25,10 +25,11 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.gis',
     'rest_framework',
-    'apps.accounts',
-    'apps.trips',
+    'accounts',
+    'trips',
+    'cities',
 ]
 
 MIDDLEWARE = [
@@ -67,10 +68,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.contrib.gis.db.backends.spatialite', # Spatial DB
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+SPATIALITE_LIBRARY_PATH = 'mod_spatialite.so'
 
 
 # Password validation
@@ -120,12 +123,12 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.IsAuthenticated',
     ),
 }
 
 JWT_AUTH = {
-    'JWT_RESPONSE_PAYLOAD_HANDLER': 'apps.accounts.views.jwt_response_payload_handler',
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'accounts.views.jwt_response_payload_handler',
     'JWT_EXPIRATION_DELTA':  datetime.timedelta(days=7), # TODO: change before deployemnt & add refresh
 }
 

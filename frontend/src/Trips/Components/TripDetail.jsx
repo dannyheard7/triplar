@@ -16,6 +16,9 @@ export default class TripDetail extends React.Component {
                 <div className="row">
                     <p id="created-by">Created by: {trip.created_by}</p>
                 </div>
+                <div className="row">
+                    <p>Locations: {trip.locations.map((location, index) => (index ? ', ': '') + location)}</p>
+                </div>
             </div>
         )
     }

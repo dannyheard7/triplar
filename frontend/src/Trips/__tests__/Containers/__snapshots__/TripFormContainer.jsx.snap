@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TripFormContainer /> renders correctly 1`] = `
+<TripForm
+  errors={Array []}
+  onChange={[Function]}
+  onSubmit={[Function]}
+  submitLabel={undefined}
+  suggestions={undefined}
+  trip={Object {}}
+/>
+`;

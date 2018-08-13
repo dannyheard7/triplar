@@ -23,8 +23,6 @@ export default class App extends React.Component {
         axios.defaults.validateStatus = function (status) {
             return (status >= 200 && status < 300) || (status === 400)
         };
-
-        axios.defaults.baseURL = '/api';
     }
 
     render() {

@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TripDetail /> with trip prop renders correctly 1`] = `
+<div>
+  <div
+    className="row"
+  >
+    <h2
+      id="trip-name"
+    >
+      test
+    </h2>
+    <p>
+      10th August
+       - 
+      12th August
+    </p>
+  </div>
+  <div
+    className="row"
+  >
+    <p
+      id="created-by"
+    >
+      Created by: 
+      email@example.com
+    </p>
+  </div>
+  <div
+    className="row"
+  >
+    <p>
+      Locations: 
+      Bristol
+    </p>
+  </div>
+</div>
+`;

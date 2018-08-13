@@ -4,7 +4,7 @@ pipelines:
   default:
     - step:
         name: Build and test python
-        image: python:3.6.5
+        image: triplar/triplar
         caches:
           - pip
         script: # Modify the commands below to build your repository.
@@ -13,7 +13,7 @@ pipelines:
           - python manage.py test
     - step:
         name: Build and test node
-        image: node:8.5.0
+        image: triplar/triplar
         caches:
           - frontend-node
         script:

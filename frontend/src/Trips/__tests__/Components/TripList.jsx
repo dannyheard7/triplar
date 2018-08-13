@@ -18,7 +18,7 @@ describe('<TripList />', () => {
         let trips = null;
 
         beforeEach(function() {
-            trips = [{'id': faker.random.number(), 'name': faker.random.word()}];
+            trips = [{'id': faker.random.number(), 'name': faker.random.word(), 'locations': [faker.address.city()]}];
         });
 
         it('displays a <ListGroupItem /> component for a single trip', () => {
@@ -30,8 +30,8 @@ describe('<TripList />', () => {
             const container = shallow(<TripList trips={trips}/>);
             expect(container.find(".trip-card").length).toEqual(trips.length);
 
-            let newTrips = [{'id': faker.random.number(), 'name': faker.random.word()},
-                {'id': faker.random.number(), 'name': faker.random.word()}];
+            let newTrips = [{'id': faker.random.number(), 'name': faker.random.word(), 'locations': [faker.address.city()]},
+                {'id': faker.random.number(), 'name': faker.random.word(), 'locations': [faker.address.city()]}];
             container.setProps({trips: newTrips});
             expect(container.find(".trip-card").length).toEqual(newTrips.length);
         });

@@ -46,4 +46,11 @@ export default {
             resolve(response)
         })
     },
+
+    searchCities(value) {
+        return new Promise((resolve, reject) => {
+            let response = {status: 200, data: [faker.address.city(),  faker.address.city()]};
+            resolve(response);
+        });
+    }
 }
