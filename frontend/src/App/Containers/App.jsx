@@ -1,10 +1,9 @@
 import React from "react";
 import axios from "axios";
-import {BrowserRouter, Redirect, Route} from "react-router-dom";
+import {BrowserRouter, Route} from "react-router-dom";
+import {connect} from "react-redux";
 
 import LoggedInContainer from "App/Containers/LoggedInContainer";
-import LoggedInRoute from "App/Components/LoggedInRoute";
-import LoggedOutRoute from "App/Components/LoggedOutRoute";
 import NavigationBar from "App/Components/NavigationBar";
 
 import LoginContainer from "Auth/Containers/LoginContainer";
@@ -12,7 +11,8 @@ import RegistrationContainer from "Auth/Containers/RegistrationContainer";
 import TripsContainer from "Trips/Containers/TripsContainer";
 import TripDetailContainer from "Trips/Containers/TripDetailContainer";
 
-export default class App extends React.Component {
+
+export class App extends React.Component {
     constructor(props) {
         super(props);
         this.setupAxios();
@@ -26,24 +26,42 @@ export default class App extends React.Component {
     }
 
     render() {
-        return (
-            <BrowserRouter>
-                <div>
-                    <NavigationBar />
-
-                    <div className="container">
-                        {/*TODO: make sure logged in users can't access these*/}
-                        <LoggedOutRoute path="/login" component={LoginContainer}/>
-                        <LoggedOutRoute path="/register" component={RegistrationContainer}/>
-
-
-                        <LoggedInContainer>
-                            <LoggedInRoute path="/trips" exact component={TripsContainer}/>
-                            <LoggedInRoute path="/trips/:id" component={TripDetailContainer}/>
-                        </LoggedInContainer>
+        if(this.props.isAuthenticated) {
+            return (
+                <BrowserRouter>
+                    <div>
+                        <NavigationBar />
+                        <div className="container">
+                            <LoggedInContainer>
+                                <Route path="/" exact component={TripsContainer}/>
+                                <Route path="/trips" exact component={TripsContainer}/>
+                                <Route path="/trips/:id" component={TripDetailContainer}/>
+                            </LoggedInContainer>
+                        </div>
                     </div>
-                </div>
-            </BrowserRouter>
-        );
+                </BrowserRouter>
+            );
+        } else {
+            return (
+                <BrowserRouter>
+                    <div>
+                        <NavigationBar />
+                        <div className="container">
+                            <Route path="/" exact component={LoginContainer} />
+                            <Route path="/login" component={LoginContainer} />
+                            <Route path="/register" component={RegistrationContainer}/>
+                        </div>
+                    </div>
+                </BrowserRouter>
+            );
+        }
     }
 }
+
+function mapStateToProps(state, props) {
+    return {
+        isAuthenticated: state.auth.isAuthenticated,
+    }
+}
+
+export default connect(mapStateToProps)(App)

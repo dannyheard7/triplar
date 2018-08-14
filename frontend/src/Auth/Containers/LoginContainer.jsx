@@ -1,6 +1,7 @@
 import React from "react";
 import api from "utils/api.js";
 import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
 
 import {login} from "Auth/actions";
 import LoginForm from "Auth/Components/LoginForm.jsx";
@@ -45,6 +46,7 @@ export class LoginContainer extends React.Component {
                 this.setState({errors: data});
             } else {
                 this.props.dispatch(login(data.user, data.token));
+                this.props.history.push('/trips')
             }
         }).catch(err => console.log(err))
     }
@@ -56,4 +58,4 @@ export class LoginContainer extends React.Component {
     }
 }
 
-export default connect()(LoginContainer)
+export default withRouter(connect()(LoginContainer))

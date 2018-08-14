@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 
 import {logout} from "Auth/actions";
 
@@ -14,6 +14,7 @@ export class NavigationBar extends React.Component {
 
     onLogoutClick(e) {
         this.props.dispatch(logout());
+        this.props.history.push('/login')
     }
 
     render() {
@@ -74,4 +75,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(NavigationBar)
+export default withRouter(connect(mapStateToProps)(NavigationBar))

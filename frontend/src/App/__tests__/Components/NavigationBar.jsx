@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow } from 'enzyme';
+import {shallow} from 'enzyme';
 import ShallowRenderer from 'react-test-renderer/shallow';
 
 import {NavigationBar} from "App/Components/NavigationBar";
@@ -13,19 +13,19 @@ describe('<NavigationBar />', () => {
 
     describe('when authenticated', () => {
         const user = {'email': "test@example.com"};
-        const dispatchStub = jest.fn();
 
         const props = {
             isAuthenticated: true,
             user: user,
-            dispatch: dispatchStub
+            dispatch: jest.fn(),
+            history: {push: jest.fn()}
         };
 
-        const logoutStub = jest.spyOn(actions, 'logout');
+        const logoutSpy = jest.spyOn(actions, 'logout');
 
         afterEach(function () {
-            logoutStub.mockReset();
-            dispatchStub.mockReset();
+            logoutSpy.mockReset();
+            props.dispatch.mockReset();
         });
 
 
@@ -46,12 +46,25 @@ describe('<NavigationBar />', () => {
             const container = shallow(<NavigationBar {...props}/>);
 
             const mock = jest.fn();
-            logoutStub.mockReturnValue(mock);
+            logoutSpy.mockReturnValue(mock);
 
             container.instance().onLogoutClick();
 
-            expect(logoutStub).toBeCalled();
-            expect(dispatchStub).toBeCalledWith(mock);
+            expect(logoutSpy).toBeCalled();
+            expect(props.dispatch).toBeCalledWith(mock);
+        });
+
+        test('redirects to logout on logoutClick', () => {
+            const container = shallow(<NavigationBar {...props}/>);
+
+            const mock = jest.fn();
+            logoutSpy.mockReturnValue(mock);
+
+            container.instance().onLogoutClick();
+
+            expect(logoutSpy).toBeCalled();
+            expect(props.history.push).toBeCalledWith('/login');
+
         });
 
         test('renders correctly', () => {

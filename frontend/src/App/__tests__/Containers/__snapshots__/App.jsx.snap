@@ -3,29 +3,23 @@
 exports[`<App /> when not authenticated renders correctly 1`] = `
 <BrowserRouter>
   <div>
-    <Connect(NavigationBar) />
+    <withRouter(Connect(NavigationBar)) />
     <div
       className="container"
     >
-      <withRouter(Connect(LoggedOutRoute))
+      <Route
+        component={[Function]}
+        exact={true}
+        path="/"
+      />
+      <Route
         component={[Function]}
         path="/login"
       />
-      <withRouter(Connect(LoggedOutRoute))
+      <Route
         component={[Function]}
         path="/register"
       />
-      <withRouter(Connect(LoggedInContainer))>
-        <withRouter(Connect(LoggedInRoute))
-          component={[Function]}
-          exact={true}
-          path="/trips"
-        />
-        <withRouter(Connect(LoggedInRoute))
-          component={[Function]}
-          path="/trips/:id"
-        />
-      </withRouter(Connect(LoggedInContainer))>
     </div>
   </div>
 </BrowserRouter>

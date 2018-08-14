@@ -21,10 +21,12 @@ describe('<LoginContainer />', () => {
         },
     };
 
+    const props = {dispatch: jest.fn(), history: {push: jest.fn()}};
+
     test('calls handle submit after receiving submit from <LoginForm />', () => {
         const stub = jest.spyOn(LoginContainer.prototype, 'handleSubmit');
 
-        const container = shallow(<LoginContainer />);
+        const container = shallow(<LoginContainer {...props} />);
         container.find(LoginForm).prop('onSubmit')(event);
 
         expect(stub).toBeCalled();
@@ -33,19 +35,19 @@ describe('<LoginContainer />', () => {
     test('calls handle change after receiving change from <LoginForm />', () => {
         const stub = jest.spyOn(LoginContainer.prototype, 'handleChange');
 
-        const container = shallow(<LoginContainer />);
+        const container = shallow(<LoginContainer {...props} />);
         container.find(LoginForm).prop('onChange')(event);
 
         expect(stub).toBeCalled();
     });
 
     test('renders correctly', () => {
-        const result = renderer.render(<LoginContainer  />);
+        const result = renderer.render(<LoginContainer {...props} />);
         expect(result).toMatchSnapshot();
     });
 
     test('updates the state when handleChange is called', () => {
-        const container = shallow(<LoginContainer />);
+        const container = shallow(<LoginContainer {...props} />);
         const instance = container.instance();
         const email = faker.internet.email();
 
@@ -54,7 +56,7 @@ describe('<LoginContainer />', () => {
     });
 
     test('errors state change updates LoginForm Prop', () => {
-        const container = shallow(<LoginContainer />);
+        const container = shallow(<LoginContainer {...props} />);
         expect(container.find(LoginForm).props().errors).toEqual(container.state('errors'));
 
         let errors = [faker.lorem.word, faker.lorem.word];
@@ -65,34 +67,47 @@ describe('<LoginContainer />', () => {
 
     // Need to convert to new mocks
     describe('api', () => {
-        const loginStub = jest.spyOn(actions, 'login');
-        const routerSpy = {
-            push: jest.fn()
+        const loginActionSpy = jest.spyOn(actions, 'login');
+        const props = {
+            dispatch: jest.fn(),
+            history: {push: jest.fn()}
         };
-        const dispatchStub = jest.fn();
 
         afterEach(function () {
-            loginStub.mockReset();
-            routerSpy.push.mockReset();
-            dispatchStub.mockReset();
+            loginActionSpy.mockReset();
+            props.dispatch.mockReset();
         });
 
         test('succesful registration dispatches login', async () => {
-            const container = shallow(<LoginContainer router={routerSpy} dispatch={dispatchStub}/>);
+            const container = shallow(<LoginContainer {...props} />);
 
             const loginStubReturn = jest.fn();
-            loginStub.mockReturnValue(loginStubReturn);
+            loginActionSpy.mockReturnValue(loginStubReturn);
 
             container.instance().login();
 
             await Promise.resolve();
 
-            expect(loginStub).toBeCalled();
-            expect(dispatchStub).toBeCalledWith(loginStubReturn);
+            expect(loginActionSpy).toBeCalled();
+            expect(props.dispatch).toBeCalledWith(loginStubReturn);
+        });
+
+        test('redirection to trips after successful login', async () => {
+            const container = shallow(<LoginContainer {...props} />);
+
+            const loginStubReturn = jest.fn();
+            loginActionSpy.mockReturnValue(loginStubReturn);
+
+            container.instance().login();
+
+            await Promise.resolve();
+
+            expect(loginActionSpy).toBeCalled();
+            expect(props.history.push).toBeCalledWith('/trips');
         });
 
         test('unsuccesful registration updates state errors', async () => {
-            const container = shallow(<LoginContainer />);
+            const container = shallow(<LoginContainer {...props} />);
 
             const errors = [faker.lorem.word, faker.lorem.word];
             api.getLoginToken = jest.fn().mockReturnValueOnce(new Promise((resolve, reject) => {
@@ -104,7 +119,7 @@ describe('<LoginContainer />', () => {
             await Promise.resolve();
 
             expect(container.state('errors')).toEqual(errors);
-            expect(loginStub).not.toBeCalled();
+            expect(loginActionSpy).not.toBeCalled();
         });
     });
 });
