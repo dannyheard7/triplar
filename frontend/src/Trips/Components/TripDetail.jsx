@@ -1,11 +1,19 @@
 import React from "react";
 import Moment from 'moment';
 
+import CityMap from "Maps/Components/CityMap";
+
 
 export default class TripDetail extends React.Component {
     render () {
         const trip = this.props.trip;
         Moment.locale('en');
+
+        const cityMaps = this.props.trip.locations.map((city) =>
+            <div key={city.name + ", " + city.country}>
+                <CityMap city={city} />
+            </div>
+        );
 
         return (
             <div key={trip.id}>
@@ -17,8 +25,10 @@ export default class TripDetail extends React.Component {
                     <p id="created-by">Created by: {trip.created_by}</p>
                 </div>
                 <div className="row">
-                    <p>Locations: {trip.locations.map((location, index) => (index ? ', ': '') + location)}</p>
+                    <p>Locations: {trip.locations.map((location, index) => (index ? ', ': '') + location.name_std + ", "
+                        + location.country)}</p>
                 </div>
+                {cityMaps}
             </div>
         )
     }

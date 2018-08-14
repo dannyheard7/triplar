@@ -3,14 +3,22 @@ from .models import City
 
 
 class CitySerializer(serializers.ModelSerializer):
+    lat = serializers.SerializerMethodField()
+    lng = serializers.SerializerMethodField()
     country = serializers.SerializerMethodField()
+
+    def get_lat(self, obj):
+        return obj.location.y
+
+    def get_lng(self, obj):
+        return obj.location.x
 
     def get_country(self, obj):
         return obj.country.name
 
     class Meta:
         model = City
-        fields = ('name_std', 'location', 'country')
+        fields = ('name_std', 'country', 'lat', 'lng')
 
 
 class CitySearchSerializer(serializers.ModelSerializer):

@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CityMap /> renders correctly 1`] = `
+<div>
+  <Map
+    center={
+      Array [
+        0,
+        0,
+      ]
+    }
+    zoom={13}
+  >
+    <Unknown
+      attribution="<a href='https://wikimediafoundation.org/wiki/Maps_Terms_of_Use'>Wikimedia</a>"
+      url="https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png"
+    />
+  </Map>
+</div>
+`;

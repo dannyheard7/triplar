@@ -5,7 +5,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 
 from .models import Trip
 from .permissions import VisibleOnlyToCreator
-from .serializers import TripSerializer
+from .serializers import TripSerializer, TripDetailSerializer
 
 
 class TripList(ListCreateAPIView):
@@ -20,5 +20,5 @@ class TripList(ListCreateAPIView):
 
 class TripDetail(RetrieveUpdateDestroyAPIView):
     queryset = Trip.objects.all()
-    serializer_class = TripSerializer
+    serializer_class = TripDetailSerializer
     permission_classes = (VisibleOnlyToCreator,)

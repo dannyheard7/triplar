@@ -31,8 +31,13 @@ exports[`<TripDetail /> with trip prop renders correctly 1`] = `
   >
     <p>
       Locations: 
-      Bristol
+      undefined, undefined
     </p>
+  </div>
+  <div>
+    <CityMap
+      city="Bristol"
+    />
   </div>
 </div>
 `;

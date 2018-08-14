@@ -10,6 +10,7 @@ import TripDetailContainer from "Trips/Containers/TripDetailContainer";
 
 const faker = require('faker');
 jest.mock('utils/api.js');
+jest.mock('google-map-react');
 
 describe('<TripDetailContainer />', () => {
     test('only renders loading text without a trip object', () => {

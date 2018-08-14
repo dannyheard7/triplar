@@ -1,6 +1,5 @@
 import React from "react";
 import TripForm from "Trips/Components/TripForm";
-import TripEditContainer from "./TripEditContainer";
 
 export default class TripFormContainer extends React.Component {
     constructor(props) {
