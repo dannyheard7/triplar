@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DateFieldGroup /> renders correctly 1`] = `
+<div
+  className="form-group"
+>
+  <label />
+  <input
+    autoComplete="off"
+    className="form-control"
+    name={undefined}
+    onChange={undefined}
+    required={undefined}
+    type="text"
+    value={undefined}
+  />
+</div>
+`;

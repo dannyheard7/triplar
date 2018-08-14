@@ -62,6 +62,7 @@ describe('<TripDetailContainer />', () => {
         beforeEach(function () {
             container = shallow(<TripDetailContainer match={{params: {id: 1}}}/>);
             container.setState({trip: trip});
+            container.update();
         });
 
         test('renders a <TripDetail /> component', () => {
@@ -99,6 +100,7 @@ describe('<TripDetailContainer />', () => {
         beforeEach(function () {
             container = shallow(<TripDetailContainer match={{params: {id: 1}}}/>);
             container.setState({trip: trip, edit: true});
+            container.update();
         });
 
         test('renders <TripEditContainer /> component', () => {
@@ -143,8 +145,8 @@ describe('<TripDetailContainer />', () => {
 
         beforeEach(function () {
             container = shallow(<TripDetailContainer match={{params: {id: 1}}}/>);
-            container.setState({trip: trip});
-            container.setState({delete: true});
+            container.setState({trip: trip, delete: true});
+            container.update();
         });
 
         test('renders a <TripDelete /> component', () => {

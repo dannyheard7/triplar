@@ -18,7 +18,7 @@ export default class TripEditContainer extends React.Component {
         return (
             <div className="card">
                 <TripFormContainer submitLabel="Update" onSuccess={this.onSuccess} apiFunction={api.patchTrip}
-                trip={this.props.trip}/>
+                    trip={this.props.trip}/>
             </div>
         );
     }
