@@ -3,6 +3,7 @@
 exports[`<TripDelete /> <TripDelete /> renders correctly 1`] = `
 <div
   className="modal"
+  id="deleteModal"
   role="dialog"
 >
   <div
@@ -48,6 +49,7 @@ exports[`<TripDelete /> <TripDelete /> renders correctly 1`] = `
       >
         <button
           className="btn btn-danger"
+          onClick={[Function]}
           type="button"
         >
           Delete Trip

@@ -8,12 +8,7 @@ import TripDetail from "Trips/Components/TripDetail";
 const faker = require('faker');
 
 describe('<TripDetail />', () => {
-    describe('with no trip prop', () => {
-        test.skip('displays no <ListGroupItem /> component', () => {
-        });
-    });
-
-    describe('with trip prop', () => {
+      describe('with trip prop', () => {
         let trip = null;
 
         beforeAll(function () {

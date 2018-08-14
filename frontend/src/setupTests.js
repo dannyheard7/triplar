@@ -24,3 +24,6 @@ var localStorageMock = (function() {
 Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 
 global.XMLHttpRequest = undefined;
+
+import $ from 'jquery';
+global.$ = global.jQuery = $;

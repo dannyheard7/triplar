@@ -1,6 +1,5 @@
 import React from "react";
 import {shallow} from "enzyme";
-import api from "utils/api.js"
 
 import TripDetail from "Trips/Components/TripDetail";
 import TripEditContainer from "Trips/Containers/TripEditContainer";
@@ -10,9 +9,11 @@ import TripDetailContainer from "Trips/Containers/TripDetailContainer";
 
 const faker = require('faker');
 jest.mock('utils/api.js');
-jest.mock('google-map-react');
+
+const api = require('utils/api.js');
 
 describe('<TripDetailContainer />', () => {
+
     test('only renders loading text without a trip object', () => {
         const container = shallow(<TripDetailContainer match={{params: {id: null}}} />);
         expect(container.children().length).toEqual(1);
@@ -20,19 +21,36 @@ describe('<TripDetailContainer />', () => {
     });
 
     test('calls api getTrip with correct id on mount', () => {
-        const spy = jest.spyOn(api, 'getTrip');
+        const spy = jest.spyOn(api.default, "getTrip");
         const id = faker.random.number();
 
         const container = shallow(<TripDetailContainer match={{params: {id: id}}} />);
         expect(spy).toBeCalledWith(id);
     });
 
-    test.skip('response from api call is set as state', () => {
-        const spy = jest.spyOn(api, 'getTrip');
+    test('response from api call is set as state', async () => {
+        const stub = api.default.getTrip;
         const id = faker.random.number();
+        const trip = {
+            'id': id, 'name': faker.random.word(), 'created_by': faker.internet.email()
+        };
+
+        stub.mockReturnValueOnce(new Promise((resolve, reject) => {
+            let response = {status: 200, data: trip};
+            resolve(response);
+        }));
 
         const container = shallow(<TripDetailContainer match={{params: {id: id}}} />);
-        expect(spy).toBeCalledWith(id);
+        await Promise.resolve();
+
+        expect(stub).toBeCalledWith(id);
+        expect(container.state('trip')).toEqual(trip);
+
+        stub.mockRestore(); // Changed the mock so restore it to original
+    });
+
+    test.skip("Renders trip not found on trips that don't exist", () => {
+
     });
 
     describe('With a trip object', () => {
