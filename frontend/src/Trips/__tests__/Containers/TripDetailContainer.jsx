@@ -14,10 +14,11 @@ const api = require('utils/api.js');
 
 describe('<TripDetailContainer />', () => {
 
-    test('only renders loading text without a trip object', () => {
-        const container = shallow(<TripDetailContainer match={{params: {id: null}}} />);
-        expect(container.children().length).toEqual(1);
+    test('renders loading text before trip object returned by api', async () => {
+        const container = shallow(<TripDetailContainer match={{params: {id: faker.random.number()}}} />);
         expect(container.text()).toEqual('Loading');
+        await Promise.resolve();
+        expect(container.text()).not.toEqual('Loading');
     });
 
     test('calls api getTrip with correct id on mount', () => {
@@ -30,9 +31,8 @@ describe('<TripDetailContainer />', () => {
 
     test('response from api call is set as state', async () => {
         const stub = api.default.getTrip;
-        const id = faker.random.number();
         const trip = {
-            'id': id, 'name': faker.random.word(), 'created_by': faker.internet.email()
+            'id': faker.random.number(), 'name': faker.random.word(), 'created_by': faker.internet.email()
         };
 
         stub.mockReturnValueOnce(new Promise((resolve, reject) => {
@@ -40,10 +40,10 @@ describe('<TripDetailContainer />', () => {
             resolve(response);
         }));
 
-        const container = shallow(<TripDetailContainer match={{params: {id: id}}} />);
+        const container = shallow(<TripDetailContainer match={{params: {id: trip.id}}} />);
         await Promise.resolve();
 
-        expect(stub).toBeCalledWith(id);
+        expect(stub).toBeCalledWith(trip.id);
         expect(container.state('trip')).toEqual(trip);
 
         stub.mockRestore(); // Changed the mock so restore it to original
@@ -55,14 +55,10 @@ describe('<TripDetailContainer />', () => {
 
     describe('With a trip object', () => {
         let container = null;
-        const trip = {
-            'id': faker.random.number(), 'name': faker.random.word(), 'created_by': faker.internet.email()
-        };
 
-        beforeEach(function () {
+        beforeEach(async () => {
             container = shallow(<TripDetailContainer match={{params: {id: 1}}}/>);
-            container.setState({trip: trip});
-            container.update();
+            await Promise.resolve();
         });
 
         test('renders a <TripDetail /> component', () => {
@@ -73,13 +69,14 @@ describe('<TripDetailContainer />', () => {
             expect(container.find(TripManagementRow).length).toEqual(1);
         });
 
-        test('trip state change updates TripDetail Prop', function () {
+        test('trip state change updates TripDetail Prop', async () => {
+            const trip = {
+                'id': faker.random.number(), 'name': faker.random.word(), 'created_by': faker.internet.email()
+            };
+
+            expect(container.find(TripDetail).props().trip).not.toEqual(trip);
+            container.setState({trip: trip});
             expect(container.find(TripDetail).props().trip).toEqual(trip);
-
-            let newTrip = jest.fn();
-            container.setState({trip: newTrip});
-
-            expect(container.find(TripDetail).props().trip).toEqual(newTrip);
         });
     });
 
@@ -93,14 +90,11 @@ describe('<TripDetailContainer />', () => {
         };
 
         let container = null;
-        const trip = {
-            'id': faker.random.number(), 'name': faker.random.word(), 'created_by': faker.internet.email()
-        };
 
-        beforeEach(function () {
+        beforeEach(async () => {
             container = shallow(<TripDetailContainer match={{params: {id: 1}}}/>);
-            container.setState({trip: trip, edit: true});
-            container.update();
+            await Promise.resolve();
+            container.setState({edit: true});
         });
 
         test('renders <TripEditContainer /> component', () => {
@@ -127,26 +121,23 @@ describe('<TripDetailContainer />', () => {
         });
 
         test('trip state change updates TripEdit Prop', function () {
+            const trip = {
+                'id': faker.random.number(), 'name': faker.random.word(), 'created_by': faker.internet.email()
+            };
+
+            expect(container.find(TripEditContainer).props().trip).not.toEqual(trip);
+            container.setState({trip: trip});
             expect(container.find(TripEditContainer).props().trip).toEqual(trip);
-
-            let newTrip = jest.fn();
-            container.setState({trip: newTrip});
-            container.update();
-
-            expect(container.find(TripEditContainer).props().trip).toEqual(newTrip);
         });
     });
 
     describe('delete mode', () => {
         let container = null;
-        const trip = {
-            'id': faker.random.number(), 'name': faker.random.word(), 'created_by': faker.internet.email()
-        };
 
-        beforeEach(function () {
+        beforeEach(async () => {
             container = shallow(<TripDetailContainer match={{params: {id: 1}}}/>);
-            container.setState({trip: trip, delete: true});
-            container.update();
+            await Promise.resolve();
+            container.setState({delete: true});
         });
 
         test('renders a <TripDelete /> component', () => {
@@ -154,12 +145,13 @@ describe('<TripDetailContainer />', () => {
         });
 
         test('trip state change updates TripDelete Prop', function () {
+            const trip = {
+                'id': faker.random.number(), 'name': faker.random.word(), 'created_by': faker.internet.email()
+            };
+
+            expect(container.find(TripDelete).props().trip).not.toEqual(trip);
+            container.setState({trip: trip});
             expect(container.find(TripDelete).props().trip).toEqual(trip);
-
-            let newTrip = jest.fn();
-            container.setState({trip: newTrip});
-
-            expect(container.find(TripDelete).props().trip).toEqual(newTrip);
         });
     });
 
