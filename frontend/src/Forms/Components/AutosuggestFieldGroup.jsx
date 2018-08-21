@@ -3,15 +3,10 @@ import FormFieldGroup from "./FormFieldGroup";
 import Autosuggest from "react-autosuggest";
 
 export default class AutosuggestFieldGroup extends FormFieldGroup {
-    constructor(props) {
-        super(props);
-
-    }
-
     renderInputComponent = inputProps => (
       <div className="form-group">
           <label>{this.props.label}</label>
-          <input {...inputProps} className="form-control" required/>
+          <input {...inputProps} className="form-control" name={this.props.name} required/>
             {this.props.help && <small className="form-text text-muted">{this.props.help}</small>}
             {this.props.errors &&
                 <li className="list-unstyled">
@@ -20,6 +15,10 @@ export default class AutosuggestFieldGroup extends FormFieldGroup {
             }
       </div>
     );
+
+    onChange(event, { newValue }) {
+
+    }
 
     render() {
         const inputProps = {

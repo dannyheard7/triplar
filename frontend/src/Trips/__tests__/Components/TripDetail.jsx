@@ -12,13 +12,14 @@ describe('<TripDetail />', () => {
         let trip = null;
 
         beforeAll(function () {
+            // TODO: Need a better way to deal with this. Maybe a helper function that generates one?
             trip = {'id': faker.random.number(), 'name': faker.random.word(), 'created_by': faker.internet.email(),
-            'locations': [faker.address.city()]};
+            'itineraries': [{'id': faker.random.number, 'city': {'name_std': faker.address.city(), 'country': faker.address.country()}}]};
         });
 
         test('renders correctly', () => {
-            trip = {'id': 1, 'name': "test", 'created_by': "email@example.com", 'locations': ["Bristol"],
-                    'start_date': "2018-08-10", "end_date": "2018-08-12"};
+            trip = {'id': 1, 'name': "test", 'created_by': "email@example.com", 'start_date': "2018-08-10",
+                "end_date": "2018-08-12", 'itineraries': [{'id': 1, 'city': {'name_std': "Bristol", 'country': "United Kingdom"}}]};
             const result = renderer.render(<TripDetail trip={trip}/>);
             expect(result).toMatchSnapshot();
         });
@@ -36,10 +37,8 @@ describe('<TripDetail />', () => {
         test('updates when trip prop changes', () => {
             const container = shallow(<TripDetail trip={trip}/>);
             let newTrip = {
-                'id': faker.random.number(),
-                'name': faker.random.word(),
-                'created_by': faker.internet.email(),
-                'locations': [faker.address.city()]
+                'id': faker.random.number(), 'name': faker.random.word(), 'created_by': faker.internet.email(),
+                'itineraries': [{'id': faker.random.number, 'city': {'name_std': faker.address.city(), 'country': faker.address.country()}}]
             };
             container.setProps({trip: newTrip});
             expect(container.find("#trip-name").text()).toEqual(newTrip['name']);

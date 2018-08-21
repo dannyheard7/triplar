@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AutosuggestFieldGroup /> inputComponent renders correctly 1`] = `
+<div
+  className="form-group"
+>
+  <label />
+  <input
+    className="form-control"
+    errors={
+      Array [
+        "Error",
+      ]
+    }
+    label="City Search"
+    name={undefined}
+    required={true}
+  />
+</div>
+`;

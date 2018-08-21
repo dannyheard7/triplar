@@ -1,39 +1,36 @@
 import React from "react";
 import Pikaday from 'pikaday'
-import "pikaday/css/pikaday.css";
 import Moment from 'moment';
+
+import "pikaday/css/pikaday.css";
 import FormFieldGroup from "./FormFieldGroup";
 
 export default class DateFieldGroup extends FormFieldGroup {
 
-    constructor (params) {
-        super(params);
+    constructor(props) {
+        super(props);
         this.date_picker = React.createRef();
-
-         this.onChange = this.onChange.bind(this);
     }
 
     componentDidMount() {
         new Pikaday({
             field: this.date_picker.current,
-            format: 'YYYY-MM-DD',
+            format: 'DD/MM/YYYY',
             onSelect: this.onChange
         })
-    }
+    };
 
-    onChange(value) {
-        value = Moment(value).format('YYYY-MM-DD');
-
-        this.props.onChange({target: {name: this.props.name, value: value}})
-    }
+    formatValue = (value) => Moment(value).format('DD/MM/YYYY');
 
     render() {
+        let value = this.formatValue(this.props.value);
+
         return (
             <div className="form-group">
                 <label>{this.props.label}</label>
-                <input name={this.props.name} type="text" autoComplete="off" onChange={this.props.onChange}
-                       value={this.props.value} required={this.props.required} className="form-control"
-                       ref={this.date_picker}/>
+                <input name={this.props.name} type="text" autoComplete="off" value={value}
+                       required={this.props.required} className="form-control" ref={this.date_picker}
+                       data-parse="date" placeholder="DD/MM/YYYY"/>
                 {this.props.help && <small className="form-text text-muted">{this.props.help}</small>}
                 {this.props.errors &&
                 <li className="list-unstyled">

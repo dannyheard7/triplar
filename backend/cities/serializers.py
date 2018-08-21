@@ -33,16 +33,16 @@ class CitySearchSerializer(serializers.ModelSerializer):
         fields = ('name', 'country')
 
 
-# Is this the best way of doing this?
-# TODO: convert to RelatedField!
-class CityCountryField(serializers.StringRelatedField):
+class CityCountryField(serializers.PrimaryKeyRelatedField):
+    queryset = City.objects.all()
+
     def to_representation(self, value):
-        return '%s, %s' % (value.name_std, value.country.name)
+        citySerializer = CitySerializer()
+        return citySerializer.to_representation(self.queryset.get(pk=value.pk))
 
     def to_internal_value(self, data):
         # TODO: Need a better way of dealing with location rather than getting highest population
         data = data.split(',')
-
         city_name = data[0].strip()
 
         try:
@@ -56,5 +56,3 @@ class CityCountryField(serializers.StringRelatedField):
             return city_obj
         except IndexError:
             raise serializers.ValidationError("Location not found")
-
-

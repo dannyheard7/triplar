@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<TripsContainer /> renders a <TripListContainer /> component 1`] = `
+exports[`<TripsContainer /> renders correctly 1`] = `
 <TripList
   trips={Array []}
 />

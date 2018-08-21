@@ -3,7 +3,6 @@ import {shallow} from "enzyme";
 
 import TripList from "Trips/Components/TripList";
 
-
 const faker = require('faker');
 
 describe('<TripList />', () => {

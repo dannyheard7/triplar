@@ -45,6 +45,7 @@ export default class TripDetailContainer extends React.Component {
         if (!trip) {
             return <div>Loading</div>
         }
+        // TODO: Should this be moved into its own route?
         if (this.state.edit) {
             return <TripEditContainer trip={trip} onUpdate={this.onUpdate}/>
         }

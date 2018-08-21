@@ -2,20 +2,19 @@ import React from "react";
 import {shallow} from "enzyme";
 import ShallowRenderer from 'react-test-renderer/shallow';
 import TripForm from "Trips/Components/TripForm";
-import TripFormContainer from "Trips/Containers/TripFormContainer";
+import FormContainer from "Forms/Containers/FormContainer";
 
 const renderer = new ShallowRenderer();
 
 const faker = require('faker');
 
-describe('<TripFormContainer />', () => {
+const formData = FormData;
+
+describe('<FormContainer />', () => {
     const event = {
         preventDefault: () => {
         },
-        target: {
-            value: "",
-            name: "",
-        },
+        target: {}
     };
 
     const onSuccess = jest.fn();
@@ -27,7 +26,7 @@ describe('<TripFormContainer />', () => {
         });
     });
 
-    const props = {apiFunction: apiFunc, onSuccess: onSuccess};
+    const props = {apiFunction: apiFunc, onSuccess: onSuccess, children: <TripForm />};
 
     afterEach(() => {
         apiFunc.mockClear();
@@ -35,23 +34,15 @@ describe('<TripFormContainer />', () => {
     });
 
     test('renders correctly', () => {
-        const result = renderer.render(<TripFormContainer {...props} />);
+        const result = renderer.render(<FormContainer {...props} />);
         expect(result).toMatchSnapshot();
     });
 
-    test('calls handle change after receiving change from <TripForm />', (function () {
-        const spy = jest.spyOn(TripFormContainer.prototype, 'handleChange');
+    test('calls handle submit after receiving submit from <FormContainer />', async() => {
+        const spy = jest.spyOn(FormContainer.prototype, 'handleSubmit');
 
-        const container = shallow(<TripFormContainer {...props} />);
-        container.find(TripForm).prop('onChange')(event);
-
-        expect(spy).toBeCalled();
-    }));
-
-    test('calls handle submit after receiving submit from <TripForm />', async() => {
-        const spy = jest.spyOn(TripFormContainer.prototype, 'handleSubmit');
-
-        let container = shallow(<TripFormContainer {...props}  />);
+        let container = shallow(<FormContainer {...props}  />);
+        container.instance().parseFormData = jest.fn();
 
         container.find(TripForm).prop('onSubmit')(event);
         await Promise.resolve();
@@ -60,7 +51,8 @@ describe('<TripFormContainer />', () => {
     });
 
     test('calls apiFunction prop during handleSubmit()', async() => {
-        let container = shallow(<TripFormContainer {...props}  />);
+        let container = shallow(<FormContainer {...props}  />);
+        container.instance().parseFormData = jest.fn();
 
         container.instance().handleSubmit(event);
         await Promise.resolve();
@@ -69,7 +61,8 @@ describe('<TripFormContainer />', () => {
     });
 
     test('calls onSuccess prop on api call success', async() => {
-        let container = shallow(<TripFormContainer {...props}  />);
+        let container = shallow(<FormContainer {...props}  />);
+        container.instance().parseFormData = jest.fn();
 
         container.find(TripForm).prop('onSubmit')(event);
         await Promise.resolve();
@@ -77,17 +70,8 @@ describe('<TripFormContainer />', () => {
         expect(onSuccess).toBeCalled();
     });
 
-    test('updates the state when handleChange is called', () => {
-        const container = shallow(<TripFormContainer {...props} />);
-        const instance = container.instance();
-        const name = faker.random.word();
-
-        instance.handleChange({'target': {'name': 'name', 'value': name}});
-        expect(container.state('trip').name).toEqual(name);
-    });
-
     test('errors state change updates TripForm Prop', () => {
-        const container = shallow(<TripFormContainer {...props} />);
+        const container = shallow(<FormContainer {...props} />);
         expect(container.find(TripForm).props().errors).toEqual(container.state('errors'));
 
         let errors = jest.fn();
@@ -105,12 +89,39 @@ describe('<TripFormContainer />', () => {
             resolve(response);
         }));
 
-        const container = shallow(<TripFormContainer apiFunction={apiFunc} onSuccess={onSuccess} trip={trip}/>);
+        const container = shallow(<FormContainer apiFunction={apiFunc} onSuccess={onSuccess} children={TripForm}/>);
+        container.instance().parseFormData = jest.fn();
+
         container.instance().handleSubmit(event);
         await Promise.resolve();
 
         expect(spy).not.toBeCalled();
         expect(container.state('errors')).toEqual(errors);
+    });
+
+    test('onSuccess state.errors is set to empty object', async() => {
+        let container = shallow(<FormContainer {...props}  />);
+        container.instance().parseFormData = jest.fn();
+
+        container.find(TripForm).prop('onSubmit')(event);
+        await Promise.resolve();
+
+        expect(container.state('errors')).toEqual([]);
+    });
+
+    test.skip('parseFormData uses FormData to parse form', () =>{
+        const event = {
+            preventDefault: () => { },
+            target: undefined
+        };
+
+        global.FormData = formData;
+
+        let container = shallow(<FormContainer {...props}  />);
+
+        container.instance().parseFormData(event);
+
+        expect(formData).toBeCalled();
     });
 
 });

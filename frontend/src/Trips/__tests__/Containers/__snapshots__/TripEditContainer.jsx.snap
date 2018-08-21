@@ -4,11 +4,14 @@ exports[`<TripEditContainer /> renders correctly 1`] = `
 <div
   className="card"
 >
-  <TripFormContainer
+  <FormContainer
     apiFunction={[Function]}
     onSuccess={[Function]}
-    submitLabel="Update"
-    trip={Object {}}
-  />
+  >
+    <TripForm
+      submitLabel="Save"
+      trip={Object {}}
+    />
+  </FormContainer>
 </div>
 `;

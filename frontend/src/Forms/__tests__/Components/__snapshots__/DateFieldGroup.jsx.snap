@@ -8,11 +8,12 @@ exports[`<DateFieldGroup /> renders correctly 1`] = `
   <input
     autoComplete="off"
     className="form-control"
+    data-parse="date"
     name={undefined}
-    onChange={undefined}
+    placeholder="DD/MM/YYYY"
     required={undefined}
     type="text"
-    value={undefined}
+    value="31/08/2018"
   />
 </div>
 `;

@@ -22,17 +22,7 @@ describe('<CitySearchFieldContainer />', () => {
         const container = shallow(<CitySearchFieldContainer onChange={jest.fn()} />);
         container.instance().onChange(event, {newValue: value});
 
-        expect(container.state('location')).toEqual(value);
-    });
-
-    test('onChange calls onChange prop with target', () => {
-        const value = faker.address.city();
-        const stub = jest.fn();
-
-        const container = shallow(<CitySearchFieldContainer onChange={stub} />);
-        container.instance().onChange(event, {newValue: value});
-
-        expect(stub).toBeCalledWith({target: {name: "locations", value: [value]}});
+        expect(container.state('value')).toEqual(value);
     });
 
     test('shouldRenderSuggestions returns true with >2 characters', () => {

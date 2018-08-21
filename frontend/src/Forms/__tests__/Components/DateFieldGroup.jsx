@@ -1,29 +1,32 @@
 import React from "react";
 import {shallow} from "enzyme";
 import DateFieldGroup from "../../Components/DateFieldGroup";
-import Moment from 'moment';
 import ShallowRenderer from "react-test-renderer/shallow";
 
 const renderer = new ShallowRenderer();
 const faker = require('faker');
 
+jest.mock('pikaday');
+
+const pikaday = require('pikaday');
+
 describe('<DateFieldGroup />', () => {
 
     test('renders correctly', () => {
-        const result = renderer.render(<DateFieldGroup  />);
+        const result = renderer.render(<DateFieldGroup  value="2018-08-31"/>);
         expect(result).toMatchSnapshot();
     });
 
-    test('onChange calls onChange prop with formatted value', () => {
-        const value = faker.date.recent();
-        const stub = jest.fn();
+    test('Pikaday instance is created on mount', () => {
+        const container = shallow(<DateFieldGroup name="date"/>);
+        expect(pikaday).toBeCalledWith({"field": null, "format": "DD/MM/YYYY", "onSelect": undefined});
+    });
 
-        const container = shallow(<DateFieldGroup onChange={stub} name="date"/>);
-        container.instance().onChange(value);
-
-        const formatted_date = Moment(value).format('YYYY-MM-DD');
-
-        expect(stub).toBeCalledWith({target: {name: "date", value: formatted_date}});
+    test('date is formatted correctly', () => {
+        const container = shallow(<DateFieldGroup name="date"/>);
+        let date = "2018-08-12";
+        let formatted = container.instance().formatValue(date);
+        expect(formatted).toEqual("12/08/2018");
     });
 
 });

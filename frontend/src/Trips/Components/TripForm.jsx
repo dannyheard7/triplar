@@ -2,33 +2,23 @@ import React from "react";
 
 import FormFieldGroup from "Forms/Components/FormFieldGroup";
 import NonFieldErrors from "Forms/Components/NonFieldErrors";
-import CitySearchFieldContainer from "Forms/Containers/CitySearchFieldContainer";
 import DateFieldGroup from "Forms/Components/DateFieldGroup";
 
 
-export default class TripForm extends React.Component {
-    render () {
-        // TODO: convert to map to allow multiple locations and remove this mess
-        let location = (typeof this.props.trip.locations !== 'undefined') ?
-            this.props.trip.locations[0].name_std + ", " +  this.props.trip.locations[0].country : "";
+export default function TripForm(props) {
+    let trip = (props.trip) ? props.trip : {};
 
-        return(
-            <form onSubmit={ this.props.onSubmit }>
-                <NonFieldErrors errors={this.props.errors.non_field_errors} />
-                <CitySearchFieldContainer  errors={this.props.errors.locations}
-                                        onChange={this.props.onChange} value={location} />
-                <FormFieldGroup errors={this.props.errors.name} label="Trip Name" name="name" type="text"
-                                onChange={this.props.onChange} value={this.props.trip.name} required="true"/>
-                <DateFieldGroup errors={this.props.errors.start_date} label="Start Date" name="start_date"
-                                onChange={this.props.onChange} value={this.props.trip.start_date} required="true" />
-                <DateFieldGroup errors={this.props.errors.end_date} label="End Date" name="end_date"
-                                onChange={this.props.onChange} value={this.props.trip.end_date} required="true" />
-                <button type="submit" className="btn btn-primary" >{this.props.submitLabel}</button>
-            </form>
-        );
-    }
+    return(
+        <form onSubmit={props.onSubmit }>
+            <NonFieldErrors errors={props.errors.non_field_errors} />
+            <FormFieldGroup errors={props.errors.name} label="Trip Name" name="name" type="text"
+                            onChange={props.onChange} value={trip.name} required="true"/>
+            <DateFieldGroup errors={props.errors.start_date} label="Start Date" name="start_date"
+                            onChange={props.onChange} value={trip.start_date} required="true" />
+            <DateFieldGroup errors={props.errors.end_date} label="End Date" name="end_date"
+                            onChange={props.onChange} value={trip.end_date} required="true" />
+            <button type="submit" className="btn btn-primary" >{props.submitLabel}</button>
+        </form>
+    );
 }
 
-TripForm.defaultProps = {
-    trip: {}
-};

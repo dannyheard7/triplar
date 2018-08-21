@@ -7,7 +7,7 @@ export default class CitySearchFieldContainer extends React.Component {
         super(props);
 
         this.state = {
-            location: ((this.props.value) ? this.props.value : ""),
+            value: this.props.value,
             suggestions: []
         };
 
@@ -41,17 +41,18 @@ export default class CitySearchFieldContainer extends React.Component {
          );
     }
 
-     onChange(event, { newValue }) {
-         this.setState({location: newValue});
-         this.props.onChange({target: {name: "locations", value: [newValue]}})
+    onChange(event, { newValue }) {
+         this.setState({value: newValue});
      };
+
 
     render() {
         return (
-            <AutosuggestFieldGroup onChange={this.onChange} value={this.state.location} suggestions={this.state.suggestions}
+            <AutosuggestFieldGroup name={this.props.name} value={this.state.value} suggestions={this.state.suggestions}
                                    renderSuggestion={this.renderSuggestion} getSuggestionValue={this.getSuggestionValue}
                                    getSuggestions={this.getSuggestions} onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                                shouldRenderSuggestions={this.shouldRenderSuggestions} label="Location" errors={this.props.errors}/>
+                                shouldRenderSuggestions={this.shouldRenderSuggestions} label="Location" errors={this.props.errors}
+                                onChange={this.onChange}/>
         );
     }
 }

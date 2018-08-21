@@ -1,94 +1,42 @@
 import React from "react";
 import {shallow} from "enzyme";
-import api from "utils/api.js"
 import ShallowRenderer from 'react-test-renderer/shallow';
 
-import RegistrationContainer from "Auth/Containers/RegistrationContainer";
-import RegistrationForm from "Auth/Components/RegistrationForm";
-import {Redirect} from "react-router-dom";
+import { RegistrationContainer } from "Auth/Containers/RegistrationContainer";
+import FormContainer from "Forms/Containers/FormContainer";
 
 const renderer = new ShallowRenderer();
 const faker = require('faker');
 
-jest.mock('utils/api.js');
 describe('<RegistrationContainer />', () => {
-    const event = {
-        preventDefault: () => {},
-        target: {
-            value: "",
-            name: "",
-        },
+    const data = {user: {email: faker.internet.email(), password: faker.internet.password(), first_name: faker.name.firstName(),
+        last_name: faker.name.lastName()}};
+    const props = {
+        history: {push: jest.fn()}
     };
 
-    test('calls handle submit after receiving submit from <RegistrationForm />', () => {
-        let stub = jest.spyOn(RegistrationContainer.prototype, 'handleSubmit');
-
-        const container = shallow(<RegistrationContainer />);
-        container.find(RegistrationForm).prop('onSubmit')(event);
-
-        expect(stub).toBeCalled();
-    });
-
-    test('calls handle change after receiving change from <RegistrationForm />', () => {
-        let stub = jest.spyOn(RegistrationContainer.prototype, 'handleChange');
-
-        const container = shallow(<RegistrationContainer />);
-        container.find(RegistrationForm).prop('onChange')(event);
-
-        expect(stub).toBeCalled();
+    afterEach(() => {
+       props.history.push.mockReset();
     });
 
     test('renders correctly', () => {
-        const result = renderer.render(<RegistrationContainer  />);
+        const result = renderer.render(<RegistrationContainer {...props} />);
         expect(result).toMatchSnapshot();
     });
 
-    test('updates the state when handleChange is called', () => {
-        const container = shallow(<RegistrationContainer />);
-        const instance = container.instance();
-        const email = faker.internet.email();
+    test('calls onSuccess after receiving success from <FormContainer />',  () => {
+        const spy = jest.spyOn(RegistrationContainer.prototype, "onSuccess");
+        const container = shallow(<RegistrationContainer  {...props}/>);
 
-        instance.handleChange({'target': {'name': 'email', 'value': email}});
-        expect(container.state('email')).toEqual(email);
+        container.find(FormContainer).prop('onSuccess')(data);
+
+        expect(spy).toBeCalled();
     });
 
-    test('errors state change updates RegistrationForm Prop', () => {
-        const container = shallow(<RegistrationContainer />);
-        expect(container.find(RegistrationForm).props().errors).toEqual(container.state('errors'));
+    test('redirection to login after successful registration', () => {
+        const container = shallow(<RegistrationContainer {...props} />);
+        container.instance().onSuccess(data);
 
-        let errors = [faker.lorem.word, faker.lorem.word];
-        container.setState({errors: errors});
-
-        expect(container.find(RegistrationForm).props().errors).toEqual(errors);
+        expect(props.history.push).toBeCalledWith('/login');
     });
-
-    test('redirects to login page on succesful registration', async () => {
-        const container = shallow(<RegistrationContainer />);
-
-        container.instance().register();
-        await Promise.resolve();
-        container.update();
-
-         expect(container.find(Redirect)).toHaveLength(1);
-    });
-
-    test('unsuccesful registration updates state errors', async () => {
-        const container = shallow(<RegistrationContainer />);
-
-        const errors = [faker.lorem.word, faker.lorem.word];
-        api.registerUser = jest.fn().mockReturnValueOnce(new Promise((resolve, reject) => {
-            let response = {status: 400, data: errors};
-            resolve(response);
-        }));
-
-        container.instance().register();
-        await Promise.resolve();
-
-        expect(container.state('errors')).toEqual(errors);
-    });
-
-    test.skip('registration form sends data to API', function (done) {
-
-    });
-
 });

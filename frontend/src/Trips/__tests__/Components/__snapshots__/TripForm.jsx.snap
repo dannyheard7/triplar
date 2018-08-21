@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TripForm /> renders correctly 1`] = `
+<form
+  onSubmit={undefined}
+>
+  <NonFieldErrors
+    errors={undefined}
+  />
+  <FormFieldGroup
+    errors={undefined}
+    label="Trip Name"
+    name="name"
+    onChange={undefined}
+    required="true"
+    type="text"
+    value={undefined}
+  />
+  <DateFieldGroup
+    errors={undefined}
+    label="Start Date"
+    name="start_date"
+    onChange={undefined}
+    required="true"
+    value={undefined}
+  />
+  <DateFieldGroup
+    errors={undefined}
+    label="End Date"
+    name="end_date"
+    onChange={undefined}
+    required="true"
+    value={undefined}
+  />
+  <button
+    className="btn btn-primary"
+    type="submit"
+  />
+</form>
+`;
