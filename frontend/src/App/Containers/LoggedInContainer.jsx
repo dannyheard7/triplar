@@ -1,21 +1,11 @@
 import React from "react";
-import {connect} from "react-redux";
-import {withRouter} from "react-router-dom";
 import axios from "axios";
 
-export class LoggedInContainer extends React.Component {
+export default class LoggedInContainer extends React.Component {
     constructor(props) {
         super(props);
 
-        if (this.props.isAuthenticated) {
-            this.setAuthHeader(this.props.token);
-        }
-    }
-
-    componentWillReceiveProps(nextProps){
-        if (nextProps.isAuthenticated) {
-            this.setAuthHeader(nextProps.token);
-        }
+        this.setAuthHeader(this.props.token);
     }
 
     setAuthHeader(token) {
@@ -25,20 +15,6 @@ export class LoggedInContainer extends React.Component {
     }
 
     render() {
-        return (
-            <div>
-                {this.props.children}
-            </div>
-        )
+        return this.props.children
     }
 }
-
-
-function mapStateToProps(state, props) {
-    return {
-        isAuthenticated: state.auth.isAuthenticated,
-        token: state.auth.token
-    }
-}
-
-export default withRouter(connect(mapStateToProps)(LoggedInContainer))

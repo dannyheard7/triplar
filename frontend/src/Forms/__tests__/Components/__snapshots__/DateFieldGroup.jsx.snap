@@ -9,9 +9,8 @@ exports[`<DateFieldGroup /> renders correctly 1`] = `
     autoComplete="off"
     className="form-control"
     data-parse="date"
-    name={undefined}
     placeholder="DD/MM/YYYY"
-    required={undefined}
+    readOnly={true}
     type="text"
     value="31/08/2018"
   />

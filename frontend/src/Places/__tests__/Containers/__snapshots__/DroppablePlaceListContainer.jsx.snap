@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DroppablePlaceListContainer /> renders correctly with no places 1`] = `undefined`;
+
+exports[`<DroppablePlaceListContainer /> renders correctly with places 1`] = `undefined`;

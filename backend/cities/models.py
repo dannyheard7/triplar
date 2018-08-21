@@ -210,7 +210,6 @@ class Subregion(Place, SlugModel):
 class BaseCity(Place, SlugModel):
     slug_contains_id = True
 
-
     name_std = models.CharField(max_length=200, db_index=True, verbose_name="standard name")
     country = models.ForeignKey(swapper.get_model_name('cities', 'Country'),
                                 related_name='cities',

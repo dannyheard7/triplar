@@ -2,7 +2,7 @@ import React from "react";
 import {shallow} from "enzyme";
 import ShallowRenderer from 'react-test-renderer/shallow';
 
-import { RegistrationContainer } from "Auth/Containers/RegistrationContainer";
+import RegistrationContainer from "Auth/Containers/RegistrationContainer";
 import FormContainer from "Forms/Containers/FormContainer";
 
 const renderer = new ShallowRenderer();

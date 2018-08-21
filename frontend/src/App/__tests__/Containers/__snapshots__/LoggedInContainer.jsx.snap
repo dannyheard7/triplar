@@ -1,7 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<LoggedInContainer /> renders child components 1`] = `
-<div>
-  <Component />
-</div>
-`;
+exports[`<LoggedInContainer /> renders child components 1`] = `<Component />`;

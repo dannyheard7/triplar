@@ -12,11 +12,11 @@ export default function TripForm(props) {
         <form onSubmit={props.onSubmit }>
             <NonFieldErrors errors={props.errors.non_field_errors} />
             <FormFieldGroup errors={props.errors.name} label="Trip Name" name="name" type="text"
-                            onChange={props.onChange} value={trip.name} required="true"/>
-            <DateFieldGroup errors={props.errors.start_date} label="Start Date" name="start_date"
-                            onChange={props.onChange} value={trip.start_date} required="true" />
-            <DateFieldGroup errors={props.errors.end_date} label="End Date" name="end_date"
-                            onChange={props.onChange} value={trip.end_date} required="true" />
+                            onChange={props.onChange} value={trip.name} required={true}/>
+            <DateFieldGroup errors={props.errors.startDate} label="Start Date" name="startDate"
+                            onChange={props.onChange} value={trip.startDate} required={true} />
+            <DateFieldGroup errors={props.errors.endDate} label="End Date" name="endDate"
+                            onChange={props.onChange} value={trip.endDate} required={true} />
             <button type="submit" className="btn btn-primary" >{props.submitLabel}</button>
         </form>
     );

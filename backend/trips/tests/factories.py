@@ -3,7 +3,8 @@ from faker import Factory
 
 from accounts.tests.factories import UserFactory
 from cities.tests.factories import CityFactory
-from trips.models import Trip, CityItinerary, ItineraryItem
+from places.tests.factories import APIPlaceModelFactory
+from trips.models import Trip, TripLocation, TripLocationItem
 
 faker = Factory.create()
 
@@ -27,9 +28,9 @@ class TripFactory(factory.django.DjangoModelFactory):
                 self.itineraries.add(itinerary)
 
 
-class CityItineraryFactory(factory.django.DjangoModelFactory):
+class TripLocationFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = CityItinerary
+        model = TripLocation
 
     start_date = faker.date()
     end_date = faker.date()
@@ -46,10 +47,14 @@ class CityItineraryFactory(factory.django.DjangoModelFactory):
                 self.items.add(item)
 
 
-class ItineraryItemFactory(factory.DjangoModelFactory):
+class TripLocationItemFactory(factory.DjangoModelFactory):
     class Meta:
-        model = ItineraryItem
+        model = TripLocationItem
 
-    start = faker.date_time()
-    end = faker.date_time()
-    itinerary = factory.SubFactory(CityItineraryFactory)
+    start_date = faker.date()
+    end_date = faker.date()
+    start_time = faker.time()
+    end_time = faker.time()
+    order = faker.random_int()
+    location = factory.SubFactory(TripLocationFactory)
+    api_place = factory.SubFactory(APIPlaceModelFactory)

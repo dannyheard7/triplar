@@ -4,13 +4,13 @@ import {shallow} from "enzyme";
 import ShallowRenderer from 'react-test-renderer/shallow';
 const renderer = new ShallowRenderer();
 
-import { TripCreateContainer } from "Trips/Containers/TripCreateContainer";
+import TripCreateContainer from "Trips/Containers/TripCreateContainer";
 import FormContainer from "Forms/Containers/FormContainer";
 
 const faker = require('faker');
 
 describe('<TripCreateContainer />', () => {
-    const data = {id: faker.random.number()};
+    const data = {trip: {id: faker.random.number()}};
 
     const props = {
         history: {push: jest.fn()}
@@ -28,16 +28,15 @@ describe('<TripCreateContainer />', () => {
         container.find(FormContainer).prop('onSuccess')(data);
 
         expect(stub).toBeCalled();
-        expect(props.history.push).toBeCalledWith('/trips/' + data.id);
+        expect(props.history.push).toBeCalledWith('/trips/' + data.trip.id);
     }));
 
     test('onSuccess redirects to trip page', (function () {
         const container = shallow(<TripCreateContainer  {...props}/>);
         container.instance().onSuccess(data);
 
-        expect(props.history.push).toBeCalledWith('/trips/' + data.id);
+        expect(props.history.push).toBeCalledWith('/trips/' + data.trip.id);
     }));
-
 
     describe('trip create visible', () => {
         let container = null;
@@ -64,7 +63,6 @@ describe('<TripCreateContainer />', () => {
             expect(container.state('showTripCreate')).toEqual(false);
             expect(container.find(FormContainer).length).toEqual(0);
         });
-
     });
 
 });

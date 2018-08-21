@@ -8,18 +8,15 @@ export default class RegistrationForm extends React.Component {
     render() {
         return (
             <form onSubmit={this.props.onSubmit}>
-                <NonFieldErrors errors={this.props.errors.non_field_errors} />
+                {this.props.errors && <NonFieldErrors errors={this.props.errors.non_field_errors} />}
                 <FormFieldGroup errors={this.props.errors.email} label="Email" name="email" type="email"
-                                required="true"/>
+                                required={true}/>
                 <FormFieldGroup errors={this.props.errors.password} label="Password" name="password"
-                                type="password"required="true"/>
-{/*                <FormFieldGroup errors={this.props.errors.confirm_password} label="Confirm Password"
-                                name="confirmPassword" type="password" onChange={this.props.onChange}
-                                required="true"/>*/}
-                <FormFieldGroup errors={this.props.errors.first_name} label="First Name" name="first_name"
-                                type="text" required/>
-                <FormFieldGroup errors={this.props.errors.last_name} label="Last Name" name="last_name" type="text"
-                                required/>
+                                type="password"required={true}/>
+                <FormFieldGroup errors={this.props.errors.firstName} label="First Name" name="firstName"
+                                type="text" required={true}/>
+                <FormFieldGroup errors={this.props.errors.lastName} label="Last Name" name="lastName" type="text"
+                                required={true}/>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
         );

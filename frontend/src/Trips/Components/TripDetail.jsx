@@ -1,8 +1,7 @@
 import React from "react";
 import Moment from 'moment';
-import ItineraryListContainer from "../Containers/ItineraryListContainer";
+import LocationListContainer from "Itinerary/Containers/LocationListContainer";
 
-// TODO: Move ItineraryListContainer somewhere else!
 
 export default class TripDetail extends React.Component {
     render () {
@@ -10,21 +9,13 @@ export default class TripDetail extends React.Component {
         Moment.locale('en');
 
         return (
-            <div key={trip.id}>
-                <div className="row">
-                    <h2 id="trip-name">{trip.name}</h2>
-                </div>
-                <div className="row">
-                    <p>{Moment(trip.start_date).format('Do MMMM') } - {Moment(trip.end_date).format('Do MMMM') }</p>
-                </div>
-                <div className="row">
-                    <p id="created-by">Created by: {trip.created_by}</p>
-                </div>
-                <div className="row">
-                    <p>Locations: {trip.itineraries.map((itinerary, index) => (index ? ', ': '') + itinerary.city.name_std + ", "
-                        + itinerary.city.country)}</p>
-                </div>
-                <ItineraryListContainer itineraries={trip.itineraries} tripId={trip.id}/>
+            <div id="trip-detail">
+                <h2 id="trip-name">{trip.name}</h2>
+                <p>{Moment(trip.startDate).format('Do MMMM') } - {Moment(trip.endDate).format('Do MMMM') }</p>
+                <p className="created-by">Created by: {trip.created_by}</p>
+                <p>Locations: {trip.locations.map((itinerary, index) => (index ? ', ': '') + itinerary.city.name + ", "
+                    + itinerary.city.country.name)}</p>
+                <LocationListContainer locations={trip.locations} tripId={trip.id}/>
             </div>
         )
     }

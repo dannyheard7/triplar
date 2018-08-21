@@ -7,26 +7,18 @@ const renderer = new ShallowRenderer();
 import TripEditContainer from "Trips/Containers/TripEditContainer";
 import FormContainer from "Forms/Containers/FormContainer";
 
-jest.mock('utils/api.js');
-const api = require('utils/api.js');
+jest.mock('Trips/utils/trips.api.js');
+const api = require('Trips/utils/trips.api.js');
 const faker = require('faker');
 
 describe('<TripEditContainer />', () => {
-    const event = {
-        preventDefault: () => {},
-        target: {
-            value: "",
-            name: "",
-        },
-    };
-
     test('renders correctly', () => {
         const result = renderer.render(<TripEditContainer />);
         expect(result).toMatchSnapshot();
     });
 
-    test('patchTrip called with correct arguments', () => {
-        const spy = jest.spyOn(api.default, 'patchTrip');
+    test('editTrip called with correct arguments', () => {
+        const spy = jest.spyOn(api.default, 'editTrip');
         const trip = {id: faker.random.number(), name: faker.random.word()};
 
         const container = shallow(<TripEditContainer  trip={trip} />);
@@ -39,9 +31,10 @@ describe('<TripEditContainer />', () => {
 
     test('calls onSuccess after receiving success from <FormContainer />', (function () {
         const stub = jest.spyOn(TripEditContainer.prototype, 'onSuccess');
+        const result = {editTrip: {trip: {id: faker.random.number(), name: faker.random.word()}}};
 
         const container = shallow(<TripEditContainer onUpdate={jest.fn()}/>);
-        container.find(FormContainer).prop('onSuccess')(event);
+        container.find(FormContainer).prop('onSuccess')(result);
 
         expect(stub).toBeCalled();
     }));

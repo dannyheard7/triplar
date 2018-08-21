@@ -24,12 +24,15 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.staticfiles',
     'django.contrib.messages',
     'django.contrib.gis',
-    'rest_framework',
+    'django_rq',
+    'graphene_django',
     'accounts',
     'trips',
     'cities',
+    'places'
 ]
 
 MIDDLEWARE = [
@@ -38,6 +41,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'graphql_jwt.middleware.JSONWebTokenMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -62,6 +66,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
+AUTHENTICATION_BACKENDS = [
+    'graphql_jwt.backends.JSONWebTokenBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
@@ -115,21 +123,29 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'static/'
 
-# REST options
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        # 'rest_framework.permissions.IsAuthenticated',
-    ),
+GRAPHENE = {
+    'SCHEMA': 'backend.schema.schema'
 }
 
-JWT_AUTH = {
-    'JWT_RESPONSE_PAYLOAD_HANDLER': 'accounts.views.jwt_response_payload_handler',
-    'JWT_EXPIRATION_DELTA':  datetime.timedelta(days=7), # TODO: change before deployemnt & add refresh
-}
+APPEND_SLASH = True
 
-APPEND_SLASH = False
+
+# API Keys
+YELP_CLIENT_ID = 'dP7Sw0MjSefzkeN1CsU-TQ'
+YELP_APP_KEY = 'l8t7wcvo53oIZU4RDLV6ZUfHrALy_c8NjQktobV74nCzj5ex1zBOAyHJGDG8JBn6BDWDmlJ9PjNpeoW4TCutj72QeZ4gG51tUECCdobjfEtL8mgR3mtrD94XIlmGW3Yx'
+
+
+TEST_RUNNER = 'snapshottest.django.TestRunner'
+
+
+RQ_QUEUES = {
+    'default': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 0,
+        'PASSWORD': '',
+        'DEFAULT_TIMEOUT': 360,
+    }
+}

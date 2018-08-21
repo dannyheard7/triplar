@@ -1,0 +1,25 @@
+.places-search-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas: "title search category" "items items items";
+}
+.places-search-container h3 {
+  grid-area: title;
+}
+.places-search-container input[type=text] {
+  grid-area: search;
+}
+.places-search-container select {
+  grid-area: category;
+}
+.places-search-container .places-list {
+  grid-area: items;
+}
+
+.places-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 0.5rem;
+}
+
+/*# sourceMappingURL=places.css.map */

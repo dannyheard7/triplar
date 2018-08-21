@@ -1,0 +1,30 @@
+$grid-gap: 0.5rem;
+
+.places-search-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas: "title search category" "items items items" ;
+
+  h3 {
+    grid-area: title;
+  }
+
+  input[type=text] {
+    grid-area: search;
+  }
+
+  select {
+    grid-area: category;
+  }
+
+  .places-list {
+    grid-area: items;
+  }
+
+}
+
+.places-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: $grid-gap;
+}

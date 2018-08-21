@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LocationItinerary /> <LocationItinerary /> renders correctly 1`] = `
+<div
+  className="destination-itinerary"
+>
+  <div
+    className="destination-plan"
+  >
+    <h3
+      onClick={[Function]}
+    >
+      Bristol
+    </h3>
+    <p>
+      Friday 10th August
+       - 
+      Sunday 12th August
+      <select
+        onChange={[Function]}
+      >
+        <option
+          value="2018-08-10"
+        >
+          Friday 10th August
+        </option>
+        <option
+          value="2018-08-11"
+        >
+          Saturday 11th August
+        </option>
+        <option
+          value="2018-08-12"
+        >
+          Sunday 12th August
+        </option>
+      </select>
+    </p>
+    <ItineraryDayContainer
+      day="2018-08-10T00:00:00.000Z"
+      location={
+        Object {
+          "city": Object {
+            "country": "United Kingdom",
+            "name": "Bristol",
+          },
+          "endDate": "2018-08-12T00:00:00.000Z",
+          "startDate": "2018-08-10T00:00:00.000Z",
+          "trip": Object {
+            "id": 1,
+          },
+        }
+      }
+    />
+  </div>
+  <PlacesSearchContainer
+    city={
+      Object {
+        "country": "United Kingdom",
+        "name": "Bristol",
+      }
+    }
+    path="/trips/1"
+  />
+</div>
+`;

@@ -16,13 +16,22 @@ export default class FormContainer extends React.Component {
         event.preventDefault();
         const data = this.parseFormData(event);
 
-        this.props.apiFunction(data).then(response => {
-            if (response.status === 400) {
-                this.setState({errors: response.data})
+        this.props.apiFunction(data).then(({data}) => {
+            let result = data.data.result;
+
+            if (result.errors && result.errors.length > 0) {
+                let errors = result.errors.reduce((dict, {field, messages}) => {
+                    dict[field] = messages;
+                    return dict;
+                }, {});
+
+                this.setState({errors: errors})
             } else {
                 this.setState({errors: []});
-                this.props.onSuccess(response.data);
+                this.props.onSuccess(result);
             }
+        }).catch(error => {
+             console.log(error);
         });
     }
 
@@ -41,7 +50,12 @@ export default class FormContainer extends React.Component {
             }
         }
 
-        return data;
+        let variables = Object();
+        for(let pair of data.entries()) {
+           variables[pair[0]] = pair[1];
+        }
+
+        return variables;
     }
 
     render() {

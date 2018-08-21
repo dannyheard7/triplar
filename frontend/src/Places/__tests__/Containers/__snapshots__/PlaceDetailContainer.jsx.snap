@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PlaceDetailContainer /> renders correctly with a trip object 1`] = `<LoadingIndicator />`;

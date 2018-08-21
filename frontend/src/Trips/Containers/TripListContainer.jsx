@@ -1,5 +1,5 @@
 import React from "react";
-import api from "utils/api.js";
+import api from "Trips/utils/trips.api.js";
 
 import TripList from "Trips/Components/TripList";
 
@@ -24,7 +24,7 @@ export default class TripListContainer extends React.Component {
 
     getTrips() {
         api.getTrips().then(res => {
-            this.setState({trips: res.data});
+            this.setState({trips: res.data.data.trips});
         });
     }
 

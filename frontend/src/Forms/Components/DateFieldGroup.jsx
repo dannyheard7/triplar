@@ -30,7 +30,7 @@ export default class DateFieldGroup extends FormFieldGroup {
                 <label>{this.props.label}</label>
                 <input name={this.props.name} type="text" autoComplete="off" value={value}
                        required={this.props.required} className="form-control" ref={this.date_picker}
-                       data-parse="date" placeholder="DD/MM/YYYY"/>
+                       data-parse="date" placeholder="DD/MM/YYYY" readOnly={true}/>
                 {this.props.help && <small className="form-text text-muted">{this.props.help}</small>}
                 {this.props.errors &&
                 <li className="list-unstyled">

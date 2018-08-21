@@ -11,7 +11,7 @@ exports[`<CityMap /> renders correctly 1`] = `
     }
     zoom={13}
   >
-    <Unknown
+    <ForwardRef(Leaflet(TileLayer))
       attribution="<a href='https://wikimediafoundation.org/wiki/Maps_Terms_of_Use'>Wikimedia</a>"
       url="https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png"
     />

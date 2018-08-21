@@ -2,43 +2,36 @@ import React from "react";
 import {shallow} from "enzyme";
 
 import TripDetail from "Trips/Components/TripDetail";
-import TripEditContainer from "Trips/Containers/TripEditContainer";
-import TripDelete from "Trips/Components/TripDelete";
-import TripManagementRow from "Trips/Components/TripManagementRow";
+import TripManagement from "Trips/Components/TripManagement";
 import TripDetailContainer from "Trips/Containers/TripDetailContainer";
+import LoadingIndicator from "App/Components/LoadingIndicator";
 
 const faker = require('faker');
-jest.mock('utils/api.js');
+jest.mock('Trips/utils/trips.api.js');
 
-const api = require('utils/api.js');
+const api = require('Trips/utils/trips.api.js');
 
 describe('<TripDetailContainer />', () => {
-
     test('renders loading text before trip object returned by api', async () => {
         const container = shallow(<TripDetailContainer match={{params: {id: faker.random.number()}}} />);
-        expect(container.text()).toEqual('Loading');
+        expect(container.find(LoadingIndicator).length).toEqual(1);
         await Promise.resolve();
-        expect(container.text()).not.toEqual('Loading');
+        expect(container.find(LoadingIndicator).length).toEqual(0);
     });
 
-    test('calls api getTrip with correct id on mount', () => {
-        const spy = jest.spyOn(api.default, "getTrip");
+    test('calls api getTripDetail with correct id on mount', () => {
+        const spy = jest.spyOn(api.default, "getTripDetail");
         const id = faker.random.number();
 
         const container = shallow(<TripDetailContainer match={{params: {id: id}}} />);
         expect(spy).toBeCalledWith(id);
+        spy.mockReset();
     });
 
     test('response from api call is set as state', async () => {
-        const stub = api.default.getTrip;
-        const trip = {
-            'id': faker.random.number(), 'name': faker.random.word(), 'created_by': faker.internet.email()
-        };
-
-        stub.mockReturnValueOnce(new Promise((resolve, reject) => {
-            let response = {status: 200, data: trip};
-            resolve(response);
-        }));
+        const stub = jest.spyOn(api.default, "getTripDetail");
+        const trip = {'id': faker.random.number(), 'name': faker.random.word(), 'created_by': faker.internet.email()};
+        stub.mockReturnValueOnce(Promise.resolve({status: 200, data: {data: {trip: trip}}}));
 
         const container = shallow(<TripDetailContainer match={{params: {id: trip.id}}} />);
         await Promise.resolve();
@@ -65,8 +58,8 @@ describe('<TripDetailContainer />', () => {
             expect(container.find(TripDetail).length).toEqual(1);
         });
 
-        test('renders a <TripManagementRow /> component ', () => {
-            expect(container.find(TripManagementRow).length).toEqual(1);
+        test('renders a <TripManagement /> component ', () => {
+            expect(container.find(TripManagement).length).toEqual(1);
         });
 
         test('trip state change updates TripDetail Prop', async () => {
@@ -78,80 +71,11 @@ describe('<TripDetailContainer />', () => {
             container.setState({trip: trip});
             expect(container.find(TripDetail).props().trip).toEqual(trip);
         });
-    });
 
-    describe('edit mode', () => {
-        const event = {
-            preventDefault: () => {},
-            target: {
-                value: "",
-                name: "",
-            },
-        };
-
-        let container = null;
-
-        beforeEach(async () => {
-            container = shallow(<TripDetailContainer match={{params: {id: 1}}}/>);
-            await Promise.resolve();
-            container.setState({edit: true});
-        });
-
-        test('renders <TripEditContainer /> component', () => {
-            expect(container.find(TripEditContainer).length).toEqual(1);
-        });
-
-        test('does not render <TripDetail /> component', () => {
-            expect(container.find(TripDetail).length).toEqual(0);
-        });
-
-        test('does not render <TripEditContainer /> after a trip has been updated', () => {
-            expect(container.find(TripEditContainer).length).toEqual(1);
-            container.find(TripEditContainer).prop('onUpdate')(event);
-
-            expect(container.state('edit')).toEqual(false);
-            container.update();
-            expect(container.find(TripEditContainer).length).toEqual(0);
-        });
-
-        test('the trip is updated from <TripEditContainer /> after an edit', () => {
+        test('onUpdate sets trip param as state', () => {
             let newTrip = jest.fn();
-            container.find(TripEditContainer).prop('onUpdate')(newTrip);
+            container.instance().onUpdate(newTrip);
             expect(container.state('trip')).toEqual(newTrip);
-        });
-
-        test('trip state change updates TripEdit Prop', function () {
-            const trip = {
-                'id': faker.random.number(), 'name': faker.random.word(), 'created_by': faker.internet.email()
-            };
-
-            expect(container.find(TripEditContainer).props().trip).not.toEqual(trip);
-            container.setState({trip: trip});
-            expect(container.find(TripEditContainer).props().trip).toEqual(trip);
-        });
-    });
-
-    describe('delete mode', () => {
-        let container = null;
-
-        beforeEach(async () => {
-            container = shallow(<TripDetailContainer match={{params: {id: 1}}}/>);
-            await Promise.resolve();
-            container.setState({delete: true});
-        });
-
-        test('renders a <TripDelete /> component', () => {
-            expect(container.find(TripDelete).length).toEqual(1);
-        });
-
-        test('trip state change updates TripDelete Prop', function () {
-            const trip = {
-                'id': faker.random.number(), 'name': faker.random.word(), 'created_by': faker.internet.email()
-            };
-
-            expect(container.find(TripDelete).props().trip).not.toEqual(trip);
-            container.setState({trip: trip});
-            expect(container.find(TripDelete).props().trip).toEqual(trip);
         });
     });
 

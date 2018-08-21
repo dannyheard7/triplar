@@ -1,24 +1,32 @@
 import React from "react";
-import api from "utils/api.js";
-import {withRouter} from "react-router-dom";
+import api from "Trips/utils/trips.api.js";
 
-const $ = window.$;
+import Modal from 'react-modal';
 
-export class TripDelete extends React.Component {
+export default class TripDelete extends React.Component {
+    customStyles = {
+      content : {
+        top                   : '40%',
+        left                  : '40%',
+        right                 : '40%',
+        bottom                : '40%',
+      }
+    };
+
     constructor(props) {
         super(props);
 
         this.onDelete = this.onDelete.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
-    componentDidMount() {
-        $("#deleteModal").modal("show");
+    closeModal() {
+        this.props.history.push(`/trips/${this.props.trip.id}`)
     }
 
     onDelete(e) {
-        api.deleteTrip(this.props.trip.id).then(response => {
-            if (response.status === 204) {
-                $("#deleteModal").modal("hide");
+        api.deleteTrip(this.props.trip.id).then(({data}) => {
+            if (data.data.deleteTrip.result === true) {
                 this.props.history.push('/trips')
             }
         });
@@ -26,27 +34,20 @@ export class TripDelete extends React.Component {
 
     render() {
         return (
-            <div className="modal" role="dialog" id="deleteModal">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title">Delete {this.props.trip.name}</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">
-                            <p> Are you sure you want to delete the trip '{this.props.trip.name}'?</p>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-danger" onClick={this.onDelete}>Delete Trip</button>
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Modal isOpen={true} onRequestClose={this.closeModal} contentLabel={this.props.trip.name} style={this.customStyles}
+                role="dialog">
+                <h2>
+                    Delete {this.props.trip.name}
+                </h2>
+
+                <p>
+                    Are you sure you want to delete the trip '{this.props.trip.name}'?
+                </p>
+
+                <button onClick={this.closeModal}>Close</button>
+                <button className="btn-danger" onClick={this.onDelete}>Delete Trip</button>
+
+            </Modal>
         );
     }
 }
-
-export default withRouter(TripDelete)

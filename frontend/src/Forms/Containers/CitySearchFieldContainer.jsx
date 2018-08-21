@@ -1,5 +1,5 @@
 import React from "react";
-import api from "utils/api.js";
+import api from "Itinerary/utils/api.js";
 import AutosuggestFieldGroup from "Forms/Components/AutosuggestFieldGroup";
 
 export default class CitySearchFieldContainer extends React.Component {
@@ -19,7 +19,7 @@ export default class CitySearchFieldContainer extends React.Component {
 
         api.searchCities(value).then(response => {
             if(response.status === 200) {
-                this.setState({suggestions: response.data})
+                this.setState({suggestions: response.data.data.cities})
             }
         });
     };
@@ -32,11 +32,11 @@ export default class CitySearchFieldContainer extends React.Component {
       return value.trim().length > 2;
     }
 
-    getSuggestionValue = suggestion => suggestion.name + ", " + suggestion.country;
+    getSuggestionValue = suggestion => suggestion.name + ", " + suggestion.country.name;
     renderSuggestion(suggestion) {
          return (
              <div>
-                 {suggestion.name + ", " + suggestion.country}
+                 {suggestion.name + ", " + suggestion.country.name}
              </div>
          );
     }

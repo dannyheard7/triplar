@@ -15,11 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.decorators.csrf import csrf_exempt
+from graphene_django.views import GraphQLView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('accounts.urls', namespace='accounts'), name='accounts'),
-    path('api/trips/', include('trips.urls', namespace='trips'), name='trips'),
-    path('api/places/', include('cities.urls', namespace='cities'), name='cities'),
-
+    path('api/graphql', csrf_exempt(GraphQLView.as_view(graphiql=True))),
+    path('django-rq/', include('django_rq.urls'))
 ]

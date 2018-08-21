@@ -21,7 +21,7 @@ describe('<FormContainer />', () => {
 
     const apiFunc = jest.fn().mockImplementation(trip => {
         return new Promise((resolve, reject) => {
-            let response = {status: 200, data: trip};
+            let response = {status: 200, data: {data: {result: trip}}};
             resolve(response);
         });
     });
@@ -42,7 +42,7 @@ describe('<FormContainer />', () => {
         const spy = jest.spyOn(FormContainer.prototype, 'handleSubmit');
 
         let container = shallow(<FormContainer {...props}  />);
-        container.instance().parseFormData = jest.fn();
+        container.instance().parseFormData = jest.fn().mockReturnValue({});
 
         container.find(TripForm).prop('onSubmit')(event);
         await Promise.resolve();
@@ -52,7 +52,7 @@ describe('<FormContainer />', () => {
 
     test('calls apiFunction prop during handleSubmit()', async() => {
         let container = shallow(<FormContainer {...props}  />);
-        container.instance().parseFormData = jest.fn();
+        container.instance().parseFormData = jest.fn().mockReturnValue({});
 
         container.instance().handleSubmit(event);
         await Promise.resolve();
@@ -62,7 +62,7 @@ describe('<FormContainer />', () => {
 
     test('calls onSuccess prop on api call success', async() => {
         let container = shallow(<FormContainer {...props}  />);
-        container.instance().parseFormData = jest.fn();
+        container.instance().parseFormData = jest.fn().mockReturnValue({});
 
         container.find(TripForm).prop('onSubmit')(event);
         await Promise.resolve();
@@ -82,26 +82,25 @@ describe('<FormContainer />', () => {
 
     test('unsuccesful api call updates state errors', async () => {
         const spy = jest.fn();
-        let trip = {'id': faker.random.number(), 'name': faker.random.word()};
-        const errors = [faker.random.word(), faker.random.word()];
+        const data = {result: {errors: [{field: faker.random.word(), messages: [faker.random.word()]}]}};
         const apiFunc = jest.fn().mockReturnValueOnce(new Promise((resolve, reject) => {
-            let response = {status: 400, data: errors};
+            let response = {status: 400, data: {data: data}};
             resolve(response);
         }));
 
         const container = shallow(<FormContainer apiFunction={apiFunc} onSuccess={onSuccess} children={TripForm}/>);
-        container.instance().parseFormData = jest.fn();
+        container.instance().parseFormData = jest.fn().mockReturnValue({});
 
         container.instance().handleSubmit(event);
         await Promise.resolve();
 
         expect(spy).not.toBeCalled();
-        expect(container.state('errors')).toEqual(errors);
+        expect(container.state('errors')).toEqual({[data.result.errors[0].field]: data.result.errors[0].messages});
     });
 
     test('onSuccess state.errors is set to empty object', async() => {
         let container = shallow(<FormContainer {...props}  />);
-        container.instance().parseFormData = jest.fn();
+        container.instance().parseFormData = jest.fn().mockReturnValue({});
 
         container.find(TripForm).prop('onSubmit')(event);
         await Promise.resolve();

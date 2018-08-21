@@ -1,13 +1,13 @@
 import React from 'react'
 import {Map, TileLayer} from 'react-leaflet'
 
-import 'styles/leaflet/leaflet.css';
-import 'styles/main.css';
+import 'Maps/styles/leaflet/leaflet.css';
+import 'Maps/styles/maps.css';
 
 export default class CityMap extends React.Component {
 
   render() {
-    const position = [this.props.city.lat, this.props.city.lng];
+    const position = [this.props.city.location.lat, this.props.city.location.lng];
 
     return (
         <div>

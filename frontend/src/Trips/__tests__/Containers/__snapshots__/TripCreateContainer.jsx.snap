@@ -2,19 +2,11 @@
 
 exports[`<TripCreateContainer /> renders correctly 1`] = `
 <div>
-  <div
-    className="row"
+  <button
+    className="btn btn-primary"
+    onClick={[Function]}
   >
-    <div
-      className="col md-2"
-    >
-      <button
-        className="btn btn-primary"
-        onClick={[Function]}
-      >
-        New Trip
-      </button>
-    </div>
-  </div>
+    New Trip
+  </button>
 </div>
 `;

@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LocationAddContainer /> renders correctly 1`] = `
+<div>
+  <button
+    className="btn btn-primary"
+    onClick={[Function]}
+  >
+    Add Location
+  </button>
+</div>
+`;

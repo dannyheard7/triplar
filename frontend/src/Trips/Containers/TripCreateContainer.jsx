@@ -1,11 +1,10 @@
 import React from "react";
-import api from "utils/api.js"
-import {withRouter} from "react-router-dom";
+import api from "Trips/utils/trips.api.js"
 
 import TripForm from "Trips/Components/TripForm";
 import FormContainer from "../../Forms/Containers/FormContainer";
 
-export class TripCreateContainer extends React.Component {
+export default class TripCreateContainer extends React.Component {
     constructor(props) {
         super(props);
 
@@ -17,9 +16,9 @@ export class TripCreateContainer extends React.Component {
         };
     }
 
-    onSuccess(trip) {
+    onSuccess(data) {
         this.setState({showTripCreate: false});
-        this.props.history.push('/trips/' + trip.id)
+        this.props.history.push('/trips/' + data.trip.id)
     };
 
     onClick() {
@@ -29,11 +28,7 @@ export class TripCreateContainer extends React.Component {
     render () {
         return (
             <div>
-                <div className="row">
-                    <div className="col md-2">
-                        <button className="btn btn-primary" onClick={this.onClick}>New Trip</button>
-                    </div>
-                </div>
+                <button className="btn btn-primary" onClick={this.onClick}>New Trip</button>
                 {this.state.showTripCreate &&
                     <div className="card">
                         <FormContainer onSuccess={this.onSuccess} apiFunction={api.createTrip}>
@@ -45,5 +40,3 @@ export class TripCreateContainer extends React.Component {
         )
     }
 }
-
-export default withRouter(TripCreateContainer)

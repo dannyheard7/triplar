@@ -2,53 +2,52 @@
 
 exports[`<App /> when authenticated renders correctly 1`] = `
 <BrowserRouter>
-  <div>
-    <withRouter(Connect(NavigationBar)) />
+  <div
+    className="wrapper"
+  >
+    <HeaderUnauthenticated />
     <div
-      className="container"
+      className="content"
     >
-      <withRouter(Connect(LoggedInContainer))>
+      <Switch>
         <Route
           component={[Function]}
           exact={true}
+          path="/register"
+        />
+        <Route
           path="/"
+          render={[Function]}
         />
-        <Route
-          component={[Function]}
-          exact={true}
-          path="/trips"
-        />
-        <Route
-          component={[Function]}
-          path="/trips/:id"
-        />
-      </withRouter(Connect(LoggedInContainer))>
+      </Switch>
     </div>
+    <Footer />
   </div>
 </BrowserRouter>
 `;
 
 exports[`<App /> when not authenticated renders correctly 1`] = `
 <BrowserRouter>
-  <div>
-    <withRouter(Connect(NavigationBar)) />
+  <div
+    className="wrapper"
+  >
+    <HeaderUnauthenticated />
     <div
-      className="container"
+      className="content"
     >
-      <Route
-        component={[Function]}
-        exact={true}
-        path="/"
-      />
-      <Route
-        component={[Function]}
-        path="/login"
-      />
-      <Route
-        component={[Function]}
-        path="/register"
-      />
+      <Switch>
+        <Route
+          component={[Function]}
+          exact={true}
+          path="/register"
+        />
+        <Route
+          path="/"
+          render={[Function]}
+        />
+      </Switch>
     </div>
+    <Footer />
   </div>
 </BrowserRouter>
 `;

@@ -13,28 +13,27 @@ class Trip(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
 
 
-class CityItinerary(models.Model):
+class TripLocation(models.Model):
     trip = models.ForeignKey(Trip, on_delete=models.CASCADE, null=False, blank=False,
-                             related_name="itineraries")
+                             related_name="locations")
     city = models.ForeignKey('cities.City', on_delete=models.PROTECT, null=False, blank=False,
-                             related_name="+") # Don't need to create backwards relation
+                             related_name="locations")
 
     start_date = models.DateField(blank=False)
     end_date = models.DateField(blank=False)
 
 
-# Should this class be place type instead of item type, so it's automatic and the user doesn't need to select?
-#class ItineraryItemType(models.Model):
-#    title = models.CharField(max_length=20, blank=False, unique=True)
+class TripLocationItem(models.Model):
+    start_time = models.TimeField(null=True, blank=True)
+    end_time = models.TimeField(null=True, blank=True)
+    start_date = models.DateField(null=False, blank=False)
+    end_date = models.DateField(null=False, blank=False)
 
+    order = models.IntegerField(blank=False)
 
-class ItineraryItem(models.Model):
-    start = models.DateTimeField(blank=False)
-    end = models.DateTimeField(blank=False)
+    location = models.ForeignKey(TripLocation, on_delete=models.CASCADE, null=False, blank=False,
+                                 related_name="items")
 
-    itinerary = models.ForeignKey(CityItinerary, on_delete=models.CASCADE, null=False, blank=False,
-                                  related_name="items")
-
-    # type = models.ForeignKey(ItineraryItemType, on_delete=models.PROTECT, null=False, blank=False, related_name="+")
+    api_place = models.ForeignKey('places.APIPlace', on_delete=models.PROTECT, null=True, related_name='+')
 
 

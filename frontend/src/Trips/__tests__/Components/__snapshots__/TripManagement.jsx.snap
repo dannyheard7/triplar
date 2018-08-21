@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<TripManagement /> renders correctly 1`] = `
+<div
+  className="trip-management"
+>
+  <Link
+    replace={false}
+    to="/trips/1/edit"
+  >
+    <button
+      className="btn btn-light"
+    >
+      Edit
+    </button>
+  </Link>
+  <Link
+    replace={false}
+    to="/trips/1/delete"
+  >
+    <button
+      className="btn btn-danger"
+    >
+      Delete Trip
+    </button>
+  </Link>
+</div>
+`;

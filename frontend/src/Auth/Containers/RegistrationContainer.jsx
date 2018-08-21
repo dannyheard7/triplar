@@ -1,11 +1,10 @@
 import React from "react";
 
 import RegistrationForm from "Auth/Components/RegistrationForm";
-import {withRouter} from "react-router-dom";
-import api from "utils/api";
+import api from "Auth/utils/auth.api";
 import FormContainer from "Forms/Containers/FormContainer";
 
-export class RegistrationContainer extends React.Component {
+export default class RegistrationContainer extends React.Component {
 
     constructor(props) {
         super(props);
@@ -25,5 +24,3 @@ export class RegistrationContainer extends React.Component {
         );
     }
 }
-
-export default withRouter(RegistrationContainer)

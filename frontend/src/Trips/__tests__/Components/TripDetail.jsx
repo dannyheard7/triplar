@@ -14,12 +14,12 @@ describe('<TripDetail />', () => {
         beforeAll(function () {
             // TODO: Need a better way to deal with this. Maybe a helper function that generates one?
             trip = {'id': faker.random.number(), 'name': faker.random.word(), 'created_by': faker.internet.email(),
-            'itineraries': [{'id': faker.random.number, 'city': {'name_std': faker.address.city(), 'country': faker.address.country()}}]};
+            'locations': [{'id': faker.random.number, 'city': {'name_std': faker.address.city(), 'country': faker.address.country()}}]};
         });
 
         test('renders correctly', () => {
-            trip = {'id': 1, 'name': "test", 'created_by': "email@example.com", 'start_date': "2018-08-10",
-                "end_date": "2018-08-12", 'itineraries': [{'id': 1, 'city': {'name_std': "Bristol", 'country': "United Kingdom"}}]};
+            trip = {'id': 1, 'name': "test", 'created_by': "email@example.com", 'startDate': "2018-08-10",
+                "endDate": "2018-08-12", 'locations': [{'id': 1, 'city': {'name_std': "Bristol", 'country': "United Kingdom"}}]};
             const result = renderer.render(<TripDetail trip={trip}/>);
             expect(result).toMatchSnapshot();
         });
@@ -31,14 +31,14 @@ describe('<TripDetail />', () => {
 
        test('displays the trip creator', () => {
             const container = shallow(<TripDetail trip={trip}/>);
-            expect(container.find("#created-by").text()).toEqual('Created by: ' + trip['created_by']);
+            expect(container.find(".created-by").text()).toEqual('Created by: ' + trip['created_by']);
         });
 
         test('updates when trip prop changes', () => {
             const container = shallow(<TripDetail trip={trip}/>);
             let newTrip = {
                 'id': faker.random.number(), 'name': faker.random.word(), 'created_by': faker.internet.email(),
-                'itineraries': [{'id': faker.random.number, 'city': {'name_std': faker.address.city(), 'country': faker.address.country()}}]
+                'locations': [{'id': faker.random.number, 'city': {'name_std': faker.address.city(), 'country': faker.address.country()}}]
             };
             container.setProps({trip: newTrip});
             expect(container.find("#trip-name").text()).toEqual(newTrip['name']);

@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<HeaderAuthenticated /> renders correctly 1`] = `
+<div
+  className="header"
+>
+  <Link
+    activeclassname="active"
+    className="brand"
+    replace={false}
+    to="/"
+  >
+    Triplar
+  </Link>
+  <button
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+    className="navbar-toggle"
+    data-target="#navbarSupportedContent"
+    data-toggle="collapse"
+    type="button"
+  >
+    <span
+      className="navbar-toggler-icon"
+    />
+  </button>
+  <nav
+    className="navbar"
+  >
+    <span
+      className="nav-item nav-dropdown"
+    >
+      <button
+        className="dropdown-toggle"
+        onClick={[Function]}
+      >
+        test@example.com
+        <i
+          className="fa fa-caret-down"
+        />
+      </button>
+    </span>
+  </nav>
+</div>
+`;

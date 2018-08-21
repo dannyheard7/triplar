@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<HeaderUnauthenticated /> renders correctly 1`] = `
+<div
+  className="header"
+>
+  <Link
+    activeclassname="active"
+    className="brand"
+    replace={false}
+    to="/"
+  >
+    Triplar
+  </Link>
+  <button
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+    className="navbar-toggle"
+    data-target="#navbarSupportedContent"
+    data-toggle="collapse"
+    type="button"
+  >
+    <span
+      className="navbar-toggler-icon"
+    />
+  </button>
+  <nav
+    className="navbar"
+  >
+    <span
+      className="nav-item"
+      id="login-nav-item"
+    >
+      <Link
+        className="nav-link"
+        replace={false}
+        to="/login"
+      >
+        Login
+      </Link>
+    </span>
+    <span
+      className="nav-item"
+      id="register-nav-item"
+    >
+      <Link
+        className="nav-link"
+        replace={false}
+        to="/register"
+      >
+        Register
+      </Link>
+    </span>
+  </nav>
+</div>
+`;

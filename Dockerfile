@@ -9,5 +9,7 @@ RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1 \
 RUN pip3 install --upgrade pip requests setuptools pipenv
 
 RUN apt install -y binutils libproj-dev gdal-bin libsqlite3-mod-spatialite
-RUN apt install -y nodejs npm
+
+RUN apt install -y curl && curl -sL https://deb.nodesource.com/setup_10.x | bash - && apt install -y nodejs
+
 

@@ -1,7 +1,7 @@
 from django.test import TestCase
 from faker import Faker
 
-from .factories import TripFactory, CityItineraryFactory, ItineraryItemFactory
+from .factories import TripFactory, TripLocationFactory, TripLocationItemFactory
 
 
 class TripTestCase(TestCase):
@@ -10,17 +10,17 @@ class TripTestCase(TestCase):
         self.faker = Faker()
         self.trip = TripFactory.create()
 
-    def test_get_itineraries(self):
-        itinerary = CityItineraryFactory.create(trip=self.trip)
-        self.assertEqual(self.trip.itineraries.get(), itinerary)
+    def test_get_locations(self):
+        location = TripLocationFactory.create(trip=self.trip)
+        self.assertEqual(self.trip.locations.get(), location)
 
 
-class CityItineraryTestCase(TestCase):
+class TripLocationTestCase(TestCase):
 
     def setUp(self):
         self.faker = Faker()
-        self.city_itinerary = CityItineraryFactory.create()
+        self.location = TripLocationFactory.create()
 
     def test_get_items(self):
-        item = ItineraryItemFactory.create(itinerary=self.city_itinerary)
-        self.assertEqual(self.city_itinerary.items.get(), item)
+        item = TripLocationItemFactory.create(location=self.location,order=1)
+        self.assertEqual(self.location.items.get(), item)

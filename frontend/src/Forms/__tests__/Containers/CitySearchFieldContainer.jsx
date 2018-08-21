@@ -1,11 +1,11 @@
 import React from "react";
 import {shallow} from "enzyme";
-import api from "utils/api.js";
+import api from "Itinerary/utils/api.js";
 
 import CitySearchFieldContainer from "Forms/Containers/CitySearchFieldContainer.jsx";
 
 const faker = require('faker');
-jest.mock('utils/api.js');
+jest.mock('Itinerary/utils/api.js');
 
 describe('<CitySearchFieldContainer />', () => {
     const event = {
@@ -50,10 +50,10 @@ describe('<CitySearchFieldContainer />', () => {
 
     test('getSuggestions sets suggestions returned from api in state', async () => {
         const container = shallow(<CitySearchFieldContainer />);
-        const suggestions = [faker.address.city(), faker.address.city()];
+        const suggestions =  [faker.address.city(), faker.address.city()];
 
         api.searchCities = jest.fn().mockReturnValueOnce(new Promise((resolve, reject) => {
-            resolve({status: 200, data: suggestions});
+            resolve({status: 200, data: {data: {cities: suggestions}}});
         }));
 
         container.instance().getSuggestions({value: faker.address.city()});
@@ -64,12 +64,12 @@ describe('<CitySearchFieldContainer />', () => {
 
     test('getSuggestionValue returns city name', async () => {
         const container = shallow(<CitySearchFieldContainer />);
-        const suggestion = {name: faker.address.city(), country: faker.address.country()};
+        const suggestion = {name: faker.address.city(), country: {name: faker.address.country()}};
 
         const suggestionValue = container.instance().getSuggestionValue(suggestion);
         await Promise.resolve();
 
-        expect(suggestionValue).toEqual(suggestion.name + ", " + suggestion.country);
+        expect(suggestionValue).toEqual(suggestion.name + ", " + suggestion.country.name);
     });
 
 

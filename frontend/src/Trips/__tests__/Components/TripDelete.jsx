@@ -1,17 +1,16 @@
 import React from "react";
 
-import {TripDelete} from "Trips/Components/TripDelete";
+import TripDelete from "Trips/Components/TripDelete";
 import ShallowRenderer from "react-test-renderer/shallow";
 import {shallow} from "enzyme/build/index";
 
 const renderer = new ShallowRenderer();
 
-jest.mock('utils/api.js');
+jest.mock('Trips/utils/trips.api.js');
 
 describe('<TripDelete />', () => {
     const trip = {'id': 1, 'name': "Trip Test", 'created_by': "email@example.com"};
     const event = {
-        preventDefault: () => {},
         target: {
             value: "",
             name: "",
@@ -29,9 +28,7 @@ describe('<TripDelete />', () => {
         expect(result).toMatchSnapshot();
     });
 
-    test.skip('redirects to trips page on successful deletion', async () => {
-        //TODO: how to mock global jquery function
-
+    test('redirects to trips page on successful deletion', async () => {
         const container = shallow(<TripDelete {...props} />);
 
         container.instance().onDelete(event);

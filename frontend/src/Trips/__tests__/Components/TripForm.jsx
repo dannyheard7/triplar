@@ -8,7 +8,7 @@ const renderer = new ShallowRenderer();
 
 describe('<TripForm />', () => {
     const props = {
-        object: {},
+        trip: {},
         errors: {}
     };
 

@@ -1,13 +1,11 @@
 import React from "react";
-import api from "utils/api.js";
-import {connect} from "react-redux";
-import {withRouter} from "react-router-dom";
+import api from "Auth/utils/auth.api.js";
 
-import {login} from "Auth/actions";
+import {login} from "Auth/utils/actions";
 import LoginForm from "Auth/Components/LoginForm.jsx";
 import FormContainer from "Forms/Containers/FormContainer";
 
-export class LoginContainer extends React.Component {
+export default class LoginContainer extends React.Component {
     constructor(props) {
         super(props);
 
@@ -15,7 +13,8 @@ export class LoginContainer extends React.Component {
     }
 
     onSuccess(data) {
-        this.props.dispatch(login(data.user, data.token));
+        login(data.user, data.token);
+        this.props.onLogin(data.user, data.token);
         this.props.history.push('/trips')
     }
 
@@ -27,5 +26,3 @@ export class LoginContainer extends React.Component {
         );
     }
 }
-
-export default withRouter(connect()(LoginContainer))

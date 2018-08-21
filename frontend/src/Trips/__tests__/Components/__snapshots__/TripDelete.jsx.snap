@@ -1,68 +1,50 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<TripDelete /> <TripDelete /> renders correctly 1`] = `
-<div
-  className="modal"
-  id="deleteModal"
+<Modal
+  ariaHideApp={true}
+  bodyOpenClassName="ReactModal__Body--open"
+  closeTimeoutMS={0}
+  contentLabel="Trip Test"
+  isOpen={true}
+  onRequestClose={[Function]}
+  parentSelector={[Function]}
+  portalClassName="ReactModalPortal"
   role="dialog"
+  shouldCloseOnEsc={true}
+  shouldCloseOnOverlayClick={true}
+  shouldFocusAfterRender={true}
+  shouldReturnFocusAfterClose={true}
+  style={
+    Object {
+      "content": Object {
+        "bottom": "40%",
+        "left": "40%",
+        "right": "40%",
+        "top": "40%",
+      },
+    }
+  }
 >
-  <div
-    className="modal-dialog"
-    role="document"
+  <h2>
+    Delete 
+    Trip Test
+  </h2>
+  <p>
+    Are you sure you want to delete the trip '
+    Trip Test
+    '?
+  </p>
+  <button
+    onClick={[Function]}
   >
-    <div
-      className="modal-content"
-    >
-      <div
-        className="modal-header"
-      >
-        <h5
-          className="modal-title"
-        >
-          Delete 
-          Trip Test
-        </h5>
-        <button
-          aria-label="Close"
-          className="close"
-          data-dismiss="modal"
-          type="button"
-        >
-          <span
-            aria-hidden="true"
-          >
-            ×
-          </span>
-        </button>
-      </div>
-      <div
-        className="modal-body"
-      >
-        <p>
-           Are you sure you want to delete the trip '
-          Trip Test
-          '?
-        </p>
-      </div>
-      <div
-        className="modal-footer"
-      >
-        <button
-          className="btn btn-danger"
-          onClick={[Function]}
-          type="button"
-        >
-          Delete Trip
-        </button>
-        <button
-          className="btn btn-secondary"
-          data-dismiss="modal"
-          type="button"
-        >
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+    Close
+  </button>
+  <button
+    className="btn-danger"
+    onClick={[Function]}
+  >
+    Delete Trip
+  </button>
+</Modal>
 `;

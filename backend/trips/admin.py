@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from .models import Trip, CityItinerary, ItineraryItem
+from .models import Trip, TripLocation, TripLocationItem
 
 admin.site.register(Trip)
-admin.site.register(CityItinerary)
-admin.site.register(ItineraryItem)
+admin.site.register(TripLocation)
+admin.site.register(TripLocationItem)

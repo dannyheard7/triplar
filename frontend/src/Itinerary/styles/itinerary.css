@@ -1,0 +1,11 @@
+.destination-itinerary {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid gray;
+}
+.destination-itinerary .destination-plan h3 {
+  cursor: pointer;
+  color: blue;
+}
+
+/*# sourceMappingURL=location.css.map */

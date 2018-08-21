@@ -1,13 +1,13 @@
 import React from "react";
 import {mount, shallow} from "enzyme";
-import api from "utils/api.js";
+import api from "Trips/utils/trips.api.js";
 
 import TripListContainer from "Trips/Containers/TripListContainer";
 import TripList from "Trips/Components/TripList";
 
 const faker = require('faker');
 
-jest.mock('utils/api.js');
+jest.mock('Trips/utils/trips.api.js');
 describe('<TripListContianer />', () => {
 
     test('renders a <TripList /> object', () => {
@@ -35,7 +35,7 @@ describe('<TripListContianer />', () => {
 
         // Need to refactor into a better way of changes mocks for a single test
         api.getTrips = jest.fn().mockReturnValueOnce(new Promise((resolve, reject) => {
-            let response = {status: 200, data: trips};
+            let response = {status: 200, data: {data: {trips: trips}}};
             resolve(response);
         }));
 

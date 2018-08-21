@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DestinationForm /> renders correctly 1`] = `
+<form>
+  <NonFieldErrors />
+  <CitySearchFieldContainer
+    name="city"
+    value="Bristol, United Kingdom"
+  />
+  <DateFieldGroup
+    label="Arrival"
+    name="startDate"
+    required={true}
+  />
+  <DateFieldGroup
+    label="Departure"
+    name="endDate"
+    required={true}
+  />
+  <button
+    className="btn btn-primary"
+    type="submit"
+  />
+</form>
+`;

@@ -1,56 +1,78 @@
 import React from "react";
-import axios from "axios";
-import {BrowserRouter, Route} from "react-router-dom";
-import {connect} from "react-redux";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 import LoggedInContainer from "App/Containers/LoggedInContainer";
-import NavigationBar from "App/Components/NavigationBar";
-
+import HeaderAuthenticated from "App/Components/HeaderAuthenticated";
+import HeaderUnauthenticated from "App/Components/HeaderUnauthenticated";
+import Footer from "App/Components/Footer";
 import LoginContainer from "Auth/Containers/LoginContainer";
 import RegistrationContainer from "Auth/Containers/RegistrationContainer";
-import TripsContainer from "Trips/Containers/TripsContainer";
+import TripListContainer from "Trips/Containers/TripListContainer";
+import TripCreateContainer from "Trips/Containers/TripCreateContainer";
 import TripDetailContainer from "Trips/Containers/TripDetailContainer";
 
+import 'App/styles/app.css';
 
 export class App extends React.Component {
     constructor(props) {
         super(props);
-        this.setupAxios();
+
+        this.state = {
+            isAuthenticated: false,
+            token: null,
+            user: null
+        };
+
+        this.onLogin = this.onLogin.bind(this);
+        this.onLogout = this.onLogout.bind(this);
     }
 
-    setupAxios() {
-        // Custom axios validation function
-        axios.defaults.validateStatus = function (status) {
-            return (status >= 200 && status < 300) || (status === 400)
-        };
+    componentDidMount() {
+        if (localStorage.getItem("token") !== null && localStorage.getItem("user") !== null) {
+          this.setState({isAuthenticated: true, token: localStorage.getItem("token"), user: JSON.parse(localStorage.getItem("user"))})
+        }
+    }
+
+    onLogin(user, token) {
+        this.setState({isAuthenticated: true, token: token, user: user})
+    }
+
+    onLogout() {
+         this.setState({isAuthenticated: false, token: null, user: null});
     }
 
     render() {
-        if(this.props.isAuthenticated) {
+        if(this.state.isAuthenticated) {
             return (
                 <BrowserRouter>
-                    <div>
-                        <NavigationBar />
-                        <div className="container">
-                            <LoggedInContainer>
-                                <Route path="/" exact component={TripsContainer}/>
-                                <Route path="/trips" exact component={TripsContainer}/>
+                    <LoggedInContainer token={this.state.token}>
+                        <div className="wrapper">
+                            <Route path="/" render={(props) => <HeaderAuthenticated {...props} user={this.state.user}
+                                                                                    onLogout={this.onLogout} />}/>
+                            <div className="content">
+                                <Route path="/(|trips)" exact component={TripListContainer}/>
+                                <Route path="/(|trips)" exact component={TripCreateContainer}/>
                                 <Route path="/trips/:id" component={TripDetailContainer}/>
-                            </LoggedInContainer>
+                            </div>
+                            <Footer />
                         </div>
-                    </div>
+                    </LoggedInContainer>
                 </BrowserRouter>
             );
         } else {
             return (
                 <BrowserRouter>
-                    <div>
-                        <NavigationBar />
-                        <div className="container">
-                            <Route path="/" exact component={LoginContainer} />
-                            <Route path="/login" component={LoginContainer} />
-                            <Route path="/register" component={RegistrationContainer}/>
+                    <div className="wrapper">
+                        <HeaderUnauthenticated />
+                        <div className="content">
+                            <Switch>
+                                <Route path="/register" exact component={RegistrationContainer}/>
+                                <Route path="/" render={(props) => <LoginContainer {...props} onLogin={this.onLogin} />}/>
+                            </Switch>
                         </div>
+                        <Footer />
                     </div>
                 </BrowserRouter>
             );
@@ -58,10 +80,5 @@ export class App extends React.Component {
     }
 }
 
-function mapStateToProps(state, props) {
-    return {
-        isAuthenticated: state.auth.isAuthenticated,
-    }
-}
 
-export default connect(mapStateToProps)(App)
+export default DragDropContext(HTML5Backend)(App)

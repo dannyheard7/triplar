@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PlacesSearchContainer /> renders correctly 1`] = `
+<div
+  className="places-search-container"
+>
+  <h3>
+    Popular Places in 
+    Bristol
+  </h3>
+  <input
+    onChange={[Function]}
+    placeholder="Search Places (min 3 characters)"
+    type="text"
+    value=""
+  />
+  <select
+    defaultValue=""
+    onChange={[Function]}
+  >
+    <option
+      value=""
+    >
+      Any Category
+    </option>
+    <option
+      value="restaurants"
+    >
+      Restaurants
+    </option>
+    <option
+      value="nightlife"
+    >
+      Nightlife
+    </option>
+  </select>
+  <PlaceListContainer
+    places={Array []}
+  />
+</div>
+`;

@@ -13,7 +13,6 @@ exports[`<AutosuggestFieldGroup /> inputComponent renders correctly 1`] = `
       ]
     }
     label="City Search"
-    name={undefined}
     required={true}
   />
 </div>

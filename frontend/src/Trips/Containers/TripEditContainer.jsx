@@ -1,8 +1,8 @@
 import React from "react";
-import api from "utils/api.js";
+import api from "Trips/utils/trips.api.js";
 
 import TripForm from "Trips/Components/TripForm.jsx";
-import FormContainer from "../../Forms/Containers/FormContainer";
+import FormContainer from "Forms/Containers/FormContainer";
 
 export default class TripEditContainer extends React.Component {
     constructor(props) {
@@ -11,11 +11,11 @@ export default class TripEditContainer extends React.Component {
         this.onSuccess = this.onSuccess.bind(this);
     }
 
-    onSuccess(trip) {
-        this.props.onUpdate(trip);
+    onSuccess(data) {
+        this.props.onUpdate(data.trip);
     };
 
-    apiFunc = api.curryAPIFunc(api.patchTrip, this.props.trip.id);
+    apiFunc = api.curryAPIFunc(api.editTrip, this.props.trip.id);
 
     render() {
         return (
