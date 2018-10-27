@@ -1,0 +1,12 @@
+FROM debian:stretch-slim
+RUN apt update
+
+RUN apt install -y python3 python3-pip libproj-dev gdal-bin libsqlite3-mod-spatialite
+
+RUN python3 -m pip install --upgrade pip setuptools
+
+COPY requirements.txt /app/
+WORKDIR /app
+RUN python3 -m pip install -r requirements.txt
+
+COPY . /app

@@ -1,5 +1,6 @@
 import Q from "q";
 import axios from "axios";
+import {backendHost} from 'App/utils/constants';
 
 export default {
     registerUser(user) {
@@ -19,7 +20,7 @@ export default {
 
         let variables = {input: user};
 
-        return Q.when(axios.post("/api/graphql", {query: mutateUserQuery, variables: JSON.stringify(variables)}));
+        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: mutateUserQuery, variables: JSON.stringify(variables)}));
     },
 
     getLoginToken(user) {
@@ -33,6 +34,6 @@ export default {
                 }
            }`;
 
-        return Q.when(axios.post("/api/graphql", {query: getLoginTokenQuery, variables: user}));
+        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: getLoginTokenQuery, variables: user}));
     },
 }

@@ -4,16 +4,13 @@ pipelines:
   default:
     - step:
         name: Build and test python
-        image: triplar/triplar
-        caches:
-          - pip
+        image: triplar/backend
         script: # Modify the commands below to build your repository.
           - cd backend/
-          - pip install -r requirements.txt
-          - python manage.py test
+          - python3 manage.py test
     - step:
         name: Build and test node
-        image: triplar/triplar
+        image: triplar/frontend
         caches:
           - frontend-node
         script:
@@ -24,8 +21,7 @@ pipelines:
     production:
     - step:
        script:
-         - ssh dannyheard7@35.237.231.255 'cd triplar && git pull origin production'  # Need to build webpack files & push to server, don't think this will work
-         # Also need to run some script to run the server?
+         - ssh triplar7@triplar.co 'cd triplar && git pull origin production && docker-compose up --build'
 definitions:
   caches:
     frontend-node: frontend/node_modules

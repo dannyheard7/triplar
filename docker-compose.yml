@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  redis:
+    image: redis
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    image: triplar/backend
+    volumes:
+    - ./backend:/app
+    env_file:
+      - ./backend/.env.development
+    command: python3 /app/manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    links:
+      - redis
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    image: triplar/frontend
+    volumes:
+      - /app/node_modules
+      - ./frontend:/app
+    command: npm start
+    ports:
+      - "3000:3000"
+    links:
+      - backend
+

@@ -1,0 +1,12 @@
+FROM debian:stretch-slim
+RUN apt update
+
+RUN apt install -y python3 python3-pip python-psycopg2 libproj-dev gdal-bin libgeos-3.5.1
+
+RUN python3 -m pip install --upgrade pip setuptools psycopg2-binary
+
+COPY requirements.txt /app/
+WORKDIR /app
+RUN python3 -m pip install -r requirements.txt
+
+COPY . /app

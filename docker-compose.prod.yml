@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  redis:
+    image: redis
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    image: triplar/backend
+    env_file:
+      - ./backend/.env
+    command: python3 /app/manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    links:
+      - redis
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    image: triplar/frontend
+    ports:
+      - "3000:80"
+    links:
+      - backend
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s

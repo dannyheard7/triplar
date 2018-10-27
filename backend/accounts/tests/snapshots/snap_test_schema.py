@@ -12,10 +12,7 @@ snapshots['AccountsSchemaTestCase::test_create_user 1'] = {
         'createUser': {
             'errors': [
             ],
-            'user': {
-                'email': 'email@example.org',
-                'id': '1'
-            }
+            'user': None
         }
     }
 }

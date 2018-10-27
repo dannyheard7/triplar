@@ -11,3 +11,5 @@ local_settings.py
 db.sqlite3
 *.rdb
 nohup.out
+.env.development
+test.sh

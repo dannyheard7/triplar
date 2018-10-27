@@ -1,5 +1,6 @@
 import axios from "axios";
 import Q from "q";
+import {backendHost} from 'App/utils/constants';
 
 export default {
     getPopularPlaces(lat, lng, category) {
@@ -12,7 +13,7 @@ export default {
             }
            }`;
 
-        return Q.when(axios.post("/api/graphql", {query: popularPlacesQuery}))
+        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: popularPlacesQuery}))
     },
 
     searchPlacesByName(lat, lng, query, category) {
@@ -25,7 +26,7 @@ export default {
             }
            }`;
 
-        return Q.when(axios.post("/api/graphql", {query: searchPlacesQuery}))
+        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: searchPlacesQuery}))
     },
 
     getPlaceDetails(placeId) {
@@ -43,6 +44,6 @@ export default {
             }
            }`;
 
-        return Q.when(axios.post("/api/graphql", {query: searchPlacesQuery}))
+        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: searchPlacesQuery}))
     }
 }

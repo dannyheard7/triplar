@@ -14,7 +14,8 @@ SECRET_KEY = 'fil66ptnfoz9pq%ko$lw!hxb=(s@op03*k8y5&@j^4-@g&ybo2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'triplar.co']
+
 
 
 # Application definition
@@ -29,6 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'django_rq',
     'graphene_django',
+    'corsheaders',
     'accounts',
     'trips',
     'cities',
@@ -44,7 +46,13 @@ MIDDLEWARE = [
     'graphql_jwt.middleware.JSONWebTokenMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
+
+CORS_ORIGIN_WHITELIST = (
+    'localhost:3000',
+    'triplar.co:3000'
+)
 
 ROOT_URLCONF = 'backend.urls'
 
@@ -76,8 +84,12 @@ AUTHENTICATION_BACKENDS = [
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.spatialite', # Spatial DB
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': os.environ['DATABASE_ENGINE'], # Spatial DB
+        'NAME': os.environ['DATABASE_NAME'],
+        'USER': os.environ['DATABASE_USER'], # Spatial DB
+        'PASSWORD': os.environ['DATABASE_PASSWORD'],
+        'HOST': os.environ['DATABASE_HOST'], # Spatial DB
+        'PORT': os.environ['DATABASE_PORT'],
     }
 }
 
@@ -139,11 +151,12 @@ YELP_APP_KEY = 'l8t7wcvo53oIZU4RDLV6ZUfHrALy_c8NjQktobV74nCzj5ex1zBOAyHJGDG8JBn6
 
 TEST_RUNNER = 'snapshottest.django.TestRunner'
 
-
+REDIS_HOST = 'redis'
+REDIS_PORT = 6379
 RQ_QUEUES = {
     'default': {
-        'HOST': 'localhost',
-        'PORT': 6379,
+        'HOST': REDIS_HOST,
+        'PORT': REDIS_PORT,
         'DB': 0,
         'PASSWORD': '',
         'DEFAULT_TIMEOUT': 360,

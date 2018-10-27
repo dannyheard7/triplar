@@ -12,7 +12,7 @@ class PlacesAPI:
 
     @classmethod
     def api_request(cls, url):
-        redis_db = redis.Redis(host='localhost', port=6379, db=0)
+        redis_db = redis.Redis(host=settings.REDIS_HOST, port=settings.REDIS_PORT, db=0)
         expire_seconds = (24 * 60 * 60)  # 24 hours in seconds
 
         url = urllib.parse.quote_plus(url, safe=';/?:@&=+$,')
@@ -24,7 +24,10 @@ class PlacesAPI:
             items = response.text
             redis_db.set(url, items, ex=expire_seconds)
 
-        return json.loads(items)
+        if isinstance(items, str):
+            return json.loads(items)
+        else:
+            return json.loads(items.decode('utf-8'))
 
     @classmethod
     def get_popular_places(cls, lat, lng, categories=default_categories, limit="8"):

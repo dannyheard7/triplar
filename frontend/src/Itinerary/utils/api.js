@@ -1,5 +1,6 @@
 import axios from "axios";
 import Q from "q";
+import {backendHost} from 'App/utils/constants';
 
 export default {
     curryAPIFunc (apiFunc, id) {return (object) => apiFunc(id, object)},
@@ -30,7 +31,7 @@ export default {
 
         let variables = {input: {trip: tripId, ...destination}};
 
-        return Q.when(axios.post("/api/graphql", {query: mutateTripLocationQuery, variables: variables}));
+        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: mutateTripLocationQuery, variables: variables}));
     },
 
     getLocationDayItinerary(tripLocationId, date) {
@@ -45,7 +46,7 @@ export default {
             }
            }`;
 
-        return Q.when(axios.post("/api/graphql", {query: getLocationDayItinerary}));
+        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: getLocationDayItinerary}));
     },
 
     addItemToTripLocation(tripLocationId, placeId, date, order) {
@@ -64,7 +65,7 @@ export default {
 
         let variables = {input: {location: tripLocationId, apiPlace: placeId, order: order, startDate: date, endDate: date}};
 
-        return Q.when(axios.post("/api/graphql", {query: addTripLocationItemMutation, variables: variables}));
+        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: addTripLocationItemMutation, variables: variables}));
     },
 
     searchCities(query) {
@@ -78,6 +79,6 @@ export default {
             }
            }`;
 
-        return Q.when(axios.post("/api/graphql", {query: searchCities}));
+        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: searchCities}));
     },
 }

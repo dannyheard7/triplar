@@ -1,5 +1,6 @@
 import axios from "axios";
 import Q from "q";
+import {backendHost} from 'App/utils/constants';
 
 export default {
     curryAPIFunc(apiFunc, id) {
@@ -22,7 +23,7 @@ export default {
             }
            }`;
 
-        return Q.when(axios.post("/api/graphql", {query: getTripsQuery}));
+        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: getTripsQuery}));
     },
 
     getTripDetail(tripId) {
@@ -58,7 +59,7 @@ export default {
             }
            }`;
 
-        return Q.when(axios.post("/api/graphql", {query: getTripsQuery}));
+        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: getTripsQuery}));
     },
 
     createTrip(trip) {
@@ -77,7 +78,7 @@ export default {
 
         let variables = {input: trip};
 
-        return Q.when(axios.post("/api/graphql", {query: createTripQuery, variables: JSON.stringify(variables)}));
+        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: createTripQuery, variables: JSON.stringify(variables)}));
     },
 
     editTrip(tripId, trip) {
@@ -114,7 +115,7 @@ export default {
 
         let variables = {input: {id: tripId, ...trip}};
 
-        return Q.when(axios.post("/api/graphql", {query: editTripQuery, variables: JSON.stringify(variables)}));
+        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: editTripQuery, variables: JSON.stringify(variables)}));
     },
 
     deleteTrip(tripId) {
@@ -125,6 +126,6 @@ export default {
               }
             }`;
 
-        return Q.when(axios.post("/api/graphql", {query: deleteTripQuery}));
+        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: deleteTripQuery}));
     },
 }
