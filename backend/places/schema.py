@@ -2,7 +2,15 @@ import graphene
 from django.core.exceptions import FieldError
 from graphene.types.resolver import dict_resolver
 
-from .yelp import PlacesAPI
+from .yelp import PlacesAPI, Categories
+
+
+class CategoryType(graphene.ObjectType):
+    class Meta:
+        default_resolver = dict_resolver
+
+    alias = graphene.String()
+    title = graphene.String()
 
 
 class PlaceType(graphene.ObjectType):
@@ -61,10 +69,31 @@ class PlaceType(graphene.ObjectType):
 
 
 class Query(graphene.ObjectType):
+    categories = graphene.List(CategoryType)
+    sub_categories = graphene.List(CategoryType, category=graphene.String(), countryCode=graphene.String())
+
     popular_places = graphene.List(PlaceType, lat=graphene.Float(), lng=graphene.Float(), category=graphene.String())
     places = graphene.List(PlaceType, lat=graphene.Float(), lng=graphene.Float(), name=graphene.String(),
                            category=graphene.String())
     place = graphene.Field(PlaceType, id=graphene.String())
+
+    def resolve_categories(self, info, **kwargs):
+        categories = Categories()
+        return categories.get_top_level_categories()
+
+    def resolve_sub_categories(self, info, **kwargs):
+        category = kwargs.get('category')
+
+        if not category:
+            raise FieldError("Category parameter is required")
+
+        country_code = kwargs.get('countryCode')
+
+        if not country_code:
+            raise FieldError("Country code parameter is required")
+
+        categories = Categories()
+        return categories.get_sub_categories(category, country_code)
 
     def resolve_popular_places(self, info, **kwargs):
         lat = kwargs.get("lat")

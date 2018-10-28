@@ -14,26 +14,30 @@ exports[`<PlacesSearchContainer /> renders correctly 1`] = `
     type="text"
     value=""
   />
-  <select
-    defaultValue=""
-    onChange={[Function]}
-  >
-    <option
-      value=""
+  <div>
+    <select
+      defaultValue=""
+      id="category-select"
+      onChange={[Function]}
     >
-      Any Category
-    </option>
-    <option
-      value="restaurants"
+      <option
+        value=""
+      >
+        Any Category
+      </option>
+    </select>
+    <select
+      defaultValue=""
+      id="subcategory-select"
+      onChange={[Function]}
     >
-      Restaurants
-    </option>
-    <option
-      value="nightlife"
-    >
-      Nightlife
-    </option>
-  </select>
+      <option
+        value=""
+      >
+        Any Subcategory
+      </option>
+    </select>
+  </div>
   <PlaceListContainer
     places={Array []}
   />

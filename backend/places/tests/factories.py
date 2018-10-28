@@ -15,7 +15,7 @@ class APIPlaceFactory:
     image_url = faker.url()
 
     def to_dict(self):
-        return {'id': self.id, 'name': self.name, 'category': self.category, 'coordinates': self.coordinates,
+        return {'id': self.id, 'name': self.name, 'selectedCategory': self.category, 'coordinates': self.coordinates,
                 'location': {'display_address': self.address}, 'image_url': self.image_url}
 
 

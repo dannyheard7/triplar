@@ -46,6 +46,7 @@ export default {
                         location
                         country {
                             name
+                            code
                         }
                     }
                     items {

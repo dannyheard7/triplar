@@ -3,6 +3,28 @@ version: '3'
 services:
   redis:
     image: redis
+  backend_worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    image: triplar/backend
+    env_file:
+      - ./backend/.env
+    command: python3 /app/manage.py rqworker
+    links:
+      - redis
+  backend_scheduler:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    image: triplar/backend
+    env_file:
+      - ./backend/.env
+    command: python3 /app/manage.py rqscheduler
+    depends_on:
+      - backend_worker
+    links:
+      - redis
   backend:
     build:
       context: ./backend
@@ -15,6 +37,8 @@ services:
       - "8000:8000"
     links:
       - redis
+    depends_on:
+      - backend_scheduler
     deploy:
       restart_policy:
         condition: on-failure

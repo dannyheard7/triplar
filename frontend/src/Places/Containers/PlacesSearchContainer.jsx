@@ -11,7 +11,10 @@ export default class PlacesSearchContainer extends React.Component {
         this.state = {
             popularPlacesCache: {},
             places: [],
-            categoryValue: "",
+            selectedCategory: "",
+            selectedSubCategory: "",
+            categories: [],
+            subCategories: [],
             searchValue: "",
         };
 
@@ -19,15 +22,19 @@ export default class PlacesSearchContainer extends React.Component {
         this.getPopularPlaces = this.getPopularPlaces.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
         this.onCategoryChange = this.onCategoryChange.bind(this);
+        this.onSubCategoryChange = this.onSubCategoryChange.bind(this);
     }
 
     componentDidMount() {
-        this.getPopularPlaces();
+        this.getPopularPlaces(this.state.selectedCategory);
+
+        api.getTopLevelCategories().then(response => {
+            this.setState({categories: response.data.data.categories})
+        });
     }
 
-    getPopularPlaces() {
+    getPopularPlaces(category) {
         const city = this.props.city;
-        const category = this.state.categoryValue;
 
         if(category in this.state.popularPlacesCache) {
             this.setState({places: this.state.popularPlacesCache[category]})
@@ -41,22 +48,29 @@ export default class PlacesSearchContainer extends React.Component {
         }
     }
 
-    searchPlaces() {
+    searchPlaces(category) {
         // Searches are not cached because they are not used multiple times!
         const city = this.props.city;
         const search = this.state.searchValue;
-        const category = this.state.categoryValue;
 
         api.searchPlacesByName(city.location.lat, city.location.lng, search, category).then(response => {
             this.setState({places: response.data.data.places})
         });
     };
 
+    getSubCategories() {
+        api.getSubCategories(this.state.selectedCategory, this.props.city.country.code).then(response => {
+            this.setState({subCategories: response.data.data.subCategories})
+        });
+    }
+
     updatePlaces() {
-         if (this.state.searchValue.length >= 3) {
-            this.searchPlaces();
+        let category = this.state.selectedSubCategory ? this.state.selectedSubCategory : this.state.selectedCategory;
+
+        if (this.state.searchValue.length >= 3) {
+            this.searchPlaces(category);
         } else {
-             this.getPopularPlaces();
+             this.getPopularPlaces(category);
         }
     }
 
@@ -65,7 +79,12 @@ export default class PlacesSearchContainer extends React.Component {
     }
 
     onCategoryChange(event) {
-        this.setState({categoryValue: event.target.value},  this.updatePlaces);
+        this.setState({selectedCategory: event.target.value, selectedSubCategory: "", subCategories: []},
+            () => {this.updatePlaces(); this.getSubCategories();});
+    }
+
+    onSubCategoryChange(event) {
+        this.setState({selectedSubCategory: event.target.value},  this.updatePlaces);
     }
 
     render() {
@@ -76,13 +95,22 @@ export default class PlacesSearchContainer extends React.Component {
                 <h3>Popular Places in {city.name}</h3>
                 <input type="text" value={this.state.searchValue} onChange={this.onSearchChange}
                        placeholder="Search Places (min 3 characters)"/>
-                <select onChange={this.onCategoryChange} defaultValue={this.state.categoryValue}>
-                    <option value="">Any Category</option>
-                    <option value="restaurants">Restaurants</option>
-                    <option value="nightlife">Nightlife</option>
-                </select>
+                <div>
+                    <select onChange={this.onCategoryChange} defaultValue={this.state.selectedCategory} id="category-select">
+                        <option value="">Any Category</option>
+                        {this.state.categories.map(this.categoryAsOption)}
+                    </select>
+                    <select onChange={this.onSubCategoryChange} defaultValue={this.state.selectedSubCategory} id="subcategory-select">
+                        <option value="">Any Subcategory</option>
+                        {this.state.subCategories.map(this.categoryAsOption)}
+                    </select>
+                </div>
                 <PlaceListContainer places={this.state.places} path={this.props.path} />
             </div>
         );
+    }
+
+    categoryAsOption(category) {
+        return <option value={category.alias}>{category.title}</option>
     }
 }

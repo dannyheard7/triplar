@@ -8,6 +8,8 @@ pipelines:
         script: # Modify the commands below to build your repository.
           - cd backend/
           - python3 manage.py test
+        services:
+          - redis
     - step:
         name: Build and test node
         image: triplar/frontend
@@ -25,3 +27,6 @@ pipelines:
 definitions:
   caches:
     frontend-node: frontend/node_modules
+  services:
+    redis:
+      image: redis

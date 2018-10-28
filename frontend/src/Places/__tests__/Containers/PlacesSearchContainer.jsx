@@ -17,7 +17,7 @@ describe('<PlacesSearchContainer />', () => {
         target: {value: "", name: ""},
     };
 
-    const city = {name: faker.address.city(), country: {name: faker.address.country()},
+    const city = {name: faker.address.city(), country: {name: faker.address.country(), code: faker.address.countryCode},
         location: {lat: faker.address.latitude, lng: faker.address.longitude}};
     const places = [{'id': faker.random.number(), 'name': faker.random.word(), 'imageUrl': faker.internet.url()}];
 
@@ -62,16 +62,27 @@ describe('<PlacesSearchContainer />', () => {
         stub.mockRestore();
     });
 
-    test('category onChange calls getPopularPlaces with category if searchValue length is < 3', () => {
+    test('updatePlaces calls getPopularPlaces with subCategory not main category if one is set', () => {
+        const getPopularPlacesStub = jest.spyOn(PlacesSearchContainer.prototype, 'getPopularPlaces');
+        const container = shallow(<PlacesSearchContainer city={city} />);
+        getPopularPlacesStub.mockClear(); // It is called on mount
+
+        let subCategory = faker.lorem.word();
+        container.setState({selectedSubCategory: subCategory});
+        container.instance().updatePlaces();
+
+        expect(getPopularPlacesStub).toBeCalledWith(subCategory);
+        getPopularPlacesStub.mockRestore();
+    });
+
+    test('updatePlaces calls getPopularPlaces with selectedCategory if searchValue length is < 3', () => {
         const searchPlacesStub = jest.spyOn(PlacesSearchContainer.prototype, 'searchPlaces');
         const getPopularPlacesStub = jest.spyOn(PlacesSearchContainer.prototype, 'getPopularPlaces');
         const container = shallow(<PlacesSearchContainer city={city} />);
         getPopularPlacesStub.mockClear(); // It is called on mount
 
-        event.target.value = faker.random.word();
-        container.find("select").prop('onChange')(event);
+        container.instance().updatePlaces();
 
-        expect(container.state('categoryValue')).toEqual(event.target.value);
         expect(getPopularPlacesStub).toBeCalled();
         expect(searchPlacesStub).not.toBeCalled();
 
@@ -79,15 +90,14 @@ describe('<PlacesSearchContainer />', () => {
         getPopularPlacesStub.mockRestore();
     });
 
-    test('category onChange calls searchPlaces if searchValue length is > 3', () => {
+    test('updatePlaces calls searchPlaces if searchValue length is > 3', () => {
         const searchPlacesStub = jest.spyOn(PlacesSearchContainer.prototype, 'searchPlaces');
         const getPopularPlacesStub = jest.spyOn(PlacesSearchContainer.prototype, 'getPopularPlaces');
         const container = shallow(<PlacesSearchContainer city={city} />);
         getPopularPlacesStub.mockClear(); // It is called on mount
 
         container.setState({searchValue: 'abcd'});
-        event.target.value = faker.random.word();
-        container.find("select").prop('onChange')(event);
+        container.instance().updatePlaces();
 
         expect(searchPlacesStub).toBeCalled();
         expect(getPopularPlacesStub).not.toBeCalled();
@@ -115,9 +125,27 @@ describe('<PlacesSearchContainer />', () => {
 
         const spy = jest.spyOn(api.default, "getPopularPlaces");
         container.setState({popularPlacesCache: {"": places}});
-        container.instance().getPopularPlaces();
+        container.instance().getPopularPlaces("");
 
         expect(spy).not.toBeCalled();
         expect(container.state('places')).toEqual(places);
+    });
+
+
+    test('on category change, corresponding subcategories are updated from api', async () => {
+        const container = shallow(<PlacesSearchContainer city={city} />);
+        await Promise.resolve(); // Initial call to the api onMount
+
+        event.target.value = "ab";
+
+        const spy = jest.spyOn(api.default, "getSubCategories");
+        let subCategories = [{name: faker.lorem.word(), alias: faker.lorem.word()}];
+        spy.mockReturnValueOnce(Promise.resolve({status: 200, data: {data: {subCategories}}}));
+
+        container.instance().onCategoryChange(event);
+
+        await Promise.resolve();
+        expect(spy).toBeCalledWith(event.target.value, city.country.code);
+        expect(container.state('subCategories')).toEqual(subCategories);
     });
 });

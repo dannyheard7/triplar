@@ -151,7 +151,7 @@ YELP_APP_KEY = 'l8t7wcvo53oIZU4RDLV6ZUfHrALy_c8NjQktobV74nCzj5ex1zBOAyHJGDG8JBn6
 
 TEST_RUNNER = 'snapshottest.django.TestRunner'
 
-REDIS_HOST = 'redis'
+REDIS_HOST = os.environ['REDIS_HOST']
 REDIS_PORT = 6379
 RQ_QUEUES = {
     'default': {

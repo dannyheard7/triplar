@@ -45,5 +45,30 @@ export default {
            }`;
 
         return Q.when(axios.post(`${backendHost}/api/graphql`, {query: searchPlacesQuery}))
+    },
+
+    getTopLevelCategories() {
+        const getTopLevelCategoriesQuery = ` 
+           query {
+              categories {
+                title
+                alias
+              }
+            }`;
+
+        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: getTopLevelCategoriesQuery}))
+    },
+
+    getSubCategories(category, countryCode) {
+        const getSubCategoriesQuery = ` 
+           query {
+              subCategories(category: "${category}", countryCode: "${countryCode}") {
+                title
+                alias
+              }
+            }`;
+
+        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: getSubCategoriesQuery}))
     }
+
 }

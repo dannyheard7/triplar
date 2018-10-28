@@ -13,3 +13,10 @@ db.sqlite3
 nohup.out
 .env.development
 test.sh
+
+
+# Backend files
+backend/places/data
+backend/cities/data
+
+
