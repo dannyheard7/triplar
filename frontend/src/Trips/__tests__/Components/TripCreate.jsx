@@ -2,7 +2,7 @@ import React from "react";
 import {shallow} from "enzyme";
 
 import ShallowRenderer from 'react-test-renderer/shallow';
-import {TripCreateContainer} from "Trips/Containers/TripCreateContainer";
+import {TripCreate} from "../../Components/TripCreate";
 import ReduxFormContainer from "../../../Forms/Containers/ReduxFormContainer";
 
 const renderer = new ShallowRenderer();
@@ -17,14 +17,14 @@ describe('<TripCreateContainer />', () => {
     };
 
     test('renders correctly', () => {
-        const result = renderer.render(<TripCreateContainer {...props} />);
+        const result = renderer.render(<TripCreate {...props} />);
         expect(result).toMatchSnapshot();
     });
 
     // TODO
     test.skip('calls onSuccess after receiving success from <ReduxFormContainer />', (function () {
-        const stub = jest.spyOn(TripCreateContainer.prototype, 'onSuccess');
-        const container = shallow(<TripCreateContainer  {...props}/>);
+        const stub = jest.spyOn(TripCreate.prototype, 'onSuccess');
+        const container = shallow(<TripCreate  {...props}/>);
         container.setState({showTripCreate: true});
         container.find(ReduxFormContainer).prop('onSuccess')(data);
 
@@ -34,7 +34,7 @@ describe('<TripCreateContainer />', () => {
 
     // TODO
     test.skip('onSuccess redirects to trip page', (function () {
-        const container = shallow(<TripCreateContainer  {...props}/>);
+        const container = shallow(<TripCreate  {...props}/>);
         container.instance().onSuccess(data);
 
         expect(props.history.push).toBeCalledWith('/trips/' + data.trip.id);
@@ -44,7 +44,7 @@ describe('<TripCreateContainer />', () => {
         let container = null;
 
         beforeEach(() => {
-            container = shallow(<TripCreateContainer  {...props}/>);
+            container = shallow(<TripCreate  {...props}/>);
             container.setState({showTripCreate: true});
         });
 

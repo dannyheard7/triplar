@@ -5,7 +5,6 @@ import PlacesSearchContainer from "Places/Containers/PlacesSearchContainer";
 import ItineraryDayContainer from "Itinerary/Containers/ItineraryDayContainer";
 import {connect} from "react-redux";
 import {getItineraryDayDetail} from "../utils/actions";
-import MarkerMap from "../../Maps/Components/MarkerMap";
 
 
 export class LocationItinerary extends React.Component {

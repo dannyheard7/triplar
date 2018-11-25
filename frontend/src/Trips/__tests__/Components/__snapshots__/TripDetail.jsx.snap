@@ -24,5 +24,31 @@ exports[`<TripDetail /> with trip prop renders correctly 1`] = `
     Locations: 
     undefined, undefined
   </p>
+  <Link
+    replace={false}
+    to="/trips/1/edit"
+  >
+    <button
+      className="btn btn-light"
+    >
+      Edit
+    </button>
+  </Link>
+  <Link
+    replace={false}
+    to="/trips/1/delete"
+  >
+    <button
+      className="btn btn-danger"
+    >
+      Delete Trip
+    </button>
+  </Link>
+  <Connect(TripLocationListContainer)
+    tripId={1}
+  />
+  <LocationAddContainer
+    tripId={1}
+  />
 </div>
 `;

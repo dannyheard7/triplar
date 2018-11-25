@@ -1,5 +1,3 @@
-import {GET_TOP_LEVEL_CATEGORIES} from "../../Places/utils/actions";
-
 export const LOGIN_REQUESTING = 'LOGIN_REQUESTING';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_ERROR = 'LOGIN_ERROR';

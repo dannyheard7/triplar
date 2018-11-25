@@ -1,11 +1,11 @@
 import React from "react";
 
-import TripForm from "Trips/Components/TripForm";
+import TripForm from "./TripForm";
 import ReduxFormContainer from "../../Forms/Containers/ReduxFormContainer";
 import {connect} from "react-redux";
 import {createTrip} from "../utils/actions";
 
-export class TripCreateContainer extends React.Component {
+export class TripCreate extends React.Component {
     constructor(props) {
         super(props);
 
@@ -43,4 +43,4 @@ export class TripCreateContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {return {errors: state.trips.errors}};
-export default connect(mapStateToProps)(TripCreateContainer)
+export default connect(mapStateToProps)(TripCreate)

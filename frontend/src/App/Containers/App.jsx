@@ -9,18 +9,18 @@ import HeaderUnauthenticated from "App/Components/HeaderUnauthenticated";
 import Footer from "App/Components/Footer";
 import LoginContainer from "Auth/Containers/LoginContainer";
 import RegistrationContainer from "Auth/Containers/RegistrationContainer";
-import TripListContainer from "Trips/Containers/TripListContainer";
-import TripCreateContainer from "Trips/Containers/TripCreateContainer";
-import TripDetailContainer from "Trips/Containers/TripDetailContainer";
+import TripCreateContainer from "Trips/Components/TripCreate";
 
 import 'App/styles/app.css';
 import {connect} from "react-redux";
 import {history} from "../../store";
-import TripEditContainer from "../../Trips/Containers/TripEditContainer";
+import TripEditContainer from "../../Trips/Components/TripEdit";
 import TripDelete from "../../Trips/Components/TripDelete";
 import PlaceDetail from "../../Places/Components/PlaceDetail";
 import {getCookie} from "../utils/utils";
 import {tokenRefresh} from "../../Auth/utils/actions";
+import TripDetail from "../../Trips/Components/TripDetail";
+import TripList from "../../Trips/Components/TripList";
 
 
 export class App extends React.Component {
@@ -42,9 +42,9 @@ export class App extends React.Component {
                         <div className="wrapper">
                             <HeaderAuthenticated/>
                             <div className="content">
-                                <Route path="/(|trips)" exact component={TripListContainer}/>
+                                <Route path="/(|trips)" exact component={TripList}/>
                                 <Route path="/(|trips)" exact component={TripCreateContainer}/>
-                                <Route path="/trips/:id" component={TripDetailContainer}/>
+                                <Route path="/trips/:id" component={TripDetail}/>
                                 <Route path="/trips/:id/edit" component={TripEditContainer}/>
                                 <Route path="/trips/:id/delete" component={TripDelete} />
                                 <Route path="/trips/:tripId/place/:placeId" component={PlaceDetail}/>

@@ -1,11 +1,11 @@
 import React from "react";
 
-import TripForm from "Trips/Components/TripForm.jsx";
+import TripForm from "./TripForm";
 import { connect } from "react-redux";
 import {editTrip} from "../utils/actions";
 import ReduxFormContainer from "../../Forms/Containers/ReduxFormContainer";
 
-export class TripEditContainer extends React.Component {
+export class TripEdit extends React.Component {
     curryAction = (action, id) => (object) => action(id, object);
 
     render() {
@@ -21,7 +21,7 @@ export class TripEditContainer extends React.Component {
     }
 }
 
-TripEditContainer.defaultProps = {
+TripEdit.defaultProps = {
     trip: {}
 };
 
@@ -31,4 +31,4 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export default connect(mapStateToProps)(TripEditContainer)
+export default connect(mapStateToProps)(TripEdit)

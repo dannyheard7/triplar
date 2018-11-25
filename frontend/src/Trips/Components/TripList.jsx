@@ -3,8 +3,14 @@ import {Link} from "react-router-dom";
 import Moment from "moment";
 
 import 'Trips/styles/trips.css';
+import {getTrips} from "../utils/actions";
+import { connect } from "react-redux";
 
-export default class TripList extends React.Component {
+export class TripList extends React.Component {
+    componentDidMount() {
+        this.props.dispatch(getTrips())
+    }
+
     render() {
         return (
             <div className="trip-list">
@@ -29,3 +35,9 @@ export default class TripList extends React.Component {
 TripList.defaultProps = {
     trips: []
 };
+
+const mapStateToProps = state => ({
+  trips: state.trips.trips,
+});
+
+export default connect(mapStateToProps)(TripList)

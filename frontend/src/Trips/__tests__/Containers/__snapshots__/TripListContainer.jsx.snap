@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`<TripListContianer /> renders a correctly 1`] = `
-<TripList
-  trips={Array []}
-/>
-`;
