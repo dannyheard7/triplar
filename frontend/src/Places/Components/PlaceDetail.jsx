@@ -23,7 +23,7 @@ export class PlaceDetail extends React.Component {
     }
 
     closeModal() {
-        this.props.history.push(`/trips/${this.props.match.params.tripId}`)
+        this.props.history.goBack();
     }
 
     render() {

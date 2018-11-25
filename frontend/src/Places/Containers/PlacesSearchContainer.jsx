@@ -122,12 +122,10 @@ PlacesSearchContainer.defaultProps = {
     categories: []
 };
 
-const mapStateToProps = (state) => {
-    return {
-        popularPlaces: state.places.popularPlaces,
-        places: state.places.places,
-        categories: state.places.topLevelCategories.categories
-    }
-};
+const mapStateToProps = (state) => ({
+    popularPlaces: state.places.popularPlaces,
+    places: state.places.places,
+    categories: state.places.topLevelCategories.categories
+});
 
 export default connect(mapStateToProps)(PlacesSearchContainer)

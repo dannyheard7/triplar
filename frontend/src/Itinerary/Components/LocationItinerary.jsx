@@ -35,6 +35,10 @@ export class LocationItinerary extends React.Component {
 
     render () {
         const itinerary = this.props.itinerary;
+        const tripId = this.props.match.params.tripId;
+        const path = `/trips/${tripId}/itinerary/${itinerary.id}`;
+
+
         const days = daysBetweenDates(itinerary.startDate, itinerary.endDate);
 
         return (
@@ -46,29 +50,21 @@ export class LocationItinerary extends React.Component {
                             {days.map((day) => <option key={day} value={day.format("YYYY-MM-DD")}>{day.format('dddd Do MMMM')}</option>)}
                         </select>
                     </p>
-                    <ItineraryDayContainer day={this.state.selectedDate} itinerary={itinerary} key={this.state.selectedDate}
-                        path={`/trips/${this.props.tripId}`} />
+                    <ItineraryDayContainer day={this.state.selectedDate} itinerary={itinerary} key={this.state.selectedDate} path={path} />
                 </div>
-                {itinerary.city.location && <PlacesSearchContainer city={itinerary.city} path={`/trips/${this.props.tripId}`}/>}
+                {itinerary.city.location && <PlacesSearchContainer city={itinerary.city} path={path}/>}
             </div>
         )
     }
 }
 
 LocationItinerary.defaultProps = {
-    itinerary: {
-        city: {
-            location: {
-                lat: 0,
-                lng: 0
-            }
-        }
-    }
+    itinerary: {city: {}}
 };
 
 function mapStateToProps(state, ownProps) {
   return {
-      itinerary: state.itineraries.locationItineraries.find(x => x.id === ownProps.location.id)
+      itinerary: state.itineraries.locationItineraries.find(x => x.id === ownProps.match.params.itineraryId)
   };
 }
 
