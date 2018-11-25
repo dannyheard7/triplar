@@ -32,7 +32,6 @@ export class TripDetail extends React.Component {
                     <Link to={`/trips/${trip.id}/delete`}>
                         <button className="btn btn-danger">Delete Trip</button>
                     </Link>
-                    <LocationListContainer tripId={trip.id}/>
                     <LocationAddContainer tripId={trip.id}/>
                 </div>
             )

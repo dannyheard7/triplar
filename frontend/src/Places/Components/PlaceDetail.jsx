@@ -26,8 +26,6 @@ export class PlaceDetail extends React.Component {
         this.props.history.push(`/trips/${this.props.match.params.tripId}`)
     }
 
-
-
     render() {
         const place = this.props.place;
 
@@ -43,7 +41,7 @@ export class PlaceDetail extends React.Component {
             return <LoadingIndicator/>;
         } else {
             return (
-                <Modal open={true} onClose={this.closeModal} contentLabel={place.name} styles={{content: {zIndex: 1000}}}>
+                <Modal open={true} onClose={this.closeModal} contentLabel={place.name} >
                     <h2>{place.name}</h2>
                     {place.location && <p> {place.location.displayAddress} </p>}
                     {place.rating && <p>Rating: {place.rating}</p>}

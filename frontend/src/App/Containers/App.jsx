@@ -21,6 +21,7 @@ import {getCookie} from "../utils/utils";
 import {tokenRefresh} from "../../Auth/utils/actions";
 import TripDetail from "../../Trips/Components/TripDetail";
 import TripList from "../../Trips/Components/TripList";
+import LocationListContainer from "../../Itinerary/Containers/TripLocationListContainer";
 
 
 export class App extends React.Component {
@@ -44,9 +45,13 @@ export class App extends React.Component {
                             <div className="content">
                                 <Route path="/(|trips)" exact component={TripList}/>
                                 <Route path="/(|trips)" exact component={TripCreateContainer}/>
+
                                 <Route path="/trips/:id" component={TripDetail}/>
                                 <Route path="/trips/:id/edit" component={TripEditContainer}/>
                                 <Route path="/trips/:id/delete" component={TripDelete} />
+
+                                <Route path="/trips/:id" component={LocationListContainer}/>
+
                                 <Route path="/trips/:tripId/place/:placeId" component={PlaceDetail}/>
                             </div>
                             <Footer/>

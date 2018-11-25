@@ -38,9 +38,6 @@ exports[`<TripDetail /> with trip prop renders correctly 1`] = `
       Delete Trip
     </button>
   </Link>
-  <Connect(TripLocationListContainer)
-    tripId={1}
-  />
   <LocationAddContainer
     tripId={1}
   />

@@ -7,14 +7,16 @@ import {getTripItineraries} from "../../Itinerary/utils/actions";
 
 export class TripLocationListContainer extends React.Component {
     componentDidMount() {
-        this.props.dispatch(getTripItineraries(this.props.tripId));
+        this.props.dispatch(getTripItineraries(this.props.match.params.id));
     }
 
     render() {
+        const tripId = this.props.match.params.id;
+
         return (
             <div id="trip-itineraries">
                 {this.props.locations.map((location) =>
-                    <LocationItinerary key={location.id} location={location} tripId={this.props.tripId}/>
+                    <LocationItinerary key={location.id} location={location} tripId={tripId}/>
                 )}
             </div>
         );
@@ -27,7 +29,7 @@ TripLocationListContainer.defaultProps = {
 
 function mapStateToProps(state, ownProps) {
   return {
-      locations: state.itineraries.locationItineraries.filter(x => x.trip.id === ownProps.tripId)
+      locations: state.itineraries.locationItineraries.filter(x => x.trip.id === ownProps.match.params.id)
   };
 }
 

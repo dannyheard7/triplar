@@ -55,6 +55,10 @@ exports[`<App /> when authenticated renders correctly 1`] = `
         />
         <Route
           component={[Function]}
+          path="/trips/:id"
+        />
+        <Route
+          component={[Function]}
           path="/trips/:tripId/place/:placeId"
         />
       </div>
