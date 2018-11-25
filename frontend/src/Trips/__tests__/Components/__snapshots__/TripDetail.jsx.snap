@@ -14,12 +14,6 @@ exports[`<TripDetail /> with trip prop renders correctly 1`] = `
      - 
     12th August
   </p>
-  <p
-    className="created-by"
-  >
-    Created by: 
-    email@example.com
-  </p>
   <p>
     Locations: 
     undefined, undefined

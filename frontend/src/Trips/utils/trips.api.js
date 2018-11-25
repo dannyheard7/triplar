@@ -15,6 +15,10 @@ export default {
                 name
                 startDate
                 endDate
+                createdBy {
+                    firstName
+                    lastName
+                }
                 locations {
                     city {
                         name

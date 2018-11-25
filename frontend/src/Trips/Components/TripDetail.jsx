@@ -23,7 +23,7 @@ export class TripDetail extends React.Component {
                 <div id="trip-detail">
                     <h2 id="trip-name">{trip.name}</h2>
                     <p>{Moment(trip.startDate).format('Do MMMM')} - {Moment(trip.endDate).format('Do MMMM')}</p>
-                    <p className="created-by">Created by: {trip.created_by}</p>
+                    {trip.createdBy && <p className="created-by">Created by: {trip.createdBy.firstName} {trip.createdBy.lastName}</p>}
                     <p>Locations: {trip.locations.map(({city}, index) =>
                         (index ? ', ' : '') + city.name + (city.country ? ", " + city.country.name : ""))}</p>
                     <Link to={`/trips/${trip.id}/edit`}>
