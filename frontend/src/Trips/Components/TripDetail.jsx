@@ -1,10 +1,8 @@
 import React from "react";
 import Moment from 'moment';
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import LoadingIndicator from "../../App/Components/LoadingIndicator";
 import {Link} from "react-router-dom";
-import LocationListContainer from "../../Itinerary/Containers/TripLocationListContainer";
-import LocationAddContainer from "../../Itinerary/Containers/LocationAddContainer";
 
 Moment.locale('en');
 
@@ -26,7 +24,6 @@ export class TripDetail extends React.Component {
                     <Link to={`/trips/${trip.id}/delete`}>
                         <button className="btn btn-danger">Delete Trip</button>
                     </Link>
-                    <LocationAddContainer tripId={trip.id}/>
                 </div>
             )
         }

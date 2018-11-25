@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LocationAdd /> renders correctly 1`] = `
+<Connect(ReduxFormContainer)
+  action={[Function]}
+>
+  <LocationForm
+    submitLabel="Add"
+  />
+</Connect(ReduxFormContainer)>
+`;

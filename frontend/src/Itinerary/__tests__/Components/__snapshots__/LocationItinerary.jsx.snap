@@ -55,7 +55,7 @@ exports[`<LocationItinerary /> <LocationItinerary /> renders correctly 1`] = `
           },
         }
       }
-      path="/trips/undefined"
+      path="/trips/null/itinerary/undefined"
     />
   </div>
   <Connect(PlacesSearchContainer)
@@ -69,7 +69,7 @@ exports[`<LocationItinerary /> <LocationItinerary /> renders correctly 1`] = `
         "name": "Bristol",
       }
     }
-    path="/trips/undefined"
+    path="/trips/null/itinerary/undefined"
   />
 </div>
 `;

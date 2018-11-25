@@ -1,22 +1,17 @@
-$grid-gap: 0.5rem;
-
-
 .destination-itinerary {
   display: flex;
   flex-direction: column;
-
   border-bottom: 1px solid gray;
-
-  .destination-plan {
-    h3 {
-      cursor: pointer;
-      color: blue;
-    }
-  }
+}
+.destination-itinerary .destination-plan h3 {
+  cursor: pointer;
+  color: blue;
 }
 
 .itineraries-list {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: $grid-gap;
+  grid-gap: 0.5rem;
 }
+
+/*# sourceMappingURL=itineraries.css.map */

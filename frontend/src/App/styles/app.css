@@ -111,6 +111,7 @@ button {
   padding: 0.5rem;
   border-radius: 3px;
   border: 1px solid gray;
+  text-align: center;
 }
 .card .card-title, .card .card-title a {
   color: #7DCE44;

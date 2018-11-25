@@ -14,10 +14,6 @@ exports[`<TripDetail /> with trip prop renders correctly 1`] = `
      - 
     12th August
   </p>
-  <p>
-    Locations: 
-    undefined, undefined
-  </p>
   <Link
     replace={false}
     to="/trips/1/edit"
@@ -38,8 +34,5 @@ exports[`<TripDetail /> with trip prop renders correctly 1`] = `
       Delete Trip
     </button>
   </Link>
-  <LocationAddContainer
-    tripId={1}
-  />
 </div>
 `;

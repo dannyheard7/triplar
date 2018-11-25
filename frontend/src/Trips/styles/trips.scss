@@ -4,10 +4,6 @@ $grid-gap: 0.5rem;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: $grid-gap;
-
-  .trip-card {
-    text-align: center;
-  }
 }
 
 .destination-itinerary {
