@@ -4,6 +4,14 @@ exports[`<LocationItinerary /> <LocationItinerary /> renders correctly 1`] = `
 <div
   className="destination-itinerary"
 >
+  <HelmetWrapper
+    defer={true}
+    encodeSpecialCharacters={true}
+  >
+    <title>
+      undefined: Bristol | Triplar
+    </title>
+  </HelmetWrapper>
   <div
     className="destination-plan"
   >
@@ -55,7 +63,7 @@ exports[`<LocationItinerary /> <LocationItinerary /> renders correctly 1`] = `
           },
         }
       }
-      path="/trips/null/itinerary/undefined"
+      path="/trips/1/itinerary/undefined"
     />
   </div>
   <Connect(PlacesSearchContainer)
@@ -69,7 +77,7 @@ exports[`<LocationItinerary /> <LocationItinerary /> renders correctly 1`] = `
         "name": "Bristol",
       }
     }
-    path="/trips/null/itinerary/undefined"
+    path="/trips/1/itinerary/undefined"
   />
 </div>
 `;

@@ -1,9 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<LoginContainer /> renders correctly 1`] = `
-<Connect(ReduxFormContainer)
-  action={[MockFunction]}
->
-  <LoginForm />
-</Connect(ReduxFormContainer)>
+<div>
+  <HelmetWrapper
+    defer={true}
+    encodeSpecialCharacters={true}
+  >
+    <title>
+      Login | Triplar
+    </title>
+  </HelmetWrapper>
+  <Connect(ReduxFormContainer)
+    action={[MockFunction]}
+  >
+    <LoginForm />
+  </Connect(ReduxFormContainer)>
+</div>
 `;

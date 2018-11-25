@@ -1,10 +1,12 @@
 import React from "react";
 import Moment from 'moment';
+import {connect} from "react-redux";
+
 import {daysBetweenDates} from 'Trips/utils/utils.js';
 import PlacesSearchContainer from "Places/Containers/PlacesSearchContainer";
 import ItineraryDayContainer from "Itinerary/Containers/ItineraryDayContainer";
-import {connect} from "react-redux";
 import {getItineraryDayDetail} from "../utils/actions";
+import {Helmet} from "react-helmet";
 
 
 export class LocationItinerary extends React.Component {
@@ -37,7 +39,7 @@ export class LocationItinerary extends React.Component {
 
     render () {
         const itinerary = this.props.itinerary;
-        const tripId = this.props.match.params.tripId;
+        const tripId = this.props.trip.id;
         const path = `/trips/${tripId}/itinerary/${itinerary.id}`;
 
 
@@ -45,6 +47,9 @@ export class LocationItinerary extends React.Component {
 
         return (
             <div className="destination-itinerary">
+                <Helmet>
+                    <title>{this.props.trip.name + ": " + this.props.itinerary.city.name + " | Triplar"}</title>
+                </Helmet>
                 <div className="destination-plan">
                     <h3 onClick={this.onClick}>{itinerary.city.name}</h3>
                     <p>{Moment(itinerary.startDate).format('dddd Do MMMM') } - {Moment(itinerary.endDate).format('dddd Do MMMM') }
@@ -66,7 +71,8 @@ LocationItinerary.defaultProps = {
 
 function mapStateToProps(state, ownProps) {
   return {
-      itinerary: state.itineraries.locationItineraries.find(x => x.id === ownProps.match.params.itineraryId)
+      itinerary: state.itineraries.locationItineraries.find(x => x.id === ownProps.match.params.itineraryId),
+      trip: state.trips.trips.find(x => x.id === ownProps.match.params.tripId)
   };
 }
 

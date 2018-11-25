@@ -1,10 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<RegistrationContainer /> renders correctly 1`] = `
-<FormContainer
-  apiFunction={[Function]}
-  onSuccess={[Function]}
->
-  <RegistrationForm />
-</FormContainer>
+<div>
+  <HelmetWrapper
+    defer={true}
+    encodeSpecialCharacters={true}
+  >
+    <title>
+      Register | Triplar
+    </title>
+  </HelmetWrapper>
+  <FormContainer
+    apiFunction={[Function]}
+    onSuccess={[Function]}
+  >
+    <RegistrationForm />
+  </FormContainer>
+</div>
 `;

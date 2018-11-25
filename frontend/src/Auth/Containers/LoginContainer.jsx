@@ -4,13 +4,19 @@ import {loginRequest} from "../utils/actions";
 import {connect} from "react-redux";
 import ReduxFormContainer from "../../Forms/Containers/ReduxFormContainer";
 import {withRouter} from "react-router";
+import {Helmet} from "react-helmet";
 
 export class LoginContainer extends React.Component {
     render() {
         return (
-            <ReduxFormContainer action={loginRequest}>
-                <LoginForm />
-            </ReduxFormContainer>
+            <div>
+                <Helmet>
+                    <title>Login | Triplar</title>
+                </Helmet>
+                <ReduxFormContainer action={loginRequest}>
+                    <LoginForm />
+                </ReduxFormContainer>
+            </div>
         );
     }
 }

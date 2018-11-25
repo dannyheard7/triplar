@@ -23,6 +23,7 @@ import TripDetail from "../../Trips/Components/TripDetail";
 import TripList from "../../Trips/Components/TripList";
 import ItinerariesOverview from "../../Itinerary/Components/ItinerariesOverview";
 import LocationItinerary from "../../Itinerary/Components/LocationItinerary";
+import {Helmet} from "react-helmet";
 
 
 export class App extends React.Component {
@@ -41,6 +42,9 @@ export class App extends React.Component {
             return (
                 <Router history={history}>
                     <LoggedInContainer token={this.props.auth.token}>
+                        <Helmet>
+                            <title>Triplar</title>
+                        </Helmet>
                         <div className="wrapper">
                             <HeaderAuthenticated/>
                             <div className="content">
@@ -66,6 +70,9 @@ export class App extends React.Component {
             return (
                 <Router history={history}>
                     <div className="wrapper">
+                        <Helmet>
+                            <title>Triplar</title>
+                        </Helmet>
                         <HeaderUnauthenticated/>
                         <div className="content">
                             <Switch>

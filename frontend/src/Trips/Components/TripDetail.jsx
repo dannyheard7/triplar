@@ -3,6 +3,7 @@ import Moment from 'moment';
 import {connect} from "react-redux";
 import LoadingIndicator from "../../App/Components/LoadingIndicator";
 import {Link} from "react-router-dom";
+import {Helmet} from "react-helmet";
 
 Moment.locale('en');
 
@@ -15,6 +16,9 @@ export class TripDetail extends React.Component {
         } else {
             return (
                 <div id="trip-detail">
+                    <Helmet>
+                        <title>{this.props.trip.name + " | Triplar"}</title>
+                    </Helmet>
                     <h2 id="trip-name">{trip.name}</h2>
                     <p>{Moment(trip.startDate).format('Do MMMM')} - {Moment(trip.endDate).format('Do MMMM')}</p>
                     {trip.createdBy && <p className="created-by">Created by: {trip.createdBy.firstName} {trip.createdBy.lastName}</p>}

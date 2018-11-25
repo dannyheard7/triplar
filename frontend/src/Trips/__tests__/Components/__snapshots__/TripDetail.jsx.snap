@@ -4,6 +4,14 @@ exports[`<TripDetail /> with trip prop renders correctly 1`] = `
 <div
   id="trip-detail"
 >
+  <HelmetWrapper
+    defer={true}
+    encodeSpecialCharacters={true}
+  >
+    <title>
+      test | Triplar
+    </title>
+  </HelmetWrapper>
   <h2
     id="trip-name"
   >

@@ -25,6 +25,9 @@ describe('<LocationItinerary />', () => {
             startDate: "2018-08-10T00:00:00.000Z",  // If the time isn't specified, the generated snapshot assumes it is the day before?
             endDate: "2018-08-12T00:00:00.000Z",
         },
+        trip: {
+            id:1
+        },
         match: {
             params: {
                 tripId: null
