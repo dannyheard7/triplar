@@ -3,8 +3,8 @@ import {connect} from "react-redux";
 import {getTripItineraries} from "../utils/actions";
 import {Link} from "react-router-dom";
 import Moment from "moment";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {faPlus} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import 'Itinerary/styles/itineraries.css';
 import LocationAddContainer from "./LocationAdd";
@@ -50,7 +50,7 @@ export class ItinerariesOverview extends React.Component {
                     <div className="card">
                         {this.state.showLocationAdd ?
                             <LocationAddContainer tripId={trip.id}/> :
-                            <button className="btn btn-primary" onClick={this.onClick}>  <FontAwesomeIcon icon={faPlus} /></button>
+                            <button className="btn btn-primary" onClick={this.onClick}><FontAwesomeIcon icon={faPlus}/></button>
                         }
                     </div>
                 </div>

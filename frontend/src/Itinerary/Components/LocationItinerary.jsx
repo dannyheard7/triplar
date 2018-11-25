@@ -20,8 +20,10 @@ export class LocationItinerary extends React.Component {
         this.onChangeSelectedDay = this.onChangeSelectedDay.bind(this);
     }
 
-    componentDidMount() {
-        this.props.dispatch(getItineraryDayDetail(this.props.itinerary.id, this.state.selectedDate));
+    componentDidUpdate(prevProps) {
+        if (this.props.itinerary.id !== prevProps.itinerary.id) {
+            this.props.dispatch(getItineraryDayDetail(this.props.itinerary.id, this.state.selectedDate));
+        }
     }
 
     onClick() {
