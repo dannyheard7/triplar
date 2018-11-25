@@ -24,19 +24,5 @@ exports[`<TripDetail /> with trip prop renders correctly 1`] = `
     Locations: 
     undefined, undefined
   </p>
-  <LocationListContainer
-    locations={
-      Array [
-        Object {
-          "city": Object {
-            "country": "United Kingdom",
-            "name_std": "Bristol",
-          },
-          "id": 1,
-        },
-      ]
-    }
-    tripId={1}
-  />
 </div>
 `;

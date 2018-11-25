@@ -1,9 +1,11 @@
 import React from "react";
 import {Link} from 'react-router-dom';
 
-import {logout} from "Auth/utils/actions";
+import {unsetUser} from "../../Auth/utils/actions";
+import {withRouter} from "react-router";
+import {connect} from "react-redux";
 
-export default class HeaderAuthenticated extends React.Component {
+export class HeaderAuthenticated extends React.Component {
 
     constructor(props) {
         super(props);
@@ -18,9 +20,7 @@ export default class HeaderAuthenticated extends React.Component {
     }
 
     onLogoutClick(e) {
-        logout();
-        this.props.onLogout();
-        this.props.history.push('/login')
+        this.props.dispatch(unsetUser());
     }
 
     showMenu(event) {
@@ -42,7 +42,7 @@ export default class HeaderAuthenticated extends React.Component {
     }
 
     render() {
-        const {user} = this.props;
+        const {user} = this.props.auth;
         
         return (
             <div className="header">
@@ -71,3 +71,11 @@ export default class HeaderAuthenticated extends React.Component {
         );
     }
 }
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+});
+
+// make Redux state piece of `login` and our action `loginRequest`
+// available in this.props within our component
+export default withRouter(connect(mapStateToProps)(HeaderAuthenticated));

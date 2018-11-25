@@ -26,17 +26,6 @@ exports[`<PlacesSearchContainer /> renders correctly 1`] = `
         Any Category
       </option>
     </select>
-    <select
-      defaultValue=""
-      id="subcategory-select"
-      onChange={[Function]}
-    >
-      <option
-        value=""
-      >
-        Any Subcategory
-      </option>
-    </select>
   </div>
   <PlaceListContainer
     places={Array []}

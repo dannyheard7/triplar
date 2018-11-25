@@ -1,9 +1,8 @@
 import React from "react";
-import {Link, Route} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {DragSource} from 'react-dnd';
-
-import PlaceDetailContainer from "Places/Containers/PlaceDetailContainer";
 import {ItemTypes} from "Places/utils/constants";
+
 
 const placeSource = {
     beginDrag(props) {
@@ -39,12 +38,10 @@ export function PlaceListItem(props) {
 
     return connectDragSource(
         <div className="place card">
-            <p>
-                {place.name}
-            </p>
+            <Link to={`${props.path}/place/${place.id}`}>
+                <p>{place.name}</p>
+            </Link>
             <img src={place.imageUrl} alt={place.name} height="100px"/>
-            <Link to={`${props.path}/place/${place.id}`}>More Info</Link>
-            <Route path={`${props.path}/place/:placeId(${place.id})`} exact component={PlaceDetailContainer}/>
         </div>
     );
 }

@@ -1,10 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<LoginContainer /> renders correctly 1`] = `
-<FormContainer
-  apiFunction={[Function]}
-  onSuccess={[Function]}
+<Connect(ReduxFormContainer)
+  action={[MockFunction]}
 >
   <LoginForm />
-</FormContainer>
+</Connect(ReduxFormContainer)>
 `;

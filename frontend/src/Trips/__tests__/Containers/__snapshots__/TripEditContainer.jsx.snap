@@ -4,14 +4,13 @@ exports[`<TripEditContainer /> renders correctly 1`] = `
 <div
   className="card"
 >
-  <FormContainer
-    apiFunction={[Function]}
-    onSuccess={[Function]}
+  <Connect(ReduxFormContainer)
+    action={[Function]}
   >
     <TripForm
       submitLabel="Save"
       trip={Object {}}
     />
-  </FormContainer>
+  </Connect(ReduxFormContainer)>
 </div>
 `;

@@ -2,7 +2,7 @@ import React from "react";
 import {shallow} from "enzyme";
 
 import ShallowRenderer from 'react-test-renderer/shallow';
-import PlacesSearchContainer from "Places/Containers/PlacesSearchContainer";
+import { PlacesSearchContainer } from "Places/Containers/PlacesSearchContainer";
 
 const renderer = new ShallowRenderer();
 
@@ -21,6 +21,11 @@ describe('<PlacesSearchContainer />', () => {
         location: {lat: faker.address.latitude, lng: faker.address.longitude}};
     const places = [{'id': faker.random.number(), 'name': faker.random.word(), 'imageUrl': faker.internet.url()}];
 
+    const props = {
+        city: city,
+        dispatch: jest.fn()
+    }
+
     test('renders correctly', () => {
         const city = {name: 'Bristol', country: {name: 'United Kingdom'}};
         const result = renderer.render(<PlacesSearchContainer city={city} />);
@@ -29,7 +34,7 @@ describe('<PlacesSearchContainer />', () => {
 
     test('getPopularPlaces is called on mount', () => {
         const getPopularPlacesStub = jest.spyOn(PlacesSearchContainer.prototype, 'getPopularPlaces');
-        const container = shallow(<PlacesSearchContainer city={city} />);
+        const container = shallow(<PlacesSearchContainer {...props} />);
         expect(getPopularPlacesStub).toBeCalled();
 
         getPopularPlacesStub.mockRestore();
@@ -37,7 +42,7 @@ describe('<PlacesSearchContainer />', () => {
 
     test('search onChange  calls searchPlaces if length >= 3', () => {
         const stub = jest.spyOn(PlacesSearchContainer.prototype, 'searchPlaces');
-        const container = shallow(<PlacesSearchContainer city={city} />);
+        const container = shallow(<PlacesSearchContainer {...props} />);
 
         event.target.value = "abc";
         container.find("input").prop('onChange')(event);
@@ -50,21 +55,18 @@ describe('<PlacesSearchContainer />', () => {
 
     test('search onChange does not call searchPlaces if length < 3', () => {
         const stub = jest.spyOn(PlacesSearchContainer.prototype, 'searchPlaces');
-        const container = shallow(<PlacesSearchContainer city={city} />);
+        const container = shallow(<PlacesSearchContainer {...props} />);
 
-        container.setState({popularPlacesCache: {"": places}});
         event.target.value = "ab";
         container.find("input").prop('onChange')(event);
 
         expect(stub).not.toBeCalled();
-        expect(container.state('places')).toEqual(places);
-
         stub.mockRestore();
     });
 
     test('updatePlaces calls getPopularPlaces with subCategory not main category if one is set', () => {
         const getPopularPlacesStub = jest.spyOn(PlacesSearchContainer.prototype, 'getPopularPlaces');
-        const container = shallow(<PlacesSearchContainer city={city} />);
+        const container = shallow(<PlacesSearchContainer {...props} />);
         getPopularPlacesStub.mockClear(); // It is called on mount
 
         let subCategory = faker.lorem.word();
@@ -78,7 +80,7 @@ describe('<PlacesSearchContainer />', () => {
     test('updatePlaces calls getPopularPlaces with selectedCategory if searchValue length is < 3', () => {
         const searchPlacesStub = jest.spyOn(PlacesSearchContainer.prototype, 'searchPlaces');
         const getPopularPlacesStub = jest.spyOn(PlacesSearchContainer.prototype, 'getPopularPlaces');
-        const container = shallow(<PlacesSearchContainer city={city} />);
+        const container = shallow(<PlacesSearchContainer {...props} />);
         getPopularPlacesStub.mockClear(); // It is called on mount
 
         container.instance().updatePlaces();
@@ -93,7 +95,7 @@ describe('<PlacesSearchContainer />', () => {
     test('updatePlaces calls searchPlaces if searchValue length is > 3', () => {
         const searchPlacesStub = jest.spyOn(PlacesSearchContainer.prototype, 'searchPlaces');
         const getPopularPlacesStub = jest.spyOn(PlacesSearchContainer.prototype, 'getPopularPlaces');
-        const container = shallow(<PlacesSearchContainer city={city} />);
+        const container = shallow(<PlacesSearchContainer {...props} />);
         getPopularPlacesStub.mockClear(); // It is called on mount
 
         container.setState({searchValue: 'abcd'});
@@ -106,7 +108,8 @@ describe('<PlacesSearchContainer />', () => {
         getPopularPlacesStub.mockRestore();
     });
 
-    test('getPopularPlaces caches returned value from API', async () => {
+    // Move to redux tests
+    test.skip('getPopularPlaces caches returned value from API', async () => {
         const stub = jest.spyOn(api.default, "getPopularPlaces");
         stub.mockReturnValueOnce(Promise.resolve({status: 200, data: {data: {popularPlaces: places}}}));
 
@@ -119,7 +122,8 @@ describe('<PlacesSearchContainer />', () => {
         stub.mockRestore();
     });
 
-    test('getPopularPlaces uses cached value if it exists', async () => {
+    // Move to redux tests
+    test.skip('getPopularPlaces uses cached value if it exists', async () => {
         const container = shallow(<PlacesSearchContainer city={city} />);
         await Promise.resolve(); // Initial call to the api onMount
 
@@ -133,7 +137,7 @@ describe('<PlacesSearchContainer />', () => {
 
 
     test('on category change, corresponding subcategories are updated from api', async () => {
-        const container = shallow(<PlacesSearchContainer city={city} />);
+        const container = shallow(<PlacesSearchContainer {...props} />);
         await Promise.resolve(); // Initial call to the api onMount
 
         event.target.value = "ab";

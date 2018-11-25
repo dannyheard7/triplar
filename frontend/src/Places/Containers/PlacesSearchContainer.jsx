@@ -3,17 +3,17 @@ import api from "Places/utils/places.api.js";
 import PlaceListContainer from "Places/Containers/PlaceListContainer";
 
 import "Places/styles/places.css";
+import {getPopularPlaces, getTopLevelCategories} from "../utils/actions";
+import { connect } from "react-redux";
 
-export default class PlacesSearchContainer extends React.Component {
+export class PlacesSearchContainer extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            popularPlacesCache: {},
-            places: [],
+            searchPlaces: [],
             selectedCategory: "",
             selectedSubCategory: "",
-            categories: [],
             subCategories: [],
             searchValue: "",
         };
@@ -27,25 +27,12 @@ export default class PlacesSearchContainer extends React.Component {
 
     componentDidMount() {
         this.getPopularPlaces(this.state.selectedCategory);
-
-        api.getTopLevelCategories().then(response => {
-            this.setState({categories: response.data.data.categories})
-        });
+        this.props.dispatch(getTopLevelCategories());
     }
 
     getPopularPlaces(category) {
         const city = this.props.city;
-
-        if(category in this.state.popularPlacesCache) {
-            this.setState({places: this.state.popularPlacesCache[category]})
-        } else {
-            api.getPopularPlaces(city.location.lat, city.location.lng, category).then(response => {
-                let places = response.data.data.popularPlaces;
-
-                this.setState({popularPlacesCache: {...this.state.popularPlacesCache, [category]: places}});
-                this.setState({places: places});
-            });
-        }
+        this.props.dispatch(getPopularPlaces(city.location.lat, city.location.lng, category));
     }
 
     searchPlaces(category) {
@@ -54,7 +41,7 @@ export default class PlacesSearchContainer extends React.Component {
         const search = this.state.searchValue;
 
         api.searchPlacesByName(city.location.lat, city.location.lng, search, category).then(response => {
-            this.setState({places: response.data.data.places})
+            this.setState({searchPlaces: response.data.data.places})
         });
     };
 
@@ -89,6 +76,18 @@ export default class PlacesSearchContainer extends React.Component {
 
     render() {
         const city = this.props.city;
+        let category = this.state.selectedSubCategory ? this.state.selectedSubCategory : this.state.selectedCategory;
+
+        let places = [];
+        if (this.state.searchValue.length >= 3) {
+            places = this.state.searchPlaces;
+        } else {
+            let popularPlaces = this.props.popularPlaces.find(x => x.lat === city.location.lat &&
+                    x.lng === city.location.lng && x.category === category);
+            if(popularPlaces) {
+                places = popularPlaces.places.map(x => this.props.places.find(p => p.id === x));
+            }
+        }
 
         return (
             <div className="places-search-container">
@@ -98,19 +97,37 @@ export default class PlacesSearchContainer extends React.Component {
                 <div>
                     <select onChange={this.onCategoryChange} defaultValue={this.state.selectedCategory} id="category-select">
                         <option value="">Any Category</option>
-                        {this.state.categories.map(this.categoryAsOption)}
+                        {this.props.categories.map(this.categoryAsOption)}
                     </select>
-                    <select onChange={this.onSubCategoryChange} defaultValue={this.state.selectedSubCategory} id="subcategory-select">
-                        <option value="">Any Subcategory</option>
-                        {this.state.subCategories.map(this.categoryAsOption)}
-                    </select>
+                    {this.state.selectedCategory.length > 0 &&
+                        <select onChange={this.onSubCategoryChange} defaultValue={this.state.selectedSubCategory}
+                                id="subcategory-select">
+                            <option value="">Any Subcategory</option>
+                            {this.state.subCategories && this.state.subCategories.map(this.categoryAsOption)}
+                        </select>
+                    }
                 </div>
-                <PlaceListContainer places={this.state.places} path={this.props.path} />
+                <PlaceListContainer places={places} path={this.props.path} />
             </div>
         );
     }
 
     categoryAsOption(category) {
-        return <option value={category.alias}>{category.title}</option>
+        return <option value={category.alias} key={category.alias}>{category.title}</option>
     }
 }
+
+PlacesSearchContainer.defaultProps = {
+    popularPlaces: [],
+    categories: []
+};
+
+const mapStateToProps = (state) => {
+    return {
+        popularPlaces: state.places.popularPlaces,
+        places: state.places.places,
+        categories: state.places.topLevelCategories.categories
+    }
+};
+
+export default connect(mapStateToProps)(PlacesSearchContainer)

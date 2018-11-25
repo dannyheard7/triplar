@@ -2,33 +2,47 @@
 
 exports[`<TripDelete /> <TripDelete /> renders correctly 1`] = `
 <Modal
-  ariaHideApp={true}
-  bodyOpenClassName="ReactModal__Body--open"
-  closeTimeoutMS={0}
-  contentLabel="Trip Test"
-  isOpen={true}
-  onRequestClose={[Function]}
-  parentSelector={[Function]}
-  portalClassName="ReactModalPortal"
-  role="dialog"
-  shouldCloseOnEsc={true}
-  shouldCloseOnOverlayClick={true}
-  shouldFocusAfterRender={true}
-  shouldReturnFocusAfterClose={true}
-  style={
+  animationDuration={500}
+  blockScroll={true}
+  center={false}
+  classNames={Object {}}
+  classes={
     Object {
-      "content": Object {
-        "bottom": "40%",
-        "left": "40%",
-        "right": "40%",
-        "top": "40%",
-      },
+      "closeButton": "styles_closeButton__20ID4",
+      "closeIcon": "styles_closeIcon__1QwbI",
+      "modal": "styles_modal__gNwvD",
+      "overlay": "styles_overlay__CLSq-",
+      "overlayCenter": "styles_overlayCenter__YHoO7",
+      "transitionEnter": "styles_transitionEnter__3j_-a",
+      "transitionEnterActive": "styles_transitionEnterActive___eQs7",
+      "transitionExit": "styles_transitionExit__1KmEf",
+      "transitionExitActive": "styles_transitionExitActive__1nQXw",
     }
   }
+  closeIconSize={28}
+  closeIconSvgPath={
+    <path
+      d="M28.5 9.62L26.38 7.5 18 15.88 9.62 7.5 7.5 9.62 15.88 18 7.5 26.38l2.12 2.12L18 20.12l8.38 8.38 2.12-2.12L20.12 18z"
+    />
+  }
+  closeOnEsc={true}
+  closeOnOverlayClick={true}
+  contentLabel="Trip Test"
+  focusTrapOptions={Object {}}
+  focusTrapped={false}
+  onClose={[Function]}
+  onEntered={null}
+  onEscKeyDown={null}
+  onExited={null}
+  onOverlayClick={null}
+  open={true}
+  showCloseIcon={true}
+  styles={Object {}}
 >
   <h2>
     Delete 
     Trip Test
+    ?
   </h2>
   <p>
     Are you sure you want to delete the trip '

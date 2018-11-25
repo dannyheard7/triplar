@@ -18,7 +18,7 @@ export default class TripList extends React.Component {
             <div className="card trip-card" key={trip.id}>
                 <h3 className="card-title"><Link to={"/trips/" + trip.id}>{trip.name}</Link></h3>
                 <p className="card-text">
-                    <span>{trip.locations.map((location, index) => (index ? ', ': '') + location.city.name)}</span><br />
+                    <span>{trip.locations && trip.locations.map((location, index) => (index ? ', ': '') + location.city.name)}</span><br />
                     {Moment(trip.startDate).format('Do MMMM') } - {Moment(trip.endDate).format('Do MMMM') }
                 </p>
             </div>

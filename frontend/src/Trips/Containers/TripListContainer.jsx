@@ -1,34 +1,21 @@
 import React from "react";
-import api from "Trips/utils/trips.api.js";
 
 import TripList from "Trips/Components/TripList";
+import {connect} from "react-redux";
+import {getTrips} from "../utils/actions";
 
-export default class TripListContainer extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            trips: []
-        };
-    }
-
+export class TripListContainer extends React.Component {
     componentDidMount() {
-        this.getTrips();
-    }
-
-    componentWillReceiveProps(props) {
-        if(props.update) {
-            this.getTrips();
-        }
-    }
-
-    getTrips() {
-        api.getTrips().then(res => {
-            this.setState({trips: res.data.data.trips});
-        });
+        this.props.dispatch(getTrips())
     }
 
     render() {
-        return (<TripList trips={this.state.trips}/>);
+        return (<TripList trips={this.props.trips}/>);
     }
 }
+
+const mapStateToProps = state => ({
+  trips: state.trips.trips,
+});
+
+export default connect(mapStateToProps)(TripListContainer)

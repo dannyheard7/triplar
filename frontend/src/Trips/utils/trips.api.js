@@ -26,49 +26,15 @@ export default {
         return Q.when(axios.post(`${backendHost}/api/graphql`, {query: getTripsQuery}));
     },
 
-    getTripDetail(tripId) {
-        const getTripsQuery = ` 
-           query{ 
-            trip(id: ${tripId}) {
-                id
-                name
-                startDate
-                endDate
-                locations {
-                    id
-                    startDate
-                    endDate
-                    trip {
-                        id
-                    }
-                    city {
-                        name
-                        location
-                        country {
-                            name
-                            code
-                        }
-                    }
-                    items {
-                        place {
-                            id
-                            name
-                            imageUrl
-                        }
-                    }
-                }
-            }
-           }`;
-
-        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: getTripsQuery}));
-    },
-
     createTrip(trip) {
         const createTripQuery = ` 
             mutation CreateTrip($input: TripMutationInput!){
               result: createTrip(input: $input) {
                 trip {
                     id
+                    name
+                    startDate
+                    endDate
                 }
                 errors {
                   field
@@ -91,21 +57,6 @@ export default {
                     name
                     startDate
                     endDate
-                    locations {
-                        id
-                        startDate
-                        endDate
-                        trip {
-                            id
-                        }
-                        city {
-                            name
-                            location
-                            country {
-                                name
-                            }
-                        }
-                    }
                 }
                 errors {
                   field

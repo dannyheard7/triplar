@@ -51,7 +51,6 @@ services:
       dockerfile: Dockerfile.dev
     image: triplar/frontend
     volumes:
-      - /app/node_modules
       - ./frontend:/app
     command: npm start
     ports:

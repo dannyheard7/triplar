@@ -1,18 +1,10 @@
 import React from "react";
-import api from "Trips/utils/trips.api.js";
 
-import Modal from 'react-modal';
+import Modal from 'react-responsive-modal';
+import {connect} from "react-redux";
+import {deleteTrip} from "../utils/actions";
 
-export default class TripDelete extends React.Component {
-    customStyles = {
-      content : {
-        top                   : '40%',
-        left                  : '40%',
-        right                 : '40%',
-        bottom                : '40%',
-      }
-    };
-
+export class TripDelete extends React.Component {
     constructor(props) {
         super(props);
 
@@ -25,29 +17,37 @@ export default class TripDelete extends React.Component {
     }
 
     onDelete(e) {
-        api.deleteTrip(this.props.trip.id).then(({data}) => {
-            if (data.data.deleteTrip.result === true) {
-                this.props.history.push('/trips')
-            }
-        });
+        this.props.dispatch(deleteTrip(this.props.trip.id));
     };
 
     render() {
-        return (
-            <Modal isOpen={true} onRequestClose={this.closeModal} contentLabel={this.props.trip.name} style={this.customStyles}
-                role="dialog">
-                <h2>
-                    Delete {this.props.trip.name}
-                </h2>
+        if(this.props.trip) {
+            return (
+                <Modal open={true} onClose={this.closeModal} contentLabel={this.props.trip.name} >
+                    <h2>Delete {this.props.trip.name}?</h2>
 
-                <p>
-                    Are you sure you want to delete the trip '{this.props.trip.name}'?
-                </p>
+                    <p>Are you sure you want to delete the trip '{this.props.trip.name}'?</p>
 
-                <button onClick={this.closeModal}>Close</button>
-                <button className="btn-danger" onClick={this.onDelete}>Delete Trip</button>
+                    <button onClick={this.closeModal}>Close</button>
+                    <button className="btn-danger" onClick={this.onDelete}>Delete Trip</button>
+                </Modal>
+            );
+        } else {
+            return (
+                <Modal open={true} role="dialog">
+                    <h2>Cannot find trip</h2>
 
-            </Modal>
-        );
+                    <button onClick={this.closeModal}>Close</button>
+                </Modal>
+            );
+        }
     }
 }
+
+function mapStateToProps(state, ownProps) {
+  return {
+      trip: state.trips.trips.find(x => x.id === ownProps.match.params.id)
+  };
+}
+
+export default connect(mapStateToProps)(TripDelete)

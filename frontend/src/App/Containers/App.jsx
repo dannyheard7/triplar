@@ -1,6 +1,6 @@
 import React from "react";
-import {BrowserRouter, Route, Switch} from "react-router-dom";
-import { DragDropContext } from 'react-dnd';
+import {Route, Router, Switch} from "react-router-dom";
+import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
 import LoggedInContainer from "App/Containers/LoggedInContainer";
@@ -14,71 +14,75 @@ import TripCreateContainer from "Trips/Containers/TripCreateContainer";
 import TripDetailContainer from "Trips/Containers/TripDetailContainer";
 
 import 'App/styles/app.css';
+import {connect} from "react-redux";
+import {history} from "../../store";
+import TripEditContainer from "../../Trips/Containers/TripEditContainer";
+import TripDelete from "../../Trips/Components/TripDelete";
+import PlaceDetail from "../../Places/Components/PlaceDetail";
+import {getCookie} from "../utils/utils";
+import {tokenRefresh} from "../../Auth/utils/actions";
+
 
 export class App extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            isAuthenticated: false,
-            token: null,
-            user: null
-        };
-
-        this.onLogin = this.onLogin.bind(this);
-        this.onLogout = this.onLogout.bind(this);
-    }
-
     componentDidMount() {
-        if (localStorage.getItem("token") !== null && localStorage.getItem("user") !== null) {
-          this.setState({isAuthenticated: true, token: localStorage.getItem("token"), user: JSON.parse(localStorage.getItem("user"))})
+        if(!this.props.auth.successful) {
+            const loginToken = getCookie('userToken');
+
+            if (loginToken) {
+                this.props.dispatch(tokenRefresh(loginToken));
+            }
         }
     }
 
-    onLogin(user, token) {
-        this.setState({isAuthenticated: true, token: token, user: user})
-    }
-
-    onLogout() {
-         this.setState({isAuthenticated: false, token: null, user: null});
-    }
-
     render() {
-        if(this.state.isAuthenticated) {
+        if(this.props.auth.successful) {
             return (
-                <BrowserRouter>
-                    <LoggedInContainer token={this.state.token}>
+                <Router history={history}>
+                    <LoggedInContainer token={this.props.auth.token}>
                         <div className="wrapper">
-                            <Route path="/" render={(props) => <HeaderAuthenticated {...props} user={this.state.user}
-                                                                                    onLogout={this.onLogout} />}/>
+                            <HeaderAuthenticated/>
                             <div className="content">
                                 <Route path="/(|trips)" exact component={TripListContainer}/>
                                 <Route path="/(|trips)" exact component={TripCreateContainer}/>
                                 <Route path="/trips/:id" component={TripDetailContainer}/>
+                                <Route path="/trips/:id/edit" component={TripEditContainer}/>
+                                <Route path="/trips/:id/delete" component={TripDelete} />
+                                <Route path="/trips/:tripId/place/:placeId" component={PlaceDetail}/>
                             </div>
-                            <Footer />
+                            <Footer/>
                         </div>
                     </LoggedInContainer>
-                </BrowserRouter>
+                </Router>
             );
         } else {
             return (
-                <BrowserRouter>
+                <Router history={history}>
                     <div className="wrapper">
-                        <HeaderUnauthenticated />
+                        <HeaderUnauthenticated/>
                         <div className="content">
                             <Switch>
                                 <Route path="/register" exact component={RegistrationContainer}/>
-                                <Route path="/" render={(props) => <LoginContainer {...props} onLogin={this.onLogin} />}/>
+                                <Route path="/" component={LoginContainer}/>
                             </Switch>
                         </div>
-                        <Footer />
+                        <Footer/>
                     </div>
-                </BrowserRouter>
+                </Router>
             );
         }
     }
 }
 
+const mapStateToProps = state => {
+    if(state.auth.successful) {
+        return {
+            auth: {...state.auth, token: getCookie('userToken')}
+        }
+    } else {
+        return {auth: state.auth}
+    }
+};
 
-export default DragDropContext(HTML5Backend)(App)
+const connectedApp = connect(mapStateToProps)(App);
+
+export default DragDropContext(HTML5Backend)(connectedApp)

@@ -1,0 +1,19 @@
+export const GET_POPULAR_PLACES = 'GET_POPULAR_PLACES';
+export const GET_POPULAR_PLACES_SUCCESS = 'GET_POPULAR_PLACES_SUCCESS';
+export const GET_POPULAR_PLACES_FAILURE = 'GET_POPULAR_PLACES_FAILURE';
+
+export const GET_PLACE_DETAILS = 'GET_PLACE_DETAILS';
+export const GET_PLACE_DETAILS_SUCCESS = 'GET_PLACE_DETAILS_SUCCESS';
+export const GET_PLACE_DETAILS_FAILURE = 'GET_PLACE_DETAILS_FAILURE';
+
+export const GET_TOP_LEVEL_CATEGORIES = 'GET_TOP_LEVEL_CATEGORIES';
+export const GET_TOP_LEVEL_CATEGORIES_SUCCESS = 'GET_TOP_LEVEL_CATEGORIES_SUCCESS';
+export const GET_TOP_LEVEL_CATEGORIES_FAILURE = 'GET_TOP_LEVEL_CATEGORIES_FAILURE';
+
+export const UPDATE_PLACES_SUCCESS = 'UPDATE_PLACES_SUCCESS';
+
+export function getPopularPlaces(lat, lng, category) {return {type: GET_POPULAR_PLACES, lat, lng, category}}
+
+export function getPlaceDetail(placeId) {return {type: GET_PLACE_DETAILS, placeId}}
+
+export function getTopLevelCategories() {return {type: GET_TOP_LEVEL_CATEGORIES}}

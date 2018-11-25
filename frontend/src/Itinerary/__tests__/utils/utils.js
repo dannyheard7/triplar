@@ -1,6 +1,6 @@
 import Moment from 'moment';
 
-import { daysBetweenDates } from 'Itinerary/utils/utils.js';
+import { daysBetweenDates } from 'Trips/utils/utils.js';
 
 const faker = require('faker');
 

@@ -1,7 +1,7 @@
 import React from "react";
-import DestinationForm from "Itinerary/Components/LocationForm";
-import api from "Itinerary/utils/api.js"
-import FormContainer from "Forms/Containers/FormContainer";
+import LocationForm from "Itinerary/Components/LocationForm";
+import ReduxFormContainer from "../../Forms/Containers/ReduxFormContainer";
+import {addLocationToTrip} from "../utils/actions";
 
 export default class LocationAddContainer extends React.Component {
     constructor(props) {
@@ -12,19 +12,13 @@ export default class LocationAddContainer extends React.Component {
         };
 
         this.onClick = this.onClick.bind(this);
-        this.onSuccess = this.onSuccess.bind(this)
     }
 
     onClick() {
         this.setState({showLocationAdd: !this.state.showLocationAdd});
     }
 
-    onSuccess(data) {
-        this.setState({showLocationAdd: false});
-        this.props.onSuccess(data.tripLocation)
-    }
-
-    apiFunc = api.curryAPIFunc(api.addLocationToTrip, this.props.tripId);
+    curryAction = (action, id) => (object) => action(id, object);
 
     render () {
         return (
@@ -32,9 +26,9 @@ export default class LocationAddContainer extends React.Component {
                 <button className="btn btn-primary" onClick={this.onClick}>Add Location</button>
                 {this.state.showLocationAdd &&
                     <div className="card">
-                        <FormContainer onSuccess={this.onSuccess} apiFunction={this.apiFunc}>
-                            <DestinationForm submitLabel="Add"/>
-                        </FormContainer>
+                        <ReduxFormContainer action={this.curryAction(addLocationToTrip, this.props.tripId)}>
+                            <LocationForm submitLabel="Add"/>
+                        </ReduxFormContainer>
                     </div>
                 }
             </div>

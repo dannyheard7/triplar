@@ -1,11 +1,11 @@
 import React from "react";
 import {shallow} from "enzyme";
-import api from "Itinerary/utils/api.js";
+import api from "Itinerary/utils/itinerary.api.js";
 
 import CitySearchFieldContainer from "Forms/Containers/CitySearchFieldContainer.jsx";
 
 const faker = require('faker');
-jest.mock('Itinerary/utils/api.js');
+jest.mock('Itinerary/utils/itinerary.api.js');
 
 describe('<CitySearchFieldContainer />', () => {
     const event = {

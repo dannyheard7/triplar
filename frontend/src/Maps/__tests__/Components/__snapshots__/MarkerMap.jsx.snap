@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<CityMap /> renders correctly 1`] = `
+exports[`<MarkerMap /> renders correctly 1`] = `
 <div>
   <Map
     center={

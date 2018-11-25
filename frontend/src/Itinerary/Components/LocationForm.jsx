@@ -4,7 +4,7 @@ import CitySearchFieldContainer from "Forms/Containers/CitySearchFieldContainer"
 import DateFieldGroup from "Forms/Components/DateFieldGroup";
 
 
-export default function DestinationForm(props) {
+export default function LocationForm(props) {
      const itinerary = (props.location) ? props.location : {};
      let location = (typeof itinerary.city !== 'undefined') ? itinerary.city.name_std + ", " + itinerary.city.country : "";
 

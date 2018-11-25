@@ -1,8 +1,9 @@
 import React from "react";
 
-import TripDelete from "Trips/Components/TripDelete";
+import {TripDelete} from "Trips/Components/TripDelete";
 import ShallowRenderer from "react-test-renderer/shallow";
 import {shallow} from "enzyme/build/index";
+import {deleteTrip} from "../../utils/actions";
 
 const renderer = new ShallowRenderer();
 
@@ -19,7 +20,7 @@ describe('<TripDelete />', () => {
 
     const props = {
         trip: trip,
-        history: {push: jest.fn()}
+        dispatch: jest.fn()
     };
 
 
@@ -28,13 +29,10 @@ describe('<TripDelete />', () => {
         expect(result).toMatchSnapshot();
     });
 
-    test('redirects to trips page on successful deletion', async () => {
+    test('dispatches trip delete on dlete', async () => {
         const container = shallow(<TripDelete {...props} />);
 
         container.instance().onDelete(event);
-        await Promise.resolve();
-        container.update();
-
-        expect(props.history.push).toBeCalledWith('/trips');
+        expect(props.dispatch).toBeCalledWith(deleteTrip(trip.id));
     });
 });

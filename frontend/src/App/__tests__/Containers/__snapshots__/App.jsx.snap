@@ -1,33 +1,92 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<App /> when authenticated renders correctly 1`] = `
-<BrowserRouter>
-  <div
-    className="wrapper"
-  >
-    <HeaderUnauthenticated />
+<Router
+  history={
+    Object {
+      "action": "POP",
+      "block": [Function],
+      "createHref": [Function],
+      "go": [Function],
+      "goBack": [Function],
+      "goForward": [Function],
+      "length": 1,
+      "listen": [Function],
+      "location": Object {
+        "hash": "",
+        "pathname": "/",
+        "search": "",
+        "state": undefined,
+      },
+      "push": [Function],
+      "replace": [Function],
+    }
+  }
+>
+  <LoggedInContainer>
     <div
-      className="content"
+      className="wrapper"
     >
-      <Switch>
+      <withRouter(Connect(HeaderAuthenticated)) />
+      <div
+        className="content"
+      >
         <Route
           component={[Function]}
           exact={true}
-          path="/register"
+          path="/(|trips)"
         />
         <Route
-          path="/"
-          render={[Function]}
+          component={[Function]}
+          exact={true}
+          path="/(|trips)"
         />
-      </Switch>
+        <Route
+          component={[Function]}
+          path="/trips/:id"
+        />
+        <Route
+          component={[Function]}
+          path="/trips/:id/edit"
+        />
+        <Route
+          component={[Function]}
+          path="/trips/:id/delete"
+        />
+        <Route
+          component={[Function]}
+          path="/trips/:tripId/place/:placeId"
+        />
+      </div>
+      <Footer />
     </div>
-    <Footer />
-  </div>
-</BrowserRouter>
+  </LoggedInContainer>
+</Router>
 `;
 
 exports[`<App /> when not authenticated renders correctly 1`] = `
-<BrowserRouter>
+<Router
+  history={
+    Object {
+      "action": "POP",
+      "block": [Function],
+      "createHref": [Function],
+      "go": [Function],
+      "goBack": [Function],
+      "goForward": [Function],
+      "length": 1,
+      "listen": [Function],
+      "location": Object {
+        "hash": "",
+        "pathname": "/",
+        "search": "",
+        "state": undefined,
+      },
+      "push": [Function],
+      "replace": [Function],
+    }
+  }
+>
   <div
     className="wrapper"
   >
@@ -42,12 +101,12 @@ exports[`<App /> when not authenticated renders correctly 1`] = `
           path="/register"
         />
         <Route
+          component={[Function]}
           path="/"
-          render={[Function]}
         />
       </Switch>
     </div>
     <Footer />
   </div>
-</BrowserRouter>
+</Router>
 `;

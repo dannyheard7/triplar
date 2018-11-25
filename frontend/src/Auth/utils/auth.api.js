@@ -36,4 +36,17 @@ export default {
 
         return Q.when(axios.post(`${backendHost}/api/graphql`, {query: getLoginTokenQuery, variables: user}));
     },
+
+    refreshToken(token) {
+        const getLoginTokenQuery = ` 
+           mutation RefreshToken($token: String!) {
+                result: refreshToken(token: $token) {
+                    token
+                    payload
+                }
+           }`;
+
+
+        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: getLoginTokenQuery, variables: {token: token}}));
+    },
 }

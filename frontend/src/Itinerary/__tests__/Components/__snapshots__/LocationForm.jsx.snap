@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<DestinationForm /> renders correctly 1`] = `
+exports[`<LocationForm /> renders correctly 1`] = `
 <form>
   <NonFieldErrors />
   <CitySearchFieldContainer

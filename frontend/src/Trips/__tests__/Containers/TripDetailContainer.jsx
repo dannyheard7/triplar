@@ -1,39 +1,35 @@
 import React from "react";
 import {shallow} from "enzyme";
-
-import TripDetail from "Trips/Components/TripDetail";
-import TripManagement from "Trips/Components/TripManagement";
-import TripDetailContainer from "Trips/Containers/TripDetailContainer";
+import {TripDetailContainer} from "Trips/Containers/TripDetailContainer";
 import LoadingIndicator from "App/Components/LoadingIndicator";
 
+import ShallowRenderer from 'react-test-renderer/shallow';
+const renderer = new ShallowRenderer();
 const faker = require('faker');
-jest.mock('Trips/utils/trips.api.js');
 
 const api = require('Trips/utils/trips.api.js');
 
 describe('<TripDetailContainer />', () => {
-    test('renders loading text before trip object returned by api', async () => {
-        const container = shallow(<TripDetailContainer match={{params: {id: faker.random.number()}}} />);
+    const props = {
+        trip: {'id': faker.random.number(), 'name': faker.random.word(), 'created_by': faker.internet.email()},
+        match: {params: {id: faker.random.number()}}
+    };
+
+    test('renders loading text when no trip is passed', async () => {
+        let container = shallow(<TripDetailContainer {...props} trip={null} />);
         expect(container.find(LoadingIndicator).length).toEqual(1);
-        await Promise.resolve();
+        container = shallow(<TripDetailContainer {...props}  />);
         expect(container.find(LoadingIndicator).length).toEqual(0);
     });
 
-    test('calls api getTripDetail with correct id on mount', () => {
-        const spy = jest.spyOn(api.default, "getTripDetail");
-        const id = faker.random.number();
 
-        const container = shallow(<TripDetailContainer match={{params: {id: id}}} />);
-        expect(spy).toBeCalledWith(id);
-        spy.mockReset();
-    });
-
-    test('response from api call is set as state', async () => {
+    // Move to redux tests
+    test.skip('response from api call is set as state', async () => {
         const stub = jest.spyOn(api.default, "getTripDetail");
         const trip = {'id': faker.random.number(), 'name': faker.random.word(), 'created_by': faker.internet.email()};
         stub.mockReturnValueOnce(Promise.resolve({status: 200, data: {data: {trip: trip}}}));
 
-        const container = shallow(<TripDetailContainer match={{params: {id: trip.id}}} />);
+        const container = shallow(<TripDetailContainer {...props} match={{params: {id: trip.id}}} />);
         await Promise.resolve();
 
         expect(stub).toBeCalledWith(trip.id);
@@ -46,37 +42,10 @@ describe('<TripDetailContainer />', () => {
 
     });
 
-    describe('With a trip object', () => {
-        let container = null;
-
-        beforeEach(async () => {
-            container = shallow(<TripDetailContainer match={{params: {id: 1}}}/>);
-            await Promise.resolve();
-        });
-
-        test('renders a <TripDetail /> component', () => {
-            expect(container.find(TripDetail).length).toEqual(1);
-        });
-
-        test('renders a <TripManagement /> component ', () => {
-            expect(container.find(TripManagement).length).toEqual(1);
-        });
-
-        test('trip state change updates TripDetail Prop', async () => {
-            const trip = {
-                'id': faker.random.number(), 'name': faker.random.word(), 'created_by': faker.internet.email()
-            };
-
-            expect(container.find(TripDetail).props().trip).not.toEqual(trip);
-            container.setState({trip: trip});
-            expect(container.find(TripDetail).props().trip).toEqual(trip);
-        });
-
-        test('onUpdate sets trip param as state', () => {
-            let newTrip = jest.fn();
-            container.instance().onUpdate(newTrip);
-            expect(container.state('trip')).toEqual(newTrip);
-        });
+    test('With a trip object renders correctly', () => {
+        const trip = {'id': 1, 'name': "New Trip", 'created_by': "Danny Heard"};
+        const result = renderer.render(<TripDetailContainer trip={trip} />);
+        expect(result).toMatchSnapshot();
     });
 
 });

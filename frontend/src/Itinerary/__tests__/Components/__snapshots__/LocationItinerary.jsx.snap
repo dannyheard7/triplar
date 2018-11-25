@@ -36,12 +36,16 @@ exports[`<LocationItinerary /> <LocationItinerary /> renders correctly 1`] = `
         </option>
       </select>
     </p>
-    <ItineraryDayContainer
+    <Connect(ItineraryDayContainer)
       day="2018-08-10T00:00:00.000Z"
-      location={
+      itinerary={
         Object {
           "city": Object {
             "country": "United Kingdom",
+            "location": Object {
+              "lat": 0,
+              "lng": 0,
+            },
             "name": "Bristol",
           },
           "endDate": "2018-08-12T00:00:00.000Z",
@@ -51,16 +55,21 @@ exports[`<LocationItinerary /> <LocationItinerary /> renders correctly 1`] = `
           },
         }
       }
+      path="/trips/undefined"
     />
   </div>
-  <PlacesSearchContainer
+  <Connect(PlacesSearchContainer)
     city={
       Object {
         "country": "United Kingdom",
+        "location": Object {
+          "lat": 0,
+          "lng": 0,
+        },
         "name": "Bristol",
       }
     }
-    path="/trips/1"
+    path="/trips/undefined"
   />
 </div>
 `;

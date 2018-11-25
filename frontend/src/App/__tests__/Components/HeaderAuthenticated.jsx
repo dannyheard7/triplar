@@ -2,7 +2,7 @@ import React from "react";
 import {shallow} from 'enzyme';
 import ShallowRenderer from 'react-test-renderer/shallow';
 
-import HeaderAuthenticated from "App/Components/HeaderAuthenticated";
+import {HeaderAuthenticated} from "App/Components/HeaderAuthenticated";
 
 const actions = require('Auth/utils/actions');
 const faker = require('faker');
@@ -13,18 +13,13 @@ describe('<HeaderAuthenticated />', () => {
     const user = {'email': "test@example.com"};
 
     const props = {
-        isAuthenticated: true,
-        user: user,
-        history: {push: jest.fn()},
-        onLogout: jest.fn()
+        auth: {user: user},
+        dispatch: jest.fn()
     };
 
-    const logoutSpy = jest.spyOn(actions, 'logout');
 
     afterEach(function () {
-        logoutSpy.mockReset();
-        props.history.push.mockReset();
-        props.onLogout.mockReset();
+        props.dispatch.mockReset()
     });
 
     test('calls onLogoutClick when logout button is clicked', () => {
@@ -36,30 +31,15 @@ describe('<HeaderAuthenticated />', () => {
         expect(logoutClickStub).toBeCalled();
     });
 
-    test('calls logout on logoutClick', () => {
+    test('dispatched unsetUser on logoutClick', () => {
         const container = shallow(<HeaderAuthenticated {...props}/>);
         container.setState({showDropdown: true});
 
         const mock = jest.fn();
-        logoutSpy.mockReturnValue(mock);
 
         container.instance().onLogoutClick();
 
-        expect(logoutSpy).toBeCalled();
-        expect(props.onLogout).toBeCalled();
-    });
-
-    test('redirects to logout on logoutClick', () => {
-        const container = shallow(<HeaderAuthenticated {...props}/>);
-        container.setState({showDropdown: true});
-
-        const mock = jest.fn();
-        logoutSpy.mockReturnValue(mock);
-
-        container.instance().onLogoutClick();
-
-        expect(logoutSpy).toBeCalled();
-        expect(props.history.push).toBeCalledWith('/login');
+        expect(props.dispatch).toBeCalled();
     });
 
     test('renders correctly', () => {

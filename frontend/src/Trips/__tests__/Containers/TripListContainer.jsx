@@ -1,36 +1,36 @@
 import React from "react";
-import {mount, shallow} from "enzyme";
+import {shallow} from "enzyme";
+import ShallowRenderer from 'react-test-renderer/shallow';
+const renderer = new ShallowRenderer();
 import api from "Trips/utils/trips.api.js";
 
-import TripListContainer from "Trips/Containers/TripListContainer";
-import TripList from "Trips/Components/TripList";
+import {TripListContainer} from "Trips/Containers/TripListContainer";
 
 const faker = require('faker');
 
 jest.mock('Trips/utils/trips.api.js');
 describe('<TripListContianer />', () => {
+    const props = {
+        dispatch: jest.fn(),
+        trips: []
+    };
 
-    test('renders a <TripList /> object', () => {
-        const container = shallow(<TripListContainer />);
-        expect(container.find(TripList).length).toEqual(1);
+    beforeEach(() => {
+        props.dispatch.mockReset();
+    })
+
+    test('renders a correctly', () => {
+        const result = renderer.render(<TripListContainer {...props} />);
+        expect(result).toMatchSnapshot();
     });
 
-    test('calls getTrips after receiving update signal from props', () => {
-        const container = shallow(<TripListContainer />);
-        container.instance().getTrips = jest.fn();
-        container.setProps({update: true});
-
-        expect(container.instance().getTrips).toBeCalled();
+    test('dispatches getTrips upon mount', () => {
+        shallow(<TripListContainer {...props} />);
+        expect(props.dispatch).toBeCalled();
     });
 
-    test('calls getTrips on mount', () => {
-        const spy = jest.spyOn(TripListContainer.prototype, "getTrips");
-        const container = shallow(<TripListContainer />);
-
-        expect(spy).toBeCalled();
-    });
-
-    test('update sets trips returned from server as state', async () => {
+    // This can be moved to the redux tests
+    test.skip('update sets trips returned from server as state', async () => {
         let trips = [faker.random.word(), faker.random.word()];
 
         // Need to refactor into a better way of changes mocks for a single test

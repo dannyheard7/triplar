@@ -5,7 +5,7 @@ import {backendHost} from 'App/utils/constants';
 export default {
     curryAPIFunc (apiFunc, id) {return (object) => apiFunc(id, object)},
 
-    addLocationToTrip(tripId, destination) {
+    addLocationToTrip(tripId, location) {
         const mutateTripLocationQuery = ` 
             mutation AddTripLocation($input: TripLocationMutationInput!){
               result: addTripLocation(input: $input) {
@@ -15,7 +15,10 @@ export default {
                     endDate
                     city {
                         name
-                        location
+                        location                        
+                        country {
+                            code
+                        }
                     }
                     trip {
                         id
@@ -29,19 +32,52 @@ export default {
             }`;
 
 
-        let variables = {input: {trip: tripId, ...destination}};
+        let variables = {input: {trip: tripId, ...location}};
 
         return Q.when(axios.post(`${backendHost}/api/graphql`, {query: mutateTripLocationQuery, variables: variables}));
     },
 
-    getLocationDayItinerary(tripLocationId, date) {
+    getTripItineraries(tripId) {
+        const getTripItinerariesQuery = ` 
+           query{ 
+            trip(id: ${tripId}) {
+                locations {
+                    id
+                    startDate
+                    endDate
+                    trip {
+                        id
+                    }
+                    city {
+                        name
+                        location
+                        country {
+                            name
+                            code
+                        }
+                    }
+                }
+            }
+           }`;
+
+        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: getTripItinerariesQuery}));
+    },
+
+    getItineraryDayDetail(itineraryId, date) {
         const getLocationDayItinerary = ` 
            query { 
-            locationDayItinerary(date: "${date}", locationId: ${tripLocationId}) {
+            locationDayItinerary(date: "${date}", locationId: ${itineraryId}) {
                 place {
                     id
                     name
                     imageUrl
+                    coordinates {
+                        latitude
+                        longitude
+                    }
+                }
+                itinerary : location {
+                    id
                 }
             }
            }`;
@@ -49,12 +85,21 @@ export default {
         return Q.when(axios.post(`${backendHost}/api/graphql`, {query: getLocationDayItinerary}));
     },
 
-    addItemToTripLocation(tripLocationId, placeId, date, order) {
+    addPlaceToItineraryDay(tripLocationId, placeId, date, order) {
         const addTripLocationItemMutation = ` 
             mutation AddTripLocationItem($input: AddTripLocationItemMutationInput!){
               addTripLocationItem(input: $input) {
                 tripLocationItem {
                   order
+                  place {
+                    id
+                    name
+                    imageUrl
+                    coordinates {
+                        latitude
+                        longitude
+                    }
+                  }
                 }
                 errors {
                   field

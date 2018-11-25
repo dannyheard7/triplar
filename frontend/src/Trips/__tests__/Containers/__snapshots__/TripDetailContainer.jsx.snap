@@ -1,9 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<TripManagement /> renders correctly 1`] = `
-<div
-  className="trip-management"
->
+exports[`<TripDetailContainer /> With a trip object renders correctly 1`] = `
+<div>
+  <TripDetail
+    trip={
+      Object {
+        "created_by": "Danny Heard",
+        "id": 1,
+        "name": "New Trip",
+      }
+    }
+  />
   <Link
     replace={false}
     to="/trips/1/edit"
@@ -24,5 +31,11 @@ exports[`<TripManagement /> renders correctly 1`] = `
       Delete Trip
     </button>
   </Link>
+  <Connect(TripLocationListContainer)
+    tripId={1}
+  />
+  <LocationAddContainer
+    tripId={1}
+  />
 </div>
 `;

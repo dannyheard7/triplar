@@ -1,10 +1,11 @@
 import React from "react";
-import api from "Trips/utils/trips.api.js"
 
 import TripForm from "Trips/Components/TripForm";
-import FormContainer from "../../Forms/Containers/FormContainer";
+import ReduxFormContainer from "../../Forms/Containers/ReduxFormContainer";
+import {connect} from "react-redux";
+import {createTrip} from "../utils/actions";
 
-export default class TripCreateContainer extends React.Component {
+export class TripCreateContainer extends React.Component {
     constructor(props) {
         super(props);
 
@@ -18,7 +19,7 @@ export default class TripCreateContainer extends React.Component {
 
     onSuccess(data) {
         this.setState({showTripCreate: false});
-        this.props.history.push('/trips/' + data.trip.id)
+
     };
 
     onClick() {
@@ -31,12 +32,15 @@ export default class TripCreateContainer extends React.Component {
                 <button className="btn btn-primary" onClick={this.onClick}>New Trip</button>
                 {this.state.showTripCreate &&
                     <div className="card">
-                        <FormContainer onSuccess={this.onSuccess} apiFunction={api.createTrip}>
+                        <ReduxFormContainer errors={this.props.errors} action={createTrip}>
                             <TripForm submitLabel="Create" />
-                        </FormContainer>
+                        </ReduxFormContainer>
                     </div>
                 }
             </div>
         )
     }
 }
+
+const mapStateToProps = (state) => {return {errors: state.trips.errors}};
+export default connect(mapStateToProps)(TripCreateContainer)

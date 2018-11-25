@@ -33,10 +33,15 @@ export default {
         const searchPlacesQuery = ` 
            query { 
             place(id: "${placeId}") {
+                id
                 name
                 imageUrl
                 location {
                     displayAddress
+                }
+                coordinates {
+                    latitude
+                    longitude
                 }
                 rating
                 displayPhone

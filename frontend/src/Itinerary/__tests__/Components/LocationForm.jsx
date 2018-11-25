@@ -1,13 +1,13 @@
 import React from "react";
 
-import DestinationForm from "Itinerary/Components/LocationForm";
+import LocationForm from "Itinerary/Components/LocationForm";
 import ShallowRenderer from "react-test-renderer/shallow";
 
 const renderer = new ShallowRenderer();
 
 
 
-describe('<DestinationForm />', () => {
+describe('<LocationForm />', () => {
     const props = {
         location: {
             city: {
@@ -19,7 +19,7 @@ describe('<DestinationForm />', () => {
     };
 
     test('renders correctly', () => {
-        const result = renderer.render(<DestinationForm {...props} />);
+        const result = renderer.render(<LocationForm {...props} />);
         expect(result).toMatchSnapshot();
     });
 });

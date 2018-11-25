@@ -13,8 +13,7 @@ describe('<App />', () => {
         const user = {'email': faker.internet.email()};
 
         const props = {
-            isAuthenticated: true,
-            user: user,
+            auth: {successful: true},
         };
 
         test('renders correctly', () => {
@@ -25,7 +24,7 @@ describe('<App />', () => {
 
      describe('when not authenticated', () => {
         const props = {
-            isAuthenticated: false,
+            auth: {successful: false},
         };
 
         test('renders correctly', () => {
