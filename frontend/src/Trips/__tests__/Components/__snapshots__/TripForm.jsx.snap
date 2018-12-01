@@ -12,12 +12,16 @@ exports[`<TripForm /> renders correctly 1`] = `
   <DateFieldGroup
     label="Start Date"
     name="startDate"
+    onChange={[Function]}
     required={true}
+    value="01/12/2018"
   />
   <DateFieldGroup
     label="End Date"
     name="endDate"
+    onChange={[Function]}
     required={true}
+    value="04/12/2018"
   />
   <button
     className="btn btn-primary"

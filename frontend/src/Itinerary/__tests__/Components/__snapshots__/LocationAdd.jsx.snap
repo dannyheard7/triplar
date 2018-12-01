@@ -5,6 +5,11 @@ exports[`<LocationAdd /> renders correctly 1`] = `
   action={[Function]}
 >
   <LocationForm
+    location={
+      Object {
+        "id": 1,
+      }
+    }
     submitLabel="Add"
   />
 </Connect(ReduxFormContainer)>

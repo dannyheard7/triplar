@@ -27,7 +27,7 @@ describe('<LocationAdd />', () => {
 
 
     test('renders correctly', () => {
-        const result = renderer.render(<LocationAdd tripId="1" />);
+        const result = renderer.render(<LocationAdd trip={{id: 1}} />);
         expect(result).toMatchSnapshot();
     });
 
@@ -35,7 +35,7 @@ describe('<LocationAdd />', () => {
     test.skip('calls onSuccess after receiving success from <FormContainer />', (function () {
         const spy = jest.spyOn(LocationAddContainer.prototype, 'onSuccess');
         const stub = jest.fn();
-        const container = shallow(<LocationAdd tripId={faker.random.number()} onSuccess={stub} />);
+        const container = shallow(<LocationAdd trip={{id: faker.random.number()}} onSuccess={stub} />);
         container.setState({showLocationAdd: true});
         container.find(FormContainer).prop('onSuccess')(data);
 
@@ -46,12 +46,12 @@ describe('<LocationAdd />', () => {
     // TODO: Move to redux
     test.skip('addLocationToTrip called with correct arguments', () => {
         const spy = jest.spyOn(api.default, 'addLocationToTrip');
-        const id = faker.random.number();
+        const trip = {id: faker.random.number()};
 
-        const container = shallow(<LocationAdd tripId={id} />);
+        const container = shallow(<LocationAdd trip={trip} />);
         container.instance().apiFunc(data);
 
-        expect(spy).toBeCalledWith(id, data);
+        expect(spy).toBeCalledWith(trip.id, data);
 
         spy.mockRestore();
     });

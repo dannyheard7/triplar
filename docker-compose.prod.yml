@@ -51,12 +51,6 @@ services:
       dockerfile: Dockerfile.prod
     image: triplar/frontend
     ports:
-      - "3000:80"
+      - "80:80"
     links:
       - backend
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s

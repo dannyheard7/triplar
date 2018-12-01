@@ -51,7 +51,7 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_WHITELIST = (
     'localhost:3000',
-    'triplar.co:3000'
+    'triplar.co'
 )
 
 ROOT_URLCONF = 'backend.urls'

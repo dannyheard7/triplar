@@ -9,8 +9,8 @@ export class LocationAdd extends React.Component {
 
     render () {
         return (
-            <ReduxFormContainer action={this.curryAction(addLocationToTrip, this.props.tripId)} errors={this.props.errors} >
-                <LocationForm submitLabel="Add"/>
+            <ReduxFormContainer action={this.curryAction(addLocationToTrip, this.props.trip.id)} errors={this.props.errors} >
+                <LocationForm submitLabel="Add" location={this.props.trip}/>
             </ReduxFormContainer>
         )
     }

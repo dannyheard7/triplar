@@ -49,7 +49,7 @@ export class ItinerariesOverview extends React.Component {
                     )}
                     <div className="card">
                         {this.state.showLocationAdd ?
-                            <LocationAddContainer tripId={trip.id}/> :
+                            <LocationAddContainer trip={trip}/> :
                             <button className="btn btn-primary" onClick={this.onClick}><FontAwesomeIcon icon={faPlus}/></button>
                         }
                     </div>
