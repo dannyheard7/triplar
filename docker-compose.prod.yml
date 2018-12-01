@@ -52,5 +52,6 @@ services:
     image: triplar/frontend
     ports:
       - "80:80"
+      - "443:443"
     links:
       - backend
