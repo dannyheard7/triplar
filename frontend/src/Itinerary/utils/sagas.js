@@ -78,9 +78,8 @@ function* addItemToItineraryDay(itineraryId, placeId, day, position) {
         let response = yield call(itineraryApi.addPlaceToItineraryDay, itineraryId, placeId, day, position);
         let result = response.data.data.addTripLocationItem.tripLocationItem;
 
-        result = {place: result.place.id, date: day, itineraryId: itineraryId};
-
-        yield put({type: ADD_ITEM_TO_ITINERARY_DAY_SUCCESS, item: result});
+        yield put({type: UPDATE_PLACES_SUCCESS, places: [result.place]});
+        yield put({type: ADD_ITEM_TO_ITINERARY_DAY_SUCCESS, item: {place: result.place.id, date: day, itineraryId: itineraryId}});
     } catch (error) {
         yield put({type: ADD_ITEM_TO_ITINERARY_DAY_FAILURE, error});
     }
