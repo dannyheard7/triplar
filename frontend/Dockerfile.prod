@@ -6,8 +6,7 @@ RUN npm install
 
 COPY . /app
 
-ENV REACT_APP_BACKEND_HOST https://triplar.co/api
-
+ENV REACT_APP_BACKEND_HOST https://triplar.co
 RUN npm run build
 
 FROM nginx:1.15
