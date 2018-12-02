@@ -12,14 +12,14 @@ exports[`<LocationForm /> renders correctly 1`] = `
     name="startDate"
     onChange={[Function]}
     required={true}
-    value="01/12/2018"
+    value="02/12/2018"
   />
   <DateFieldGroup
     label="Departure"
     name="endDate"
     onChange={[Function]}
     required={true}
-    value="02/12/2018"
+    value="03/12/2018"
   />
   <button
     className="btn btn-primary"

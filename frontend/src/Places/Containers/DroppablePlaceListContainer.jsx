@@ -4,6 +4,7 @@ import PlaceListItem from "Places/Components/PlaceListItem";
 import "Places/styles/places.css";
 import {ItemTypes} from 'Places/utils/constants';
 import {DropTarget} from "react-dnd";
+import FlipMove from "react-flip-move";
 
 
 const placeListTarget = {
@@ -29,14 +30,28 @@ function collect(connect, monitor) {
 
 
 export class DroppablePlaceListContainer extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            flipping: false
+        };
+    }
+
     render() {
         const {connectDropTarget, isOver, places, path, onDragRemove} = this.props;
 
         return connectDropTarget(
-            <div className="places-list">
+            <div >
                 {places.length === 0 && "Drop a place here" }
-                {places.map((place) => <PlaceListItem key={place.id} place={place} path={path}
+                <FlipMove  duration={100}
+                    easing="ease-out"
+                    className="places-list"
+                    onStart={() => this.setState({flipping: true})}
+                    onFinish={() => this.setState({flipping: false})}>
+                    {places.map((place) => <PlaceListItem key={place.id} place={place} path={path}
                                                       onDragRemove={onDragRemove}/>)}
+                </FlipMove>
             </div>
         );
     }
