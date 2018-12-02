@@ -39,17 +39,13 @@ services:
       - redis
     depends_on:
       - backend_scheduler
-    deploy:
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-        window: 120s
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod
     image: triplar/frontend
+    env_file:
+        - ./frontend/.env
     ports:
       - "80:80"
       - "443:443"
