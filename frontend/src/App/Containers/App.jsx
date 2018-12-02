@@ -54,6 +54,8 @@ export class App extends React.Component {
                     <LoggedInContainer token={this.props.auth.token}>
                         <Helmet>
                             <title>Triplar</title>
+                             <meta name="description" content="Triplar is a travel organiser.
+                             Plan single or multiple stops and see popular attractions for each city along the way." />
                         </Helmet>
                         <div className="wrapper">
                             <HeaderAuthenticated/>
@@ -82,6 +84,8 @@ export class App extends React.Component {
                     <div className="wrapper">
                         <Helmet>
                             <title>Triplar</title>
+                            <meta name="description" content="Triplar is a travel organiser.
+                             Plan single or multiple stops and see popular attractions for each city along the way." />
                         </Helmet>
                         <HeaderUnauthenticated/>
                         <div className="content">

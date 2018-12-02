@@ -31,6 +31,10 @@ exports[`<App /> when authenticated renders correctly 1`] = `
       <title>
         Triplar
       </title>
+      <meta
+        content="Triplar is a travel organiser. Plan single or multiple stops and see popular attractions for each city along the way."
+        name="description"
+      />
     </HelmetWrapper>
     <div
       className="wrapper"
@@ -113,6 +117,10 @@ exports[`<App /> when not authenticated renders correctly 1`] = `
       <title>
         Triplar
       </title>
+      <meta
+        content="Triplar is a travel organiser. Plan single or multiple stops and see popular attractions for each city along the way."
+        name="description"
+      />
     </HelmetWrapper>
     <HeaderUnauthenticated />
     <div
