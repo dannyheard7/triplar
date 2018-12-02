@@ -10,6 +10,9 @@ exports[`<LoginContainer /> renders correctly 1`] = `
       Login | Triplar
     </title>
   </HelmetWrapper>
+  <h1>
+    Login
+  </h1>
   <Connect(ReduxFormContainer)
     action={[MockFunction]}
   >

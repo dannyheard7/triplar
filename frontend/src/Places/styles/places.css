@@ -22,4 +22,8 @@
   grid-gap: 0.5rem;
 }
 
+.card a {
+  text-decoration: none;
+}
+
 /*# sourceMappingURL=places.css.map */

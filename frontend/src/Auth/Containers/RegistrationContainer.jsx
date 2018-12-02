@@ -23,6 +23,7 @@ export default class RegistrationContainer extends React.Component {
                 <Helmet>
                     <title>Register | Triplar</title>
                 </Helmet>
+                <h1>Register</h1>
                 <FormContainer onSuccess={this.onSuccess} apiFunction={api.registerUser}>
                     <RegistrationForm />
                 </FormContainer>

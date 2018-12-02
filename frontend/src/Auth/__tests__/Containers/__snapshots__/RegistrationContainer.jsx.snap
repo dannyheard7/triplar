@@ -10,6 +10,9 @@ exports[`<RegistrationContainer /> renders correctly 1`] = `
       Register | Triplar
     </title>
   </HelmetWrapper>
+  <h1>
+    Register
+  </h1>
   <FormContainer
     apiFunction={[Function]}
     onSuccess={[Function]}
