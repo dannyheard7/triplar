@@ -14,9 +14,13 @@ export class LoginContainer extends React.Component {
                     <title>Login | Triplar</title>
                 </Helmet>
                 <h1>Login</h1>
-                <ReduxFormContainer action={loginRequest}>
-                    <LoginForm />
-                </ReduxFormContainer>
+
+                {this.props.auth.requesting ?
+                    <p>Attempting to login...</p> :
+                    <ReduxFormContainer action={loginRequest}>
+                        <LoginForm/>
+                    </ReduxFormContainer>
+                }
             </div>
         );
     }

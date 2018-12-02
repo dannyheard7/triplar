@@ -12,11 +12,11 @@ exports[`<TripDetail /> with trip prop renders correctly 1`] = `
       test | Triplar
     </title>
   </HelmetWrapper>
-  <h2
+  <h1
     id="trip-name"
   >
     test
-  </h2>
+  </h1>
   <p>
     10th August
      - 

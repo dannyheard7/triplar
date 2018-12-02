@@ -15,12 +15,23 @@ describe('<LoginContainer />', () => {
     const data = {tokenAuth: {user: {email: faker.internet.email()},
                         'token': faker.random.number() }};
 
+    const props = {
+        auth: {
+            requesting: false
+        }
+    };
+
     afterEach(function () {
         loginActionSpy.mockReset();
     });
 
     test('renders correctly', () => {
-        const result = renderer.render(<LoginContainer />);
+        const result = renderer.render(<LoginContainer {...props} />);
+        expect(result).toMatchSnapshot();
+    });
+
+    test('renders correctly when requesting', () => {
+        const result = renderer.render(<LoginContainer {...props} auth={{requesting: true}} />);
         expect(result).toMatchSnapshot();
     });
 

@@ -19,7 +19,7 @@ export class TripDetail extends React.Component {
                     <Helmet>
                         <title>{this.props.trip.name + " | Triplar"}</title>
                     </Helmet>
-                    <h2 id="trip-name">{trip.name}</h2>
+                    <h1 id="trip-name">{trip.name}</h1>
                     <p>{Moment(trip.startDate).format('Do MMMM')} - {Moment(trip.endDate).format('Do MMMM')}</p>
                     {trip.createdBy && <p className="created-by">Created by: {trip.createdBy.firstName} {trip.createdBy.lastName}</p>}
                     <Link to={`/trips/${trip.id}/edit`}>

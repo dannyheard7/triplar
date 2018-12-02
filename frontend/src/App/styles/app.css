@@ -8,7 +8,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  margin: 0;
+  margin: 0.5rem 0;
   color: #3891A6;
 }
 
@@ -97,17 +97,35 @@ p {
 
 button {
   padding: 1rem 1.5rem;
-  border: none;
+  margin: 0.5rem;
+  border: 1px solid lightgray;
   border-radius: 3px;
   font-size: 1rem;
   font-family: inherit;
   font-weight: bold;
   cursor: pointer;
+  background-color: lightgray;
+}
+button:first-of-type {
+  margin-left: 0;
 }
 
 .btn-primary {
   background-color: deepskyblue;
+  border: 1px solid deepskyblue;
   color: white;
+}
+
+.btn-danger {
+  background-color: #c9302c;
+  border: 1px solid #c9302c;
+  color: white;
+}
+
+.btn-light {
+  background-color: #fff;
+  border: 1px solid grey;
+  color: black;
 }
 
 .card {

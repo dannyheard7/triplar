@@ -13,8 +13,11 @@ export class TripList extends React.Component {
 
     render() {
         return (
-            <div className="trip-list">
-                {this.props.trips.map(this.createListItem)}
+            <div>
+                <h1>Your Trips</h1>
+                <div className="trip-list">
+                    {this.props.trips.map(this.createListItem)}
+                </div>
             </div>
         )
     }

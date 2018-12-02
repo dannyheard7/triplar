@@ -20,3 +20,22 @@ exports[`<LoginContainer /> renders correctly 1`] = `
   </Connect(ReduxFormContainer)>
 </div>
 `;
+
+exports[`<LoginContainer /> renders correctly when requesting 1`] = `
+<div>
+  <HelmetWrapper
+    defer={true}
+    encodeSpecialCharacters={true}
+  >
+    <title>
+      Login | Triplar
+    </title>
+  </HelmetWrapper>
+  <h1>
+    Login
+  </h1>
+  <p>
+    Attempting to login...
+  </p>
+</div>
+`;

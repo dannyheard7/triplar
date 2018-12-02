@@ -9,6 +9,13 @@ $logo-color: #fff;
 $btn-primary-color: deepskyblue;
 $btn-primary-text-color: white;
 
+$btn-danger-color: #c9302c;
+$btn-danger-text-color: white;
+
+$btn-light-color: #fff;
+$btn-light-border-color: grey;
+$btn-light-text-color: black;
+
 * {
   box-sizing: border-box;
 }
@@ -18,7 +25,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  margin: 0;
+  margin: $margin 0;
   color: $header-color;
 }
 
@@ -122,17 +129,36 @@ p {
 
 button {
   padding: 2*$padding 3*$padding;
-  border: none;
+  margin: $margin;
+  border: 1px solid lightgray;
   border-radius: $border-radius;
   font-size: 1rem;
   font-family: inherit;
   font-weight: bold;
   cursor: pointer;
+  background-color: lightgray;
+
+  &:first-of-type {
+    margin-left: 0;
+  }
 }
 
 .btn-primary {
   background-color: $btn-primary-color;
+  border: 1px solid $btn-primary-color;
   color: $btn-primary-text-color;
+}
+
+.btn-danger {
+  background-color: $btn-danger-color;
+  border: 1px solid  $btn-danger-color;
+  color: $btn-danger-text-color;
+}
+
+.btn-light {
+  background-color: $btn-light-color;
+  border: 1px solid $btn-light-border-color;
+  color: $btn-light-text-color;
 }
 
 .card {

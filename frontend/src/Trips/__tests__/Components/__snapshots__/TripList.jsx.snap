@@ -1,7 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<TripList /> renders a correctly 1`] = `
-<div
-  className="trip-list"
-/>
+<div>
+  <h1>
+    Your Trips
+  </h1>
+  <div
+    className="trip-list"
+  />
+</div>
 `;
