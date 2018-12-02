@@ -32,7 +32,8 @@ export class PlacesSearchContainer extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevProps.city !== this.props.city) {
-            this.getPopularPlaces(this.state.selectedCategory);
+            this.setState({selectedCategory: "", selectedSubCategory: ""},
+                () => this.getPopularPlaces(this.state.selectedCategory));
         }
     }
 
