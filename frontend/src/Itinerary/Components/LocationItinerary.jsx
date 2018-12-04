@@ -14,11 +14,9 @@ export class LocationItinerary extends React.Component {
         super(props);
 
         this.state = {
-            showMap: false,
             selectedDate: props.itinerary.startDate,
         };
 
-        this.onClick = this.onClick.bind(this);
         this.onChangeSelectedDay = this.onChangeSelectedDay.bind(this);
     }
 
@@ -32,10 +30,6 @@ export class LocationItinerary extends React.Component {
                 selectedDate: this.props.itinerary.startDate
             }, this.componentDidMount);
         }
-    }
-
-    onClick() {
-        this.setState({showMap: !this.state.showMap});
     }
 
     onChangeSelectedDay(event) {
@@ -57,7 +51,7 @@ export class LocationItinerary extends React.Component {
                     <title>{this.props.trip.name + ": " + this.props.itinerary.city.name + " | Triplar"}</title>
                 </Helmet>
                 <div className="destination-plan">
-                    <h3 onClick={this.onClick}>{itinerary.city.name}</h3>
+                    <h3>{itinerary.city.name}</h3>
                     <p>{Moment(itinerary.startDate).format('dddd Do MMMM') } - {Moment(itinerary.endDate).format('dddd Do MMMM') }
                         <select onChange={this.onChangeSelectedDay}>
                             {days.map((day) => <option key={day} value={day.format("YYYY-MM-DD")}>{day.format('dddd Do MMMM')}</option>)}

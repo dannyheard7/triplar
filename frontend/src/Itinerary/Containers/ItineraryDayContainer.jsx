@@ -1,17 +1,24 @@
 import React from "react";
 import ItineraryDay from "Itinerary/Components/ItineraryDay";
 import DroppablePlaceListContainer from "Places/Containers/DroppablePlaceListContainer";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import {addItemToItineraryDay} from "../utils/actions";
 import MarkerMap from "../../Maps/Components/MarkerMap";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faMapMarkedAlt} from "@fortawesome/free-solid-svg-icons";
 
 export class ItineraryDayContainer extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            showMap: false
+        };
+
         this.canDrop = this.canDrop.bind(this);
         this.onDrop = this.onDrop.bind(this);
         this.onDragRemove = this.onDragRemove.bind(this);
+        this.onMapIconClick = this.onMapIconClick.bind(this);
     }
 
     canDrop(item) {
@@ -26,6 +33,10 @@ export class ItineraryDayContainer extends React.Component {
         console.log("here");
     }
 
+    onMapIconClick() {
+        this.setState({showMap: !this.state.showMap});
+    }
+
     render () {
         const itinerary = this.props.itinerary;
         const position = [itinerary.city.location.lat, itinerary.city.location.lng];
@@ -34,7 +45,8 @@ export class ItineraryDayContainer extends React.Component {
 
         return (
             <div>
-                <MarkerMap center={position} zoom={13} markers={placePositions}/>
+                <button className="btn btn-light" onClick={this.onMapIconClick}><FontAwesomeIcon icon={faMapMarkedAlt}/></button>
+                {this.state.showMap && <MarkerMap center={position} zoom={13} markers={placePositions}/>}
                 <ItineraryDay day={this.props.day}/>
                 <DroppablePlaceListContainer places={this.props.places} path={this.props.path} canDrop={this.canDrop}
                                              onDrop={this.onDrop} onDragRemove={this.onDragRemove}/>
