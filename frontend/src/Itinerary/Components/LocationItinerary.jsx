@@ -50,7 +50,7 @@ export class LocationItinerary extends React.Component {
         }
 
         const placeId = result.draggableId;
-        const selectedDate = this.state.selectedDate;
+        const selectedDate = Moment(this.state.selectedDate).format("YYYY-MM-DDz");
 
         if (result.destination.droppableId === "placeSearchContainer") {
             this.props.dispatch(removeItemFromItineraryDay(this.props.itinerary.id, placeId, selectedDate));

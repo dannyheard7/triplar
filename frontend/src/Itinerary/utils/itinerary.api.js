@@ -116,17 +116,13 @@ export default {
 
     removeItemFromItineraryDay(tripLocationId, placeId, date) {
         const removeTripLocationItemMutation = ` 
-            mutation RemoveTripLocationItem($input: RemoveTripLocationItemMutationInput!){
-              removeTripLocationItem(input: $input) {
-                errors {
-                  field
-                  messages
-                }
+            mutation RemoveTripLocationItem{
+              removeTripLocationItem(location: ${tripLocationId}, apiPlace: "${placeId}", startDate: "${date}", endDate: "${date}") {
+                result
               }
             }`;
 
-        let variables = {input: {location: tripLocationId, apiPlace: placeId, startDate: date, endDate: date}};
-        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: removeTripLocationItemMutation, variables: variables}));
+        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: removeTripLocationItemMutation}));
     },
 
     searchCities(query) {

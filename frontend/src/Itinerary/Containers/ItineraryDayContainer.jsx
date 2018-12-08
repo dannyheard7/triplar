@@ -2,7 +2,6 @@ import React from "react";
 import ItineraryDay from "Itinerary/Components/ItineraryDay";
 import DroppablePlaceListContainer from "Places/Containers/DroppablePlaceListContainer";
 import {connect} from "react-redux";
-import {addItemToItineraryDay} from "../utils/actions";
 import MarkerMap from "../../Maps/Components/MarkerMap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faMapMarkedAlt} from "@fortawesome/free-solid-svg-icons";

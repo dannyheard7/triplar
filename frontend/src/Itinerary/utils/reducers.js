@@ -39,8 +39,8 @@ function removeItineraryItemsForDay(itineraryItems, itineraryId, day) {
     return itineraryItems.filter(x => x.itineraryId !== itineraryId && x.date !== day);
 }
 
-function removeItemFromItineraryItiners(itineraryItems, item) {
-    return itineraryItems.filter(x => x !== item);
+function removeItemFromItineraryItems(itineraryItems, item) {
+    return itineraryItems.filter(x => !(x.itinerary === item.itinerary && x.place === item.place && x.date === item.date));
 }
 
 export function itinerariesReducer(state = initialState, action) {
@@ -60,9 +60,9 @@ export function itinerariesReducer(state = initialState, action) {
             return {...state, itineraryItems: [...removeItineraryItemsForDay(state.itineraryItems, action.itineraryId, action.date), ...action.items],
                 errors: []};
         case ADD_ITEM_TO_ITINERARY_DAY_SUCCESS:
-            return {...state, itineraryItems: [...state.itineraryItems, action.item], errors: []};
+            return {...state, itineraryItems: [...state.itineraryItems, action.item]};
         case REMOVE_ITEM_FROM_ITINERARY_DAY_SUCCESS:
-            return {...state, itineraryItems: removeItemFromItineraryItiners(state.itineraryItems, action.item)};
+            return {...state, itineraryItems: removeItemFromItineraryItems(state.itineraryItems, action.item)};
         case GET_TRIP_ITINERARIES_FAILURE:
         case ADD_LOCATION_TO_TRIP_FAILURE:
         case GET_ITINERARY_DAY_ITEMS_FAILURE:

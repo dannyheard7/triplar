@@ -118,12 +118,29 @@ class AddTripLocationItemMutation(DjangoModelFormMutation):
         form_class = TripLocationItemForm
 
 
+class RemoveTripLocationItemMutation(graphene.Mutation):
+    class Arguments:
+        location = graphene.Int()
+        apiPlace = graphene.String()
+        startDate = graphene.Date()
+        endDate = graphene.Date()
+
+    result = graphene.Boolean()
+
+    @login_required
+    def mutate(self, info, location, apiPlace, startDate, endDate):
+        item = TripLocationItem.objects.get(location=location, api_place=apiPlace, location__trip__created_by=info.context.user)
+        item.delete()
+        return RemoveTripLocationItemMutation(result=True)
+
+
 class Mutations(graphene.ObjectType):
     create_trip = TripMutation.Field()
     edit_trip = TripMutation.Field()
     delete_trip = DeleteTrip.Field()
     add_trip_location = TripLocationMutation.Field()
     add_trip_location_item = AddTripLocationItemMutation.Field()
+    remove_trip_location_item = RemoveTripLocationItemMutation.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutations)

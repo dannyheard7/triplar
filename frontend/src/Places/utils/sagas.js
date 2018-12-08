@@ -17,7 +17,6 @@ export const getStatePopularPlaces = (state) => state.places.popularPlaces;
 export const getStateTopLevelCategories = (state) => state.places.topLevelCategories;
 
 function* getPopularPlaces(lat, lng, category) {
-    console.log("here");
     let popularPlaces = yield select(getStatePopularPlaces);
 
     if(popularPlaces.findIndex(x => x.lat === lat && x.lng === lng && x.category === category &&

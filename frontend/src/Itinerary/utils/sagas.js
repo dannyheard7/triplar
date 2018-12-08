@@ -99,8 +99,14 @@ function* addItemToItineraryDayWatcher() {
 
 function* removeItemFromItineraryDay(itineraryId, placeId, day) {
     try {
-        yield call(itineraryApi.removeItemFromItineraryDay, itineraryId, placeId, day);
-        yield put({type: REMOVE_ITEM_FROM_ITINERARY_DAY_SUCCESS, item: {place: placeId, date: day, itineraryId: itineraryId}});
+        const response = yield call(itineraryApi.removeItemFromItineraryDay, itineraryId, placeId, day);
+
+        if(response.data.data.removeTripLocationItem.result) {
+            yield put({
+                type: REMOVE_ITEM_FROM_ITINERARY_DAY_SUCCESS,
+                item: {place: placeId, date: day, itineraryId: itineraryId}
+            });
+        }
     } catch (error) {
         yield put({type: REMOVE_ITEM_FROM_ITINERARY_DAY_FAILURE, error});
     }
