@@ -49,11 +49,7 @@ export class App extends React.Component {
             return (
                 <Router history={history}>
                     <LoggedInContainer token={this.props.auth.token}>
-                        <Helmet>
-                            <title>Triplar</title>
-                             <meta name="description" content="Triplar is a travel organiser.
-                             Plan single or multiple stops and see popular attractions for each city along the way." />
-                        </Helmet>
+                        {this.getHeaderInfo()}
                         <div className="wrapper">
                             <HeaderAuthenticated/>
                             <div className="content">
@@ -79,11 +75,7 @@ export class App extends React.Component {
             return (
                 <Router history={history}>
                     <div className="wrapper">
-                        <Helmet>
-                            <title>Triplar</title>
-                            <meta name="description" content="Triplar is a travel organiser.
-                             Plan single or multiple stops and see popular attractions for each city along the way." />
-                        </Helmet>
+                        {this.getHeaderInfo()}
                         <HeaderUnauthenticated/>
                         <div className="content">
                             <Switch>
@@ -96,6 +88,19 @@ export class App extends React.Component {
                 </Router>
             );
         }
+    }
+
+    getHeaderInfo() {
+        return (
+            <Helmet>
+                <title>Triplar</title>
+                <meta name="description" content="Triplar is a travel organiser.
+                 Plan single or multiple stops and see popular attractions for each city along the way." />
+                <meta name="keyword" content="Triplar, travel organiser, travel planner, planner, cities,
+                 multiple stops, popular attractions, city, holiday" />
+                <meta name="viewport" content="width=device-width" />
+            </Helmet>
+        )
     }
 }
 

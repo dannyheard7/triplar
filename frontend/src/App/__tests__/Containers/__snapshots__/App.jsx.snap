@@ -35,6 +35,14 @@ exports[`<App /> when authenticated renders correctly 1`] = `
         content="Triplar is a travel organiser. Plan single or multiple stops and see popular attractions for each city along the way."
         name="description"
       />
+      <meta
+        content="Triplar, travel organiser, travel planner, planner, cities, multiple stops, popular attractions, city, holiday"
+        name="keyword"
+      />
+      <meta
+        content="width=device-width"
+        name="viewport"
+      />
     </HelmetWrapper>
     <div
       className="wrapper"
@@ -120,6 +128,14 @@ exports[`<App /> when not authenticated renders correctly 1`] = `
       <meta
         content="Triplar is a travel organiser. Plan single or multiple stops and see popular attractions for each city along the way."
         name="description"
+      />
+      <meta
+        content="Triplar, travel organiser, travel planner, planner, cities, multiple stops, popular attractions, city, holiday"
+        name="keyword"
+      />
+      <meta
+        content="width=device-width"
+        name="viewport"
       />
     </HelmetWrapper>
     <HeaderUnauthenticated />
