@@ -41,7 +41,13 @@ export class LocationItinerary extends React.Component {
             return;
         }
 
-        if (result.destination === result.source) {
+        const itineraryId = this.props.itinerary.id;
+        let placeId = result.draggableId;
+        if(result.source.droppableId === "itinerary-day-droppable") {
+            placeId = result.draggableId.slice(0, -itineraryId.toString().length);
+        }
+
+        if (result.destination.droppableId === result.source.droppableId) {
             //  reorder
             //     result.source.index,
             //     result.destination.index
@@ -49,23 +55,21 @@ export class LocationItinerary extends React.Component {
             return;
         }
 
-        const placeId = result.draggableId;
         const selectedDate = Moment(this.state.selectedDate).format("YYYY-MM-DDz");
 
         if (result.destination.droppableId === "placeSearchContainer") {
-            this.props.dispatch(removeItemFromItineraryDay(this.props.itinerary.id, placeId, selectedDate));
+            this.props.dispatch(removeItemFromItineraryDay(itineraryId, placeId, selectedDate));
         } else {
             if (!this.props.itineraryItems.filter(x => x.date === selectedDate).map(x => x.place).includes(placeId)) {
-                this.props.dispatch(addItemToItineraryDay(this.props.itinerary.id, placeId, selectedDate, result.destination.index));
+                this.props.dispatch(addItemToItineraryDay(itineraryId, placeId, selectedDate, result.destination.index));
             }
         }
     }
 
     render() {
-        const itinerary = this.props.itinerary;
-        const tripId = this.props.trip.id;
+        const {trip, itinerary} = this.props;
+        const tripId = trip ? trip.id : this.props.match.params.tripId;
         const path = `/trips/${tripId}/itinerary/${itinerary.id}`;
-
 
         const days = daysBetweenDates(itinerary.startDate, itinerary.endDate);
 
@@ -73,20 +77,20 @@ export class LocationItinerary extends React.Component {
             <DragDropContext onDragEnd={this.onDragEnd}>
                 <div className="destination-itinerary">
                     <Helmet>
-                        <title>{this.props.trip.name + ": " + this.props.itinerary.city.name + " | Triplar"}</title>
+                        <title>{trip.name + ": " + itinerary.city.name + " | Triplar"}</title>
                     </Helmet>
                     <div className="destination-plan">
                         <h3>{itinerary.city.name}</h3>
                         <p>{Moment(itinerary.startDate).format('dddd Do MMMM')} - {Moment(itinerary.endDate).format('dddd Do MMMM')}
                             <select onChange={this.onChangeSelectedDay}>
-                                {days.map((day) => <option key={day}
-                                                           value={day.format("YYYY-MM-DD")}>{day.format('dddd Do MMMM')}</option>)}
+                                {days.map((day) =>
+                                    <option key={day} value={day.format("YYYY-MM-DD")}>{day.format('dddd Do MMMM')}</option>
+                                )}
                             </select>
                         </p>
-                        <ItineraryDayContainer day={this.state.selectedDate} itinerary={itinerary}
-                                               key={this.state.selectedDate} path={path}/>
+                        <ItineraryDayContainer day={this.state.selectedDate} itinerary={itinerary} key={this.state.selectedDate} path={path}/>
                     </div>
-                    {itinerary.city.location && <PlacesSearchContainer city={itinerary.city} path={path}/>}
+                    <PlacesSearchContainer city={itinerary.city} path={path}/>
                 </div>
             </DragDropContext>
         )
@@ -94,7 +98,8 @@ export class LocationItinerary extends React.Component {
 }
 
 LocationItinerary.defaultProps = {
-    itinerary: {city: {}}
+    itinerary: {city: {}},
+    trip: {}
 };
 
 function mapStateToProps(state, ownProps) {

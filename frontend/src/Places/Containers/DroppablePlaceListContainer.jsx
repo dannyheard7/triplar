@@ -16,17 +16,17 @@ const getListStyle = isDraggingOver => ({
 export default class DroppablePlaceListContainer extends React.Component {
 
     render() {
-        const {path, places, droppableId} = this.props;
+        const {path, places, droppableId, keyFunc} = this.props;
 
         return (
             <Droppable droppableId={droppableId} direction="horizontal">
                 {(provided, snapshot) => (
                     <div ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)} {...provided.droppableProps}>
                         {places.map((item, index) => (
-                            <Draggable key={item.id} draggableId={item.id} index={index}>
+                            <Draggable key={keyFunc(item.id)} draggableId={keyFunc(item.id)} index={index}>
                                 {(provided, snapshot) => (
                                     <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                        <PlaceListItem key={item.id} place={item} path={path}/>
+                                        <PlaceListItem key={keyFunc(item.id)} place={item} path={path}/>
                                         {provided.placeholder}
                                     </div>
                                 )}
@@ -39,3 +39,7 @@ export default class DroppablePlaceListContainer extends React.Component {
         );
     }
 }
+
+DroppablePlaceListContainer.defaultProps = {
+    keyFunc: (id) => id
+};

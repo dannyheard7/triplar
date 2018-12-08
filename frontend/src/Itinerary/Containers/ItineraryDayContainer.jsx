@@ -23,16 +23,23 @@ export class ItineraryDayContainer extends React.Component {
 
     render () {
         const itinerary = this.props.itinerary;
-        const position = [itinerary.city.location.lat, itinerary.city.location.lng];
-        let placePositions = this.props.places.filter(x => x.coordinates).map(x => ({position: [x.coordinates.latitude, x.coordinates.longitude],
-            popupText: x.name}));
+        let position = [];
+        let placePositions = [];
+
+        if(itinerary.city && itinerary.city.location) {
+            position = [itinerary.city.location.lat, itinerary.city.location.lng];
+            placePositions = this.props.places.filter(x => x.coordinates).map(x => (
+                {position: [x.coordinates.latitude, x.coordinates.longitude], popupText: x.name}
+            ));
+        }
 
         return (
             <div>
                 <button className="btn btn-light" onClick={this.onMapIconClick}><FontAwesomeIcon icon={faMapMarkedAlt}/></button>
                 {this.state.showMap && <MarkerMap center={position} zoom={13} markers={placePositions}/>}
                 <ItineraryDay day={this.props.day}/>
-                <DroppablePlaceListContainer places={this.props.places} path={this.props.path} droppableId="droppable"/>
+                <DroppablePlaceListContainer places={this.props.places} path={this.props.path}
+                                             droppableId="itinerary-day-droppable" keyFunc={(id) => id + itinerary.id}/>
             </div>
         );
     }

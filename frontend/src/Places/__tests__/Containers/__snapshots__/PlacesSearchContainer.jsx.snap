@@ -29,6 +29,7 @@ exports[`<PlacesSearchContainer /> renders correctly 1`] = `
   </div>
   <DroppablePlaceListContainer
     droppableId="placeSearchContainer"
+    keyFunc={[Function]}
     onDrop={[Function]}
     places={Array []}
   />
