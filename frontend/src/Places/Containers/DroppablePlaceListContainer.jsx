@@ -5,23 +5,32 @@ import "Places/styles/places.css";
 import {Draggable, Droppable} from "react-beautiful-dnd";
 
 const grid = 8;
-const getListStyle = isDraggingOver => ({
-    background: isDraggingOver ? 'lightblue' : 'lightgrey',
+const getListStyle = isDragging => ({
+    background: isDragging ? 'lightblue' : 'lightgrey',
     display: 'flex',
     padding: grid,
     overflow: 'auto',
+    minHeight: isDragging ? '171px' : 'auto'
 });
+const getDraggingOverListStyle = isDraggingOver => {
+    if (isDraggingOver) return {
+        background: 'orange',
+    }
+};
 
 
 export default class DroppablePlaceListContainer extends React.Component {
 
     render() {
-        const {path, places, droppableId, keyFunc} = this.props;
+        const {path, places, droppableId, keyFunc, dragging} = this.props;
+
+        const style = getListStyle(dragging);
 
         return (
             <Droppable droppableId={droppableId} direction="horizontal">
                 {(provided, snapshot) => (
-                    <div ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)} {...provided.droppableProps}>
+                    <div ref={provided.innerRef} style={{...style, ...getDraggingOverListStyle(snapshot.isDraggingOver)}}
+                         {...provided.droppableProps}>
                         {places.map((item, index) => (
                             <Draggable key={keyFunc(item.id)} draggableId={keyFunc(item.id)} index={index}>
                                 {(provided, snapshot) => (
@@ -41,5 +50,6 @@ export default class DroppablePlaceListContainer extends React.Component {
 }
 
 DroppablePlaceListContainer.defaultProps = {
-    keyFunc: (id) => id
+    keyFunc: (id) => id,
+    dragging: false
 };

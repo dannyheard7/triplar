@@ -3,6 +3,7 @@
 exports[`<LocationItinerary /> <LocationItinerary /> renders correctly 1`] = `
 <DragDropContext
   onDragEnd={[Function]}
+  onDragStart={[Function]}
 >
   <div
     className="destination-itinerary"
@@ -47,6 +48,7 @@ exports[`<LocationItinerary /> <LocationItinerary /> renders correctly 1`] = `
       </p>
       <Connect(ItineraryDayContainer)
         day="2018-08-10T00:00:00.000Z"
+        dragging={false}
         itinerary={
           Object {
             "city": Object {

@@ -16,10 +16,12 @@ export class LocationItinerary extends React.Component {
 
         this.state = {
             selectedDate: props.itinerary.startDate,
+            dragging: false,
         };
 
         this.onChangeSelectedDay = this.onChangeSelectedDay.bind(this);
         this.onDragEnd = this.onDragEnd.bind(this);
+        this.onDragStart = this.onDragStart.bind(this);
     }
 
     componentDidMount() {
@@ -37,9 +39,8 @@ export class LocationItinerary extends React.Component {
     }
 
     onDragEnd(result) {
-        if (!result.destination) {
-            return;
-        }
+        this.setState({dragging: false});
+        if (!result.destination) return;
 
         const itineraryId = this.props.itinerary.id;
         let placeId = result.draggableId;
@@ -49,9 +50,6 @@ export class LocationItinerary extends React.Component {
 
         if (result.destination.droppableId === result.source.droppableId) {
             //  reorder
-            //     result.source.index,
-            //     result.destination.index
-            // ;
             return;
         }
 
@@ -59,11 +57,13 @@ export class LocationItinerary extends React.Component {
 
         if (result.destination.droppableId === "placeSearchContainer") {
             this.props.dispatch(removeItemFromItineraryDay(itineraryId, placeId, selectedDate));
-        } else {
-            if (!this.props.itineraryItems.filter(x => x.date === selectedDate).map(x => x.place).includes(placeId)) {
-                this.props.dispatch(addItemToItineraryDay(itineraryId, placeId, selectedDate, result.destination.index));
-            }
+        } else if (!this.props.itineraryItems.filter(x => x.date === selectedDate).map(x => x.place).includes(placeId)) {
+            this.props.dispatch(addItemToItineraryDay(itineraryId, placeId, selectedDate, result.destination.index));
         }
+    }
+
+    onDragStart() {
+        this.setState({dragging: true});
     }
 
     render() {
@@ -74,7 +74,7 @@ export class LocationItinerary extends React.Component {
         const days = daysBetweenDates(itinerary.startDate, itinerary.endDate);
 
         return (
-            <DragDropContext onDragEnd={this.onDragEnd}>
+            <DragDropContext onDragEnd={this.onDragEnd} onDragStart={this.onDragStart}>
                 <div className="destination-itinerary">
                     <Helmet>
                         <title>{trip.name + ": " + itinerary.city.name + " | Triplar"}</title>
@@ -88,7 +88,8 @@ export class LocationItinerary extends React.Component {
                                 )}
                             </select>
                         </p>
-                        <ItineraryDayContainer day={this.state.selectedDate} itinerary={itinerary} key={this.state.selectedDate} path={path}/>
+                        <ItineraryDayContainer day={this.state.selectedDate} itinerary={itinerary} key={this.state.selectedDate}
+                                               path={path} dragging={this.state.dragging}/>
                     </div>
                     <PlacesSearchContainer city={itinerary.city} path={path}/>
                 </div>

@@ -28,6 +28,7 @@ exports[`<PlacesSearchContainer /> renders correctly 1`] = `
     </select>
   </div>
   <DroppablePlaceListContainer
+    dragging={false}
     droppableId="placeSearchContainer"
     keyFunc={[Function]}
     onDrop={[Function]}
