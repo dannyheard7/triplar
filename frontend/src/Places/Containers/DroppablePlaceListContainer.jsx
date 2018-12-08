@@ -2,59 +2,40 @@ import React from "react";
 import PlaceListItem from "Places/Components/PlaceListItem";
 
 import "Places/styles/places.css";
-import {ItemTypes} from 'Places/utils/constants';
-import {DropTarget} from "react-dnd";
-import FlipMove from "react-flip-move";
+import {Draggable, Droppable} from "react-beautiful-dnd";
+
+const grid = 8;
+const getListStyle = isDraggingOver => ({
+    background: isDraggingOver ? 'lightblue' : 'lightgrey',
+    display: 'flex',
+    padding: grid,
+    overflow: 'auto',
+});
 
 
-const placeListTarget = {
-    canDrop(props, monitor) {
-        let item = monitor.getItem();
-        return props.canDrop(item);
-    },
-
-    drop(props, monitor, component) {
-        let item = monitor.getItem();
-
-        props.onDrop(item);
-        return item;
-    }
-};
-
-function collect(connect, monitor) {
-    return {
-        connectDropTarget: connect.dropTarget(),
-        isOver: monitor.isOver()
-    };
-}
-
-
-export class DroppablePlaceListContainer extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            flipping: false
-        };
-    }
+export default class DroppablePlaceListContainer extends React.Component {
 
     render() {
-        const {connectDropTarget, isOver, places, path, onDragRemove} = this.props;
+        const {path, places, droppableId} = this.props;
 
-        return connectDropTarget(
-            <div >
-                {places.length === 0 && "Drop a place here" }
-                <FlipMove  duration={100}
-                    easing="ease-out"
-                    className="places-list"
-                    onStart={() => this.setState({flipping: true})}
-                    onFinish={() => this.setState({flipping: false})}>
-                    {places.map((place) => <PlaceListItem key={place.id} place={place} path={path}
-                                                      onDragRemove={onDragRemove}/>)}
-                </FlipMove>
-            </div>
+        return (
+            <Droppable droppableId={droppableId} direction="horizontal">
+                {(provided, snapshot) => (
+                    <div ref={provided.innerRef} style={getListStyle(snapshot.isDraggingOver)} {...provided.droppableProps}>
+                        {places.map((item, index) => (
+                            <Draggable key={item.id} draggableId={item.id} index={index}>
+                                {(provided, snapshot) => (
+                                    <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                        <PlaceListItem key={item.id} place={item} path={path}/>
+                                        {provided.placeholder}
+                                    </div>
+                                )}
+                            </Draggable>
+                        ))}
+                        {provided.placeholder}
+                    </div>
+                )}
+            </Droppable>
         );
     }
 }
-
-export default DropTarget(ItemTypes.PLACE, placeListTarget, collect)(DroppablePlaceListContainer);

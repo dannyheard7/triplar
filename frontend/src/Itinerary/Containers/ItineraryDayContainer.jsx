@@ -15,22 +15,7 @@ export class ItineraryDayContainer extends React.Component {
             showMap: false
         };
 
-        this.canDrop = this.canDrop.bind(this);
-        this.onDrop = this.onDrop.bind(this);
-        this.onDragRemove = this.onDragRemove.bind(this);
         this.onMapIconClick = this.onMapIconClick.bind(this);
-    }
-
-    canDrop(item) {
-        return (this.props.places.indexOf(item) === -1)
-    }
-
-    onDrop(item) {
-        this.props.dispatch(addItemToItineraryDay(this.props.itinerary.id, item.id, this.props.day, this.props.places.length));
-    }
-
-    onDragRemove(item) {
-        console.log("here");
     }
 
     onMapIconClick() {
@@ -48,8 +33,7 @@ export class ItineraryDayContainer extends React.Component {
                 <button className="btn btn-light" onClick={this.onMapIconClick}><FontAwesomeIcon icon={faMapMarkedAlt}/></button>
                 {this.state.showMap && <MarkerMap center={position} zoom={13} markers={placePositions}/>}
                 <ItineraryDay day={this.props.day}/>
-                <DroppablePlaceListContainer places={this.props.places} path={this.props.path} canDrop={this.canDrop}
-                                             onDrop={this.onDrop} onDragRemove={this.onDragRemove}/>
+                <DroppablePlaceListContainer places={this.props.places} path={this.props.path} droppableId="droppable"/>
             </div>
         );
     }

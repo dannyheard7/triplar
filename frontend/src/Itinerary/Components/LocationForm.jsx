@@ -11,24 +11,20 @@ export default class LocationForm extends React.Component {
         super(props);
 
         this.state = {
-            startDate: null,
-            endDate: null
+            startDate: props.location.startDate ? moment(props.location.startDate) : moment(),
+            endDate: props.location.endDate ? moment(props.location.endDate) : moment()
         };
 
         this.onDateChange = this.onDateChange.bind(this);
         this.calculateEndDate = this.calculateEndDate.bind(this);
     }
 
-    componentDidMount() {
-        this.setState( {
-            startDate: moment(this.props.location.startDate),
-            endDate: moment(this.props.location.endDate)
-        });
-    }
-
     componentDidUpdate(prevProps, prevState) {
-        if(prevProps.location.startDate !== this.props.location.startDate) {
-            this.componentDidMount();
+        if(prevProps.location.startDate !== this.props.location.startDate || prevProps.location.endDate !== this.props.location.endDate) {
+            this.setState( {
+                startDate: moment(this.props.location.startDate),
+                endDate: moment(this.props.location.endDate)
+            });
         }
     }
 
@@ -51,11 +47,10 @@ export default class LocationForm extends React.Component {
     render() {
         const errors = this.props.errors;
         const itinerary = (this.props.location) ? this.props.location : {};
+        const location = itinerary.city ? itinerary.city.name_std + ", " + itinerary.city.country : "";
 
-        let location = (typeof itinerary.city !== 'undefined') ? itinerary.city.name_std + ", " + itinerary.city.country : "";
-
-        let startDate = this.state.startDate ? moment(this.state.startDate) : moment();
-        let endDate = this.calculateEndDate(startDate);
+        const startDate = this.state.startDate;
+        const endDate = this.calculateEndDate(this.state.startDate);
 
         return (
             <form onSubmit={this.props.onSubmit}>

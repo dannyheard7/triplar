@@ -27,7 +27,9 @@ exports[`<PlacesSearchContainer /> renders correctly 1`] = `
       </option>
     </select>
   </div>
-  <PlaceListContainer
+  <DroppablePlaceListContainer
+    droppableId="placeSearchContainer"
+    onDrop={[Function]}
     places={Array []}
   />
 </div>

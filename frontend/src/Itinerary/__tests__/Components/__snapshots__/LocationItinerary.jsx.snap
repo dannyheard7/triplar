@@ -1,83 +1,85 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<LocationItinerary /> <LocationItinerary /> renders correctly 1`] = `
-<div
-  className="destination-itinerary"
+<DragDropContext
+  onDragEnd={[Function]}
 >
-  <HelmetWrapper
-    defer={true}
-    encodeSpecialCharacters={true}
-  >
-    <title>
-      undefined: Bristol | Triplar
-    </title>
-  </HelmetWrapper>
   <div
-    className="destination-plan"
+    className="destination-itinerary"
   >
-    <h3
-      onClick={[Function]}
+    <HelmetWrapper
+      defer={true}
+      encodeSpecialCharacters={true}
     >
-      Bristol
-    </h3>
-    <p>
-      Friday 10th August
-       - 
-      Sunday 12th August
-      <select
-        onChange={[Function]}
-      >
-        <option
-          value="2018-08-10"
+      <title>
+        undefined: Bristol | Triplar
+      </title>
+    </HelmetWrapper>
+    <div
+      className="destination-plan"
+    >
+      <h3>
+        Bristol
+      </h3>
+      <p>
+        Friday 10th August
+         - 
+        Sunday 12th August
+        <select
+          onChange={[Function]}
         >
-          Friday 10th August
-        </option>
-        <option
-          value="2018-08-11"
-        >
-          Saturday 11th August
-        </option>
-        <option
-          value="2018-08-12"
-        >
-          Sunday 12th August
-        </option>
-      </select>
-    </p>
-    <Connect(ItineraryDayContainer)
-      day="2018-08-10T00:00:00.000Z"
-      itinerary={
-        Object {
-          "city": Object {
-            "country": "United Kingdom",
-            "location": Object {
-              "lat": 0,
-              "lng": 0,
+          <option
+            value="2018-08-10"
+          >
+            Friday 10th August
+          </option>
+          <option
+            value="2018-08-11"
+          >
+            Saturday 11th August
+          </option>
+          <option
+            value="2018-08-12"
+          >
+            Sunday 12th August
+          </option>
+        </select>
+      </p>
+      <Connect(ItineraryDayContainer)
+        day="2018-08-10T00:00:00.000Z"
+        itinerary={
+          Object {
+            "city": Object {
+              "country": "United Kingdom",
+              "location": Object {
+                "lat": 0,
+                "lng": 0,
+              },
+              "name": "Bristol",
             },
-            "name": "Bristol",
+            "endDate": "2018-08-12T00:00:00.000Z",
+            "startDate": "2018-08-10T00:00:00.000Z",
+            "trip": Object {
+              "id": 1,
+            },
+          }
+        }
+        path="/trips/1/itinerary/undefined"
+      />
+    </div>
+    <Connect(PlacesSearchContainer)
+      city={
+        Object {
+          "country": "United Kingdom",
+          "location": Object {
+            "lat": 0,
+            "lng": 0,
           },
-          "endDate": "2018-08-12T00:00:00.000Z",
-          "startDate": "2018-08-10T00:00:00.000Z",
-          "trip": Object {
-            "id": 1,
-          },
+          "name": "Bristol",
         }
       }
       path="/trips/1/itinerary/undefined"
     />
   </div>
-  <Connect(PlacesSearchContainer)
-    city={
-      Object {
-        "country": "United Kingdom",
-        "location": Object {
-          "lat": 0,
-          "lng": 0,
-        },
-        "name": "Bristol",
-      }
-    }
-    path="/trips/1/itinerary/undefined"
-  />
-</div>
+</DragDropContext>
 `;

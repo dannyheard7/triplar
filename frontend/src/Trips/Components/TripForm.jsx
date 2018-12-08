@@ -6,30 +6,25 @@ import DateFieldGroup from "Forms/Components/DateFieldGroup";
 import moment from "moment";
 
 
-export default class  TripForm extends React.Component {
+export default class TripForm extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            startDate: null,
-            endDate: null
+            startDate: props.trip.startDate ? moment(props.trip.startDate) : moment(),
+            endDate: props.trip.endDate ? moment(props.trip.endDate) : null
         };
 
         this.onDateChange = this.onDateChange.bind(this);
         this.calculateEndDate = this.calculateEndDate.bind(this);
     }
 
-    componentDidMount() {
-        this.setState( {
-            startDate: this.props.trip ? moment(this.props.trip.startDate) : moment(),
-            endDate: this.props.trip ? moment(this.props.trip.endDate) : moment()
-        });
-    }
-
     componentDidUpdate(prevProps, prevState) {
-        if(this.props.trip && (prevProps.trip.startDate !== this.props.trip.startDate
-            || prevProps.trip.endDate !== this.props.trip.endDate)) {
-            this.componentDidMount();
+        if (prevProps.trip.startDate !== this.props.trip.startDate || prevProps.trip.endDate !== this.props.trip.endDate) {
+            this.setState({
+                startDate: this.props.trip.startDate ? moment(this.props.trip.startDate) : moment(),
+                endDate: this.props.trip.endDate ? moment(this.props.trip.startDate) : moment(),
+            });
         }
     }
 
@@ -40,10 +35,8 @@ export default class  TripForm extends React.Component {
     }
 
     calculateEndDate(startDate) {
-        const trip = this.props.trip ? this.props.trip : {};
-
-        if(trip.endDate) {
-            return this.state.endDate ? this.state.endDate : moment();
+        if(this.props.trip.endDate && this.state.endDate.format("YYYY-MM-DD") === this.props.trip.endDate) {
+            return this.state.endDate
         } else {
             return startDate.clone().add(3, 'days');
         }
@@ -51,10 +44,10 @@ export default class  TripForm extends React.Component {
 
     render() {
         const errors = this.props.errors;
-        let trip = (this.props.trip) ? this.props.trip : {};
+        const trip = this.props.trip;
 
-        let startDate = this.state.startDate ? moment(this.state.startDate) : moment();
-        let endDate = this.calculateEndDate(startDate);
+        const startDate = this.state.startDate;
+        const endDate = this.calculateEndDate(startDate);
 
         return (
             <form onSubmit={this.props.onSubmit}>
@@ -71,5 +64,9 @@ export default class  TripForm extends React.Component {
             </form>
         );
     }
+}
+
+TripForm.defaultProps = {
+    trip: {}
 }
 

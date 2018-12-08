@@ -1,28 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<PlaceListContainer /> renders correctly 1`] = `
-<div
-  className="places-list"
->
-  <DragSource(PlaceListItem)
-    onDragRemove={[Function]}
-    place={
-      Object {
-        "id": 1,
-        "imageUrl": "example.com/place1.jpg",
-        "name": "Place 1",
-      }
-    }
-  />
-  <DragSource(PlaceListItem)
-    onDragRemove={[Function]}
-    place={
-      Object {
-        "id": 2,
-        "imageUrl": "example.com/place2.jpg",
-        "name": "Place 2",
-      }
-    }
-  />
+<div>
+  <Connect(Draggable)
+    disableInteractiveElementBlocking={false}
+    draggableId={1}
+    index={0}
+    isDragDisabled={false}
+  >
+    [Function]
+  </Connect(Draggable)>
+  <Connect(Draggable)
+    disableInteractiveElementBlocking={false}
+    draggableId={2}
+    index={1}
+    isDragDisabled={false}
+  >
+    [Function]
+  </Connect(Draggable)>
 </div>
 `;

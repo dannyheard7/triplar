@@ -114,6 +114,21 @@ export default {
         return Q.when(axios.post(`${backendHost}/api/graphql`, {query: addTripLocationItemMutation, variables: variables}));
     },
 
+    removeItemFromItineraryDay(tripLocationId, placeId, date) {
+        const removeTripLocationItemMutation = ` 
+            mutation RemoveTripLocationItem($input: RemoveTripLocationItemMutationInput!){
+              removeTripLocationItem(input: $input) {
+                errors {
+                  field
+                  messages
+                }
+              }
+            }`;
+
+        let variables = {input: {location: tripLocationId, apiPlace: placeId, startDate: date, endDate: date}};
+        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: removeTripLocationItemMutation, variables: variables}));
+    },
+
     searchCities(query) {
         const searchCities = ` 
            query { 

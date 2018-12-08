@@ -4,5 +4,6 @@ exports[`<FormContainer /> renders correctly 1`] = `
 <TripForm
   errors={Array []}
   onSubmit={[Function]}
+  trip={Object {}}
 />
 `;

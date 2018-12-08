@@ -8,7 +8,10 @@ const renderer = new ShallowRenderer();
 
 describe('<TripForm />', () => {
     const props = {
-        trip: {},
+        trip: {
+            startDate: "2011-09-15",
+            endDate: "2011-09-17"
+        },
         errors: {}
     };
 

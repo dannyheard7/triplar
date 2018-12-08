@@ -1,13 +1,10 @@
 import React from "react";
 import {Route, Router, Switch} from "react-router-dom";
-import {DragDropContext} from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
 import {connect} from "react-redux";
 import ReactGA from 'react-ga';
 import {Helmet} from "react-helmet";
 
 import {history} from "../../store";
-import {trackingId} from "../utils/constants";
 
 import LoggedInContainer from "App/Containers/LoggedInContainer";
 import HeaderAuthenticated from "App/Components/HeaderAuthenticated";
@@ -112,6 +109,4 @@ const mapStateToProps = state => {
     }
 };
 
-const connectedApp = connect(mapStateToProps)(App);
-
-export default DragDropContext(HTML5Backend)(connectedApp)
+export default connect(mapStateToProps)(App);

@@ -1,7 +1,9 @@
 import {all, call, put, take} from 'redux-saga/effects'
 import itineraryApi from "../../Itinerary/utils/itinerary.api";
 import {
-    ADD_ITEM_TO_ITINERARY_DAY, ADD_ITEM_TO_ITINERARY_DAY_FAILURE, ADD_ITEM_TO_ITINERARY_DAY_SUCCESS,
+    ADD_ITEM_TO_ITINERARY_DAY,
+    ADD_ITEM_TO_ITINERARY_DAY_FAILURE,
+    ADD_ITEM_TO_ITINERARY_DAY_SUCCESS,
     ADD_LOCATION_TO_TRIP,
     ADD_LOCATION_TO_TRIP_FAILURE,
     ADD_LOCATION_TO_TRIP_SUCCESS,
@@ -10,7 +12,10 @@ import {
     GET_ITINERARY_DAY_ITEMS_SUCCESS,
     GET_TRIP_ITINERARIES,
     GET_TRIP_ITINERARIES_FAILURE,
-    GET_TRIP_ITINERARIES_SUCCESS
+    GET_TRIP_ITINERARIES_SUCCESS,
+    REMOVE_ITEM_FROM_ITINERARY_DAY,
+    REMOVE_ITEM_FROM_ITINERARY_DAY_FAILURE,
+    REMOVE_ITEM_FROM_ITINERARY_DAY_SUCCESS
 } from "./actions";
 import {UPDATE_PLACES_SUCCESS} from "../../Places/utils/actions";
 
@@ -92,6 +97,22 @@ function* addItemToItineraryDayWatcher() {
     }
 }
 
+function* removeItemFromItineraryDay(itineraryId, placeId, day) {
+    try {
+        yield call(itineraryApi.removeItemFromItineraryDay, itineraryId, placeId, day);
+        yield put({type: REMOVE_ITEM_FROM_ITINERARY_DAY_SUCCESS, item: {place: placeId, date: day, itineraryId: itineraryId}});
+    } catch (error) {
+        yield put({type: REMOVE_ITEM_FROM_ITINERARY_DAY_FAILURE, error});
+    }
+}
+
+function* removeItemFromItineraryDayWatcher() {
+    while(true) {
+        const {itineraryId, placeId, day} = yield take(REMOVE_ITEM_FROM_ITINERARY_DAY);
+        yield call(removeItemFromItineraryDay, itineraryId, placeId, day);
+    }
+}
+
 
 export default function* itinerariesRootSaga() {
     yield all([
@@ -99,5 +120,6 @@ export default function* itinerariesRootSaga() {
         getItineraryDayWatcher(),
         addLocationToTripWatcher(),
         addItemToItineraryDayWatcher(),
+        removeItemFromItineraryDayWatcher()
     ])
 }

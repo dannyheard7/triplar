@@ -5,6 +5,7 @@ import PlaceListContainer from "Places/Containers/PlaceListContainer";
 import "Places/styles/places.css";
 import {getPopularPlaces, getTopLevelCategories} from "../utils/actions";
 import { connect } from "react-redux";
+import DroppablePlaceListContainer from "./DroppablePlaceListContainer";
 
 export class PlacesSearchContainer extends React.Component {
     constructor(props) {
@@ -31,6 +32,7 @@ export class PlacesSearchContainer extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
+
         if(prevProps.city !== this.props.city) {
             this.setState({selectedCategory: "", selectedSubCategory: ""},
                 () => this.getPopularPlaces(this.state.selectedCategory));
@@ -114,7 +116,7 @@ export class PlacesSearchContainer extends React.Component {
                         </select>
                     }
                 </div>
-                <PlaceListContainer places={places} path={this.props.path} />
+                <DroppablePlaceListContainer places={places} path={this.props.path} onDrop={() => {}} droppableId="placeSearchContainer" />
             </div>
         );
     }
