@@ -6,7 +6,7 @@ import {Draggable, Droppable} from "react-beautiful-dnd";
 
 const grid = 8;
 const getListStyle = isDragging => ({
-    background: isDragging ? 'lightblue' : 'lightgrey',
+    background: isDragging ? 'lightblue' : '',
     display: 'flex',
     padding: grid,
     overflow: 'auto',
@@ -22,15 +22,15 @@ const getDraggingOverListStyle = isDraggingOver => {
 export default class DroppablePlaceListContainer extends React.Component {
 
     render() {
-        const {path, places, droppableId, keyFunc, dragging} = this.props;
+        const {path, places, droppableId, keyFunc, dragging, className} = this.props;
 
         const style = getListStyle(dragging);
 
         return (
-            <Droppable droppableId={droppableId} direction="horizontal">
+            <Droppable droppableId={droppableId} direction="horizontal" >
                 {(provided, snapshot) => (
                     <div ref={provided.innerRef} style={{...style, ...getDraggingOverListStyle(snapshot.isDraggingOver)}}
-                         {...provided.droppableProps}>
+                         {...provided.droppableProps} className={className}>
                         {places.map((item, index) => (
                             <Draggable key={keyFunc(item.id)} draggableId={keyFunc(item.id)} index={index}>
                                 {(provided, snapshot) => (
@@ -51,5 +51,6 @@ export default class DroppablePlaceListContainer extends React.Component {
 
 DroppablePlaceListContainer.defaultProps = {
     keyFunc: (id) => id,
-    dragging: false
+    dragging: false,
+    className: ""
 };

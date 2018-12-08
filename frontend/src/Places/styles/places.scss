@@ -24,9 +24,8 @@ $grid-gap: 0.5rem;
 }
 
 .places-list {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: $grid-gap;
+    display: flex;
+    justify-content: space-between;
 }
 
 .card a {

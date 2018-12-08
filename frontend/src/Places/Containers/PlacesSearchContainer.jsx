@@ -1,10 +1,9 @@
 import React from "react";
 import api from "Places/utils/places.api.js";
-import PlaceListContainer from "Places/Containers/PlaceListContainer";
 
 import "Places/styles/places.css";
 import {getPopularPlaces, getTopLevelCategories} from "../utils/actions";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import DroppablePlaceListContainer from "./DroppablePlaceListContainer";
 
 export class PlacesSearchContainer extends React.Component {
@@ -116,7 +115,8 @@ export class PlacesSearchContainer extends React.Component {
                         </select>
                     }
                 </div>
-                <DroppablePlaceListContainer places={places} path={this.props.path} onDrop={() => {}} droppableId="placeSearchContainer" />
+                <DroppablePlaceListContainer places={places} path={this.props.path} droppableId="placeSearchContainer"
+                    className="places-list"/>
             </div>
         );
     }

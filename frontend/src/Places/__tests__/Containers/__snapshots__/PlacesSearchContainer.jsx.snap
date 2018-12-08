@@ -28,10 +28,10 @@ exports[`<PlacesSearchContainer /> renders correctly 1`] = `
     </select>
   </div>
   <DroppablePlaceListContainer
+    className="places-list"
     dragging={false}
     droppableId="placeSearchContainer"
     keyFunc={[Function]}
-    onDrop={[Function]}
     places={Array []}
   />
 </div>
