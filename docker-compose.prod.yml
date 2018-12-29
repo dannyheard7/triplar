@@ -6,12 +6,10 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.prod
     image: triplar/backend
-    volumes:
-      - ./backend:/app
     env_file:
-      - ./backend/.env.development
+      - ./backend/.env
     command: npm start
     ports:
       - "8000:8000"
@@ -19,10 +17,8 @@ services:
       - redis
   backend-worker:
     image: triplar/backend
-    volumes:
-      - ./backend:/app
     env_file:
-      - ./backend/.env.development
+      - ./backend/.env
     command: npm run worker-dev
     links:
       - redis
