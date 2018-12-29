@@ -5,7 +5,7 @@ const uniqueValidator = require('mongoose-unique-validator');
 const Schema = mongoose.Schema;
 
 const citySchema = new Schema({
-    _id: {type: Number, auto: true, unique: true},
+    _id: {type: Number, unique: true, required: true},
     name: {type: String, required: true},
     country: { type: String, ref: 'Country' },
     population: {type: Number, required: true},

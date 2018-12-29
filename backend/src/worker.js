@@ -2,7 +2,8 @@ import Queue from 'bull';
 import {importCities, importCountries} from "./plugins/countriesImporter";
 import mongoose from "mongoose";
 import City from "./models/City";
-import {dbName, MONGO_PORT, MONGO_URL} from "./config/datastore";
+import Country from "./models/Country";
+import {MONGO_URL} from "./config/datastore";
 import {REDIS_HOST, REDIS_PORT} from "./config/redis";
 import {oneDayInSeconds, PlacesAPI} from "./plugins/yelpApi";
 import redis from "redis";
@@ -13,13 +14,10 @@ const client = redis.createClient(REDIS_PORT, REDIS_HOST);
 
 export const geoImporterQueue = new Queue('countries & cities importer', {redis: {port: REDIS_PORT, host: REDIS_HOST}});
 export const categoriesImporterQueue = new Queue('yelp categories importer', {redis: {port: REDIS_PORT, host: REDIS_HOST}});
+geoImporterQueue.empty();
+categoriesImporterQueue.empty();
 
 geoImporterQueue.process(async function (job, done) {
-    if(mongoose.connection.readyState !== 1) {
-        mongoose.set("debug", true);
-        mongoose.connect(`mongodb://${MONGO_URL}:${MONGO_PORT}/${dbName}`);
-    }
-
     try {
         const countries = await importCountries();
         await importCities(countries);
@@ -32,9 +30,12 @@ geoImporterQueue.process(async function (job, done) {
     }
 });
 
+if(mongoose.connection.readyState !== 1) {
+    mongoose.connect(MONGO_URL);
+}
 
 City.countDocuments({}, function (err, count) {
-    if (count === 0) geoImporterQueue.add();
+    if (!count || count === 0) geoImporterQueue.add();
 });
 
 categoriesImporterQueue.process(async function (job, done) {

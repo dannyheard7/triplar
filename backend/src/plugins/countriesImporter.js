@@ -1,7 +1,7 @@
 import axios from "axios";
 import Country from "../models/Country";
 import * as fs from 'fs';
-import * as unzip from "unzip";
+import extract from 'extract-zip';
 import City from "../models/City";
 
 export async function importCountries() {
@@ -39,10 +39,10 @@ export async function importCountries() {
 export async function importCities(countries) {
     const citiesFileName = `cities${process.env.CITY_MIN_POPULATION}`;
     const citiesDataURL = `http://download.geonames.org/export/dump/${citiesFileName}.zip`;
-    const targetZip = `./data/${citiesFileName}.zip`;
-    const targetFolder = `./data/${citiesFileName}`;
+    const targetZip = __dirname + `/data/${citiesFileName}.zip`;
+    const targetFolder = __dirname + `/data/${citiesFileName}`;
 
-    if (!fs.existsSync('./data')) fs.mkdirSync('./data');
+    if (!fs.existsSync(__dirname + '/data')) fs.mkdirSync(__dirname + '/data');
     if (!fs.existsSync(targetFolder)) fs.mkdirSync(targetFolder);
 
     try {
@@ -52,7 +52,10 @@ export async function importCities(countries) {
             fs.writeFileSync(targetZip, response.data);
 
             await new Promise((resolve, reject) => {
-                fs.createReadStream(targetZip).pipe(unzip.Extract({path: targetFolder})).on('close', resolve());
+                extract(targetZip, {dir: targetFolder}, function (err) {
+                    if(err) throw err;
+                    resolve()
+                })
             });
 
             const content = fs.readFileSync(targetFolder + `/${citiesFileName}.txt`, "utf8");

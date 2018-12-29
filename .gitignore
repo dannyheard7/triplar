@@ -17,10 +17,6 @@ test.sh
 
 backend/.tmp
 
-# Backend files
-backend2/places/data
-backend2/cities/data
-
-backend/data
+backend/src/plugins/data
 
 
