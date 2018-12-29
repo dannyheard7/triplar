@@ -4,13 +4,11 @@ import cors from 'cors';
 import resolvers from './resolvers';
 import schema from './schema'
 import {directiveResolvers} from "./directives/resolvers";
-import {dbName, MONGO_PORT, MONGO_URL} from "./config/datastore";
+import {MONGO_URL} from "./config/datastore";
 import mongoose from "mongoose";
 import User from "./models/User";
 
-
-mongoose.set("debug", true);
-mongoose.connect(`mongodb://${MONGO_URL}:${MONGO_PORT}/${dbName}`);
+mongoose.connect(MONGO_URL);
 
 const execSchema = makeExecutableSchema({
 	typeDefs: schema,
