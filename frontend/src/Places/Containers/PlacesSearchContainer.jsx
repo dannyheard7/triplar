@@ -40,7 +40,7 @@ export class PlacesSearchContainer extends React.Component {
 
     getPopularPlaces(category) {
         const city = this.props.city;
-        this.props.dispatch(getPopularPlaces(city.location.lat, city.location.lng, category));
+        this.props.dispatch(getPopularPlaces(city.latitude, city.longitude, category));
     }
 
     searchPlaces(category) {
@@ -48,14 +48,14 @@ export class PlacesSearchContainer extends React.Component {
         const city = this.props.city;
         const search = this.state.searchValue;
 
-        api.searchPlacesByName(city.location.lat, city.location.lng, search, category).then(response => {
-            this.setState({searchPlaces: response.data.data.places})
+        api.searchPlacesByName(city.latitude, city.longitude, search, category).then(response => {
+            this.setState({searchPlaces: response.data.data.searchNearbyPlaces})
         });
     };
 
     getSubCategories() {
         api.getSubCategories(this.state.selectedCategory, this.props.city.country.code).then(response => {
-            this.setState({subCategories: response.data.data.subCategories})
+            this.setState({subCategories: response.data.data.category.subCategories})
         });
     }
 
@@ -90,8 +90,8 @@ export class PlacesSearchContainer extends React.Component {
         if (this.state.searchValue.length >= 3) {
             places = this.state.searchPlaces;
         } else {
-            let popularPlaces = this.props.popularPlaces.find(x => x.lat === city.location.lat &&
-                    x.lng === city.location.lng && x.category === category);
+            let popularPlaces = this.props.popularPlaces.find(x => x.lat === city.latitude &&
+                    x.lng === city.longitude && x.category === category);
             if(popularPlaces) {
                 places = popularPlaces.places.map(x => this.props.places.find(p => p.id === x));
             }

@@ -17,7 +17,7 @@ import TripEditContainer from "../../Trips/Components/TripEdit";
 import TripDelete from "../../Trips/Components/TripDelete";
 import PlaceDetail from "../../Places/Components/PlaceDetail";
 import {getCookie} from "../utils/utils";
-import {tokenRefresh} from "../../Auth/utils/actions";
+import {verifyToken} from "../../Auth/utils/actions";
 import TripDetail from "../../Trips/Components/TripDetail";
 import TripList from "../../Trips/Components/TripList";
 import ItinerariesOverview from "../../Itinerary/Components/ItinerariesOverview";
@@ -31,7 +31,7 @@ export class App extends React.Component {
             const loginToken = getCookie('userToken');
 
             if (loginToken) {
-                this.props.dispatch(tokenRefresh(loginToken));
+                this.props.dispatch(verifyToken(loginToken));
             }
         }
 

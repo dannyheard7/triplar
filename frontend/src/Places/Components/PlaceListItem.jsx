@@ -9,7 +9,7 @@ export default function PlaceListItem(props) {
             <Link to={`${props.path}/place/${place.id}`}>
                 <p>{place.name}</p>
             </Link>
-            <img src={place.imageUrl} alt={place.name} height="100px"/>
+            {place.photos && place.photos.length > 0 && <img src={place.photos[0]} alt={place.name} height="100px"/> }
         </div>
     );
 }

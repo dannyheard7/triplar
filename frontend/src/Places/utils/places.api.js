@@ -3,30 +3,30 @@ import Q from "q";
 import {backendHost} from 'App/utils/constants';
 
 export default {
-    getPopularPlaces(lat, lng, category) {
+    getPopularPlaces(latitude, longitude, category) {
         const popularPlacesQuery = ` 
            query { 
-            popularPlaces(lat: ${lat}, lng: ${lng}, category: "${category}") {
+            popularPlaces(latitude: ${latitude}, longitude: ${longitude}, category: "${category}") {
                 id
                 name
-                imageUrl
+                photos
             }
            }`;
 
-        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: popularPlacesQuery}))
+        return Q.when(axios.post(`${backendHost}/graphql`, {query: popularPlacesQuery}))
     },
 
-    searchPlacesByName(lat, lng, query, category) {
+    searchPlacesByName(latitude, longitude, query, category) {
         const searchPlacesQuery = ` 
            query { 
-            places(lat: ${lat}, lng: ${lng}, name: "${query}", category: "${category}") {
+            searchNearbyPlaces(latitude: ${latitude}, longitude: ${longitude}, term: "${query}", category: "${category}") {
                 id
                 name
-                imageUrl
+                photos
             }
            }`;
 
-        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: searchPlacesQuery}))
+        return Q.when(axios.post(`${backendHost}/graphql`, {query: searchPlacesQuery}))
     },
 
     getPlaceDetails(placeId) {
@@ -35,9 +35,10 @@ export default {
             place(id: "${placeId}") {
                 id
                 name
-                imageUrl
+                url
+                photos
                 location {
-                    displayAddress
+                    address
                 }
                 coordinates {
                     latitude
@@ -45,11 +46,10 @@ export default {
                 }
                 rating
                 displayPhone
-                photos
             }
            }`;
 
-        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: searchPlacesQuery}))
+        return Q.when(axios.post(`${backendHost}/graphql`, {query: searchPlacesQuery}))
     },
 
     getTopLevelCategories() {
@@ -61,19 +61,21 @@ export default {
               }
             }`;
 
-        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: getTopLevelCategoriesQuery}))
+        return Q.when(axios.post(`${backendHost}/graphql`, {query: getTopLevelCategoriesQuery}))
     },
 
     getSubCategories(category, countryCode) {
         const getSubCategoriesQuery = ` 
            query {
-              subCategories(category: "${category}", countryCode: "${countryCode}") {
-                title
-                alias
+              category(alias: "${category}", countryCode: "${countryCode}") {
+                subCategories {
+                    title 
+                    alias
+                }
               }
             }`;
 
-        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: getSubCategoriesQuery}))
+        return Q.when(axios.post(`${backendHost}/graphql`, {query: getSubCategoriesQuery}))
     }
 
 }

@@ -5,48 +5,40 @@ import {backendHost} from 'App/utils/constants';
 export default {
     registerUser(user) {
          const mutateUserQuery = ` 
-            mutation CreateUser($input: UserMutationInput!){
+            mutation CreateUser($input: UserInput!){
               result: createUser(input: $input) {
-                user {
-                    id
-                    email
-                }
-                errors {
-                  field
-                  messages
-                }
+                id
+                email
               }
             }`;
 
         let variables = {input: user};
 
-        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: mutateUserQuery, variables: JSON.stringify(variables)}));
+        return Q.when(axios.post(`${backendHost}/graphql`, {query: mutateUserQuery, variables: JSON.stringify(variables)}));
     },
 
     getLoginToken(user) {
         const getLoginTokenQuery = ` 
            mutation TokenAuth($email: String!, $password: String!) {
                 result: tokenAuth(email: $email, password: $password) {
-                    token
-                    user {
-                        email
-                    }
+                    jwt
+                    email
                 }
            }`;
 
-        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: getLoginTokenQuery, variables: user}));
+        return Q.when(axios.post(`${backendHost}/graphql`, {query: getLoginTokenQuery, variables: user}));
     },
 
-    refreshToken(token) {
+    verifyToken(token) {
         const getLoginTokenQuery = ` 
-           mutation RefreshToken($token: String!) {
-                result: refreshToken(token: $token) {
-                    token
-                    payload
+           mutation VerifyToken($token: String!) {
+                result: verifyToken(token: $token) {
+                    jwt
+                    email
                 }
            }`;
 
 
-        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: getLoginTokenQuery, variables: {token: token}}));
+        return Q.when(axios.post(`${backendHost}/graphql`, {query: getLoginTokenQuery, variables: {token: token}}));
     },
 }

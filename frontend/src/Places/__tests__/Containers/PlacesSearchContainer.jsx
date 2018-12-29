@@ -144,7 +144,7 @@ describe('<PlacesSearchContainer />', () => {
 
         const spy = jest.spyOn(api.default, "getSubCategories");
         let subCategories = [{name: faker.lorem.word(), alias: faker.lorem.word()}];
-        spy.mockReturnValueOnce(Promise.resolve({status: 200, data: {data: {subCategories}}}));
+        spy.mockReturnValueOnce(Promise.resolve({status: 200, data: {data: {category: {subCategories}}}}));
 
         container.instance().onCategoryChange(event);
 

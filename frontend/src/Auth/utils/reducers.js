@@ -3,8 +3,8 @@ import {
     LOGIN_REQUESTING,
     LOGIN_SUCCESS,
     SET_USER,
-    TOKEN_REFRESH, TOKEN_REFRESH_ERROR,
-    TOKEN_REFRESH_SUCCESS,
+    VERIFY_TOKEN, VERIFY_TOKEN_ERROR,
+    VERIFY_TOKEN_SUCCESS,
     UNSET_USER
 } from "./actions";
 
@@ -20,13 +20,13 @@ const initialState = {
 export function authReducer(state = initialState, action) {
     switch (action.type) {
         case LOGIN_REQUESTING:
-        case TOKEN_REFRESH:
+        case VERIFY_TOKEN:
             return {...state, requesting: true, successful: false, errors: []};
         case LOGIN_SUCCESS:
-        case TOKEN_REFRESH_SUCCESS:
+        case VERIFY_TOKEN_SUCCESS:
             return {...state, requesting: false, successful: true};
         case LOGIN_ERROR:
-        case TOKEN_REFRESH_ERROR:
+        case VERIFY_TOKEN_ERROR:
             return {
                 ...state,
                 requesting: false,

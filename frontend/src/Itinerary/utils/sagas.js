@@ -1,4 +1,6 @@
 import {all, call, put, take} from 'redux-saga/effects'
+import Moment from "moment";
+
 import itineraryApi from "../../Itinerary/utils/itinerary.api";
 import {
     ADD_ITEM_TO_ITINERARY_DAY,
@@ -42,12 +44,11 @@ function* getItineraryDay(itineraryId, date) {
         let response = yield call(itineraryApi.getItineraryDayDetail, itineraryId, date);
         let result = response.data.data.locationDayItinerary;
 
-        let places = result.map(item => { return item.place });
-        yield put({type: UPDATE_PLACES_SUCCESS, places: places});
+        const places = result.places;
+        const items = places.map(place => {return {place: place.id, date: date, itineraryId: result.itinerary.id}});
 
-        result = result.map(item => { return {place: item.place.id, date: date, itineraryId: item.itinerary.id }});
-
-        yield put({type: GET_ITINERARY_DAY_ITEMS_SUCCESS, items: result, itineraryId: itineraryId, date: date});
+        yield put({type: UPDATE_PLACES_SUCCESS, places});
+        yield put({type: GET_ITINERARY_DAY_ITEMS_SUCCESS, items, itineraryId: result.itinerary.id, date: date});
     } catch (error) {
         yield put({type: GET_ITINERARY_DAY_ITEMS_FAILURE, error});
     }
@@ -63,7 +64,7 @@ function* getItineraryDayWatcher() {
 function* addLocationToItinerary(tripId, location) {
     try {
         let response = yield call(itineraryApi.addLocationToTrip, tripId, location);
-        let result = response.data.data.result.tripLocation;
+        let result = response.data.data.result;
 
         yield put({type: ADD_LOCATION_TO_TRIP_SUCCESS, tripLocation: result});
     } catch (error) {
@@ -81,10 +82,10 @@ function* addLocationToTripWatcher() {
 function* addItemToItineraryDay(itineraryId, placeId, day, position) {
     try {
         let response = yield call(itineraryApi.addPlaceToItineraryDay, itineraryId, placeId, day, position);
-        let result = response.data.data.addTripLocationItem.tripLocationItem;
+        let result = response.data.data.addTripLocationItem;
 
+        yield put({type: ADD_ITEM_TO_ITINERARY_DAY_SUCCESS, item: {place: result.place.id, date: Moment(day).toISOString(), itineraryId: itineraryId}});
         yield put({type: UPDATE_PLACES_SUCCESS, places: [result.place]});
-        yield put({type: ADD_ITEM_TO_ITINERARY_DAY_SUCCESS, item: {place: result.place.id, date: day, itineraryId: itineraryId}});
     } catch (error) {
         yield put({type: ADD_ITEM_TO_ITINERARY_DAY_FAILURE, error});
     }
@@ -101,10 +102,10 @@ function* removeItemFromItineraryDay(itineraryId, placeId, day) {
     try {
         const response = yield call(itineraryApi.removeItemFromItineraryDay, itineraryId, placeId, day);
 
-        if(response.data.data.removeTripLocationItem.result) {
+        if(response.data.data.removeTripLocationItem) {
             yield put({
                 type: REMOVE_ITEM_FROM_ITINERARY_DAY_SUCCESS,
-                item: {place: placeId, date: day, itineraryId: itineraryId}
+                item: {place: placeId, date: Moment(day).toISOString(), itineraryId: itineraryId}
             });
         }
     } catch (error) {

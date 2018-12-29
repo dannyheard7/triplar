@@ -27,61 +27,47 @@ export default {
             }
            }`;
 
-        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: getTripsQuery}));
+        return Q.when(axios.post(`${backendHost}/graphql`, {query: getTripsQuery}));
     },
 
     createTrip(trip) {
         const createTripQuery = ` 
-            mutation CreateTrip($input: TripMutationInput!){
+            mutation CreateTrip($input: TripInput!){
               result: createTrip(input: $input) {
-                trip {
-                    id
-                    name
-                    startDate
-                    endDate
-                }
-                errors {
-                  field
-                  messages
-                }
+                id
+                name
+                startDate
+                endDate
               }
             }`;
 
         let variables = {input: trip};
 
-        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: createTripQuery, variables: JSON.stringify(variables)}));
+        return Q.when(axios.post(`${backendHost}/graphql`, {query: createTripQuery, variables: JSON.stringify(variables)}));
     },
 
     editTrip(tripId, trip) {
         const editTripQuery = ` 
-            mutation EditTrip($input: TripMutationInput!){
-              result: editTrip(input: $input) {
-                trip {
-                    id
-                    name
-                    startDate
-                    endDate
-                }
-                errors {
-                  field
-                  messages
-                }
+            mutation UpdateTrip($input: TripInput!){
+              result: updateTrip(input: $input) {
+                id
+                name
+                startDate
+                endDate
               }
             }`;
 
         let variables = {input: {id: tripId, ...trip}};
 
-        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: editTripQuery, variables: JSON.stringify(variables)}));
+        return Q.when(axios.post(`${backendHost}/graphql`, {query: editTripQuery, variables: JSON.stringify(variables)}));
     },
 
     deleteTrip(tripId) {
         const deleteTripQuery = ` 
             mutation DeleteTrip {
-              deleteTrip(id: ${tripId}) {
-                result
-              }
-            }`;
+              deleteTrip(id: "${tripId}")
+        }`;
 
-        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: deleteTripQuery}));
+        return Q.when(axios.post(`${backendHost}/graphql`, {query: deleteTripQuery}));
     },
 }

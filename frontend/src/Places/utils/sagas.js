@@ -64,8 +64,7 @@ function* getPlaceDetailsWatcher() {
 function* getTopLevelCategories() {
     let topLevelCategories = yield select(getStateTopLevelCategories);
 
-    // Categories don't change very often so caching for ten days
-    if(!topLevelCategories.lastFetched || (Date.now() - topLevelCategories.lastFetched) > oneDayInMilliseconds*10) {
+    if(!topLevelCategories.lastFetched || (Date.now() - topLevelCategories.lastFetched) > oneDayInMilliseconds) {
         try {
             let response = yield call(api.getTopLevelCategories);
             let result = response.data.data.categories;

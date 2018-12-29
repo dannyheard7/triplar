@@ -23,6 +23,7 @@ function removePopularPlacesOfCategoryAtLocation(popularPlaces, category, lat, l
     return popularPlaces.filter(x => !(x.category === category && x.lat === lat && x.lng === lng));
 }
 
+// Something wrong with this function
 function updatePlaces(places, placesToUpdate) {
     places = places.map(place => {
         let findIndex = placesToUpdate.findIndex(updatedPlace => updatedPlace.id === place.id);
@@ -30,7 +31,8 @@ function updatePlaces(places, placesToUpdate) {
         if(findIndex === -1) {
             return place;
         } else {
-            return {...placesToUpdate.splice(findIndex, 1)[0], ...place};
+            const updatedPlace = placesToUpdate.splice(findIndex, 1)[0];
+            return {...place, ...updatedPlace};
         }
     });
 
@@ -43,7 +45,7 @@ export function placesReducer(state = initialState, action) {
         case GET_POPULAR_PLACES:
         case GET_TOP_LEVEL_CATEGORIES:
         case GET_PLACE_DETAILS:
-            return {...state, errors: []}
+            return {...state, errors: []};
         case GET_POPULAR_PLACES_SUCCESS:
             return {...state, popularPlaces: removePopularPlacesOfCategoryAtLocation(state.popularPlaces,
                     action.popularPlaces.category, action.popularPlaces.lat, action.popularPlaces.lng).concat([action.popularPlaces]),

@@ -1,50 +1,35 @@
 version: '3'
 
 services:
+  mongo:
+    image: mongo
   redis:
     image: redis
-  backend_worker:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile.dev
-    image: triplar/backend
-    volumes:
-      - ./backend:/app
-    env_file:
-      - ./backend/.env.development
-    command: python3 /app/manage.py rqworker
-    links:
-      - redis
-  backend_scheduler:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile.dev
-    image: triplar/backend
-    volumes:
-      - ./backend:/app
-    env_file:
-      - ./backend/.env.development
-    command: python3 /app/manage.py rqscheduler
-    depends_on:
-      - backend_worker
-    links:
-      - redis
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
     image: triplar/backend
     volumes:
-    - ./backend:/app
+      - ./backend:/app
     env_file:
       - ./backend/.env.development
-    command: python3 /app/manage.py runserver 0.0.0.0:8000
+    command: npm start
     ports:
       - "8000:8000"
     links:
       - redis
-    depends_on:
-      - backend_scheduler
+      - mongo
+  backend-worker:
+    image: triplar/backend
+    volumes:
+      - ./backend:/app
+    env_file:
+      - ./backend/.env.development
+    command: npm run worker-dev
+    links:
+      - redis
+      - mongo
   frontend:
     build:
       context: ./frontend
@@ -57,4 +42,3 @@ services:
       - "3000:3000"
     links:
       - backend
-

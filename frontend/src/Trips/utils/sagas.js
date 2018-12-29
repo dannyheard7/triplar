@@ -28,7 +28,7 @@ function* getTripsFlow() {
 function* createTripFlow(trip) {
     try {
         let response = yield call(api.createTrip, trip);
-        let result = response.data.data.result.trip;
+        let result = response.data.data.result;
 
         yield put({type: CREATE_TRIP_SUCCESS, trip: result});
         yield put(push('/trips/' + result.id))
@@ -47,7 +47,7 @@ function* createTripWatcher() {
 function* editTripFlow(tripId, trip) {
     try {
         let response = yield call(api.editTrip, tripId, trip);
-        let result = response.data.data.result.trip;
+        let result = response.data.data.result;
 
         yield put({type: EDIT_TRIP_SUCCESS, trip: result});
     } catch (error) {
@@ -65,7 +65,7 @@ function* editTripWatcher() {
 function* deleteTripFlow(tripId) {
     try {
         let response = yield call(api.deleteTrip, tripId);
-        let result = response.data.data.deleteTrip.result;
+        let result = response.data.data.deleteTrip;
 
         if(result === true) {
             yield put({type: DELETE_TRIP_SUCCESS, tripId: tripId});

@@ -2,9 +2,9 @@ export const LOGIN_REQUESTING = 'LOGIN_REQUESTING';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 
-export const TOKEN_REFRESH = 'TOKEN_REFRESH';
-export const TOKEN_REFRESH_SUCCESS = 'TOKEN_REFRESH_SUCCESS';
-export const TOKEN_REFRESH_ERROR = 'TOKEN_REFRESH_ERROR';
+export const VERIFY_TOKEN = 'VERIFY_TOKEN';
+export const VERIFY_TOKEN_SUCCESS = 'VERIFY_TOKEN_SUCCESS';
+export const VERIFY_TOKEN_ERROR = 'VERIFY_TOKEN_ERROR';
 
 export const SET_USER = 'SET_USER';
 export const UNSET_USER = 'UNSET_USER';
@@ -16,7 +16,7 @@ export function loginRequest (loginDetails) {
   }
 }
 
-export function tokenRefresh(token) {return {type: TOKEN_REFRESH, token}}
+export function verifyToken(token) {return {type: VERIFY_TOKEN, token}}
 
 export function setUser (user) {
   return {

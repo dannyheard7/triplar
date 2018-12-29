@@ -14,9 +14,12 @@ nohup.out
 .env.development
 test.sh
 
+backend/.tmp
 
 # Backend files
-backend/places/data
-backend/cities/data
+backend2/places/data
+backend2/cities/data
+
+backend/data
 
 

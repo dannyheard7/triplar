@@ -36,7 +36,7 @@ function updateItineraryInItineraries(itineraries, updatedItinerary) {
 }
 
 function removeItineraryItemsForDay(itineraryItems, itineraryId, day) {
-    return itineraryItems.filter(x => x.itineraryId !== itineraryId && x.date !== day);
+    return itineraryItems.filter(x => !(x.itineraryId === itineraryId && x.date === day));
 }
 
 function removeItemFromItineraryItems(itineraryItems, item) {

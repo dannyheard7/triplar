@@ -17,7 +17,7 @@ export class PlaceDetail extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.place.id !== prevProps.place.id) {
+        if (this.props.place && prevProps.place && this.props.place.id !== prevProps.place.id) {
             this.props.dispatch(getPlaceDetail(this.props.match.params.placeId))
         }
     }
@@ -29,17 +29,17 @@ export class PlaceDetail extends React.Component {
     render() {
         const place = this.props.place;
 
-        let position = [];
-        let marker = {};
-        if(place.coordinates) {
-             position = [place.coordinates.latitude, place.coordinates.longitude];
-             marker = {position: position, popupText: place.name};
-        }
-
-
         if (!place) {
             return <LoadingIndicator/>;
         } else {
+            let position = [];
+            let marker = {};
+
+            if(place.coordinates) {
+                position = [place.coordinates.latitude, place.coordinates.longitude];
+                marker = {position: position, popupText: place.name};
+            }
+
             return (
                 <Modal open={true} onClose={this.closeModal} contentLabel={place.name} >
                     <h2>{place.name}</h2>

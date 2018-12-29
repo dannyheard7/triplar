@@ -1,0 +1,44 @@
+{
+  "name": "apollo-graphql",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node src/server.js",
+    "build": "babel src —-out-dir dist",
+    "serve": "node dist/server.js",
+    "worker-dev": "nodemon --exec babel-node src/worker.js",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^2.2.6",
+    "apollo-server-express": "^2.2.6",
+    "axios": "^0.18.0",
+    "bcryptjs": "^2.4.3",
+    "bluebird": "^3.5.3",
+    "bull": "^3.5.2",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "graphql": "^14.0.2",
+    "graphql-tools": "^4.0.3",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.3.15",
+    "mongoose-unique-validator": "^2.0.2",
+    "redis": "^2.8.0",
+    "unzip": "^0.1.11",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.0",
+    "@babel/core": "^7.2.0",
+    "@babel/node": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "jest": "^23.6.0",
+    "nodemon": "^1.18.7",
+    "regenerator-runtime": "^0.13.1"
+  }
+}

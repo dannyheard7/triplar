@@ -26,8 +26,8 @@ export class ItineraryDayContainer extends React.Component {
         let position = [];
         let placePositions = [];
 
-        if(itinerary.city && itinerary.city.location) {
-            position = [itinerary.city.location.lat, itinerary.city.location.lng];
+        if(itinerary.city && itinerary.city.latitude && itinerary.city.longitude) {
+            position = [itinerary.city.latitude, itinerary.city.longitude];
             placePositions = this.props.places.filter(x => x.coordinates).map(x => (
                 {position: [x.coordinates.latitude, x.coordinates.longitude], popupText: x.name}
             ));

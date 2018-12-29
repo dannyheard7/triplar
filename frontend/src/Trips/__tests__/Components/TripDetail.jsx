@@ -13,8 +13,9 @@ describe('<TripDetail />', () => {
 
         const props = {
             trip: null,
-            locations: null
-        }
+            locations: null,
+            dispatch: jest.fn()
+        };
 
         beforeAll(function () {
             // TODO: Need a better way to deal with this. Maybe a helper function that generates one?
@@ -48,7 +49,7 @@ describe('<TripDetail />', () => {
              locations: []
         };
 
-        let container = shallow(<TripDetail {...props} trip={null}/>);
+        let container = shallow(<TripDetail {...props} trip={null} dispatch={jest.fn()}/>);
         expect(container.find(LoadingIndicator).length).toEqual(1);
         container = shallow(<TripDetail {...props}  />);
         expect(container.find(LoadingIndicator).length).toEqual(0);

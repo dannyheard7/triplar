@@ -4,10 +4,18 @@ import {connect} from "react-redux";
 import LoadingIndicator from "../../App/Components/LoadingIndicator";
 import {Link} from "react-router-dom";
 import {Helmet} from "react-helmet";
+import {getTrips} from "../utils/actions";
 
 Moment.locale('en');
 
 export class TripDetail extends React.Component {
+    componentDidMount() {
+        if(!this.props.trip) {
+            // TODO: get trip detail
+            this.props.dispatch(getTrips());
+        }
+    }
+
     render() {
         const trip = this.props.trip;
 

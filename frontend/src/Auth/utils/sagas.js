@@ -4,9 +4,9 @@ import {
     LOGIN_REQUESTING,
     LOGIN_SUCCESS,
     setUser,
-    TOKEN_REFRESH,
-    TOKEN_REFRESH_ERROR,
-    TOKEN_REFRESH_SUCCESS,
+    VERIFY_TOKEN,
+    VERIFY_TOKEN_ERROR,
+    VERIFY_TOKEN_SUCCESS,
     UNSET_USER,
     unsetUser
 } from './actions'
@@ -28,8 +28,8 @@ function* loginFlow(loginDetails) {
         let response = yield call(api.getLoginToken, loginDetails);
         result = response.data.data.result;
 
-        yield setCookie('userToken', result.token);
-        yield put(setUser(result.user));
+        yield setCookie('userToken', result.jwt);
+        yield put(setUser(result));
         yield put({type: LOGIN_SUCCESS});
 
         yield put(push('/trips'))
@@ -58,23 +58,23 @@ function* loginWatcher() {
     }
 }
 
-function* refreshToken(token) {
+function* verifyToken(token) {
     try {
-        let response = yield call(api.refreshToken, token);
+        let response = yield call(api.verifyToken, token);
         let result = response.data.data.result;
 
-        yield setCookie('userToken', result.token);
-        yield put(setUser({email: result.payload.email}));
-        yield put({type: TOKEN_REFRESH_SUCCESS});
+        yield setCookie('userToken', result.jwt);
+        yield put(setUser({email: result.email}));
+        yield put({type: VERIFY_TOKEN_SUCCESS});
     } catch (error) {
-        yield put({type: TOKEN_REFRESH_ERROR, error})
+        yield put({type: VERIFY_TOKEN_ERROR, error})
     }
 }
 
-function* refreshTokenWatcher() {
+function* verifyTokenWatcher() {
     while(true) {
-        const {token} = yield take(TOKEN_REFRESH);
-        yield call(refreshToken, token);
+        const {token} = yield take(VERIFY_TOKEN);
+        yield call(verifyToken, token);
     }
 }
 
@@ -82,6 +82,6 @@ function* refreshTokenWatcher() {
 export default function* authRootSaga() {
     yield all([
         loginWatcher(),
-        refreshTokenWatcher()
+        verifyTokenWatcher()
     ])
 }

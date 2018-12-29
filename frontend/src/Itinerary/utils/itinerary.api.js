@@ -7,41 +7,36 @@ export default {
 
     addLocationToTrip(tripId, location) {
         const mutateTripLocationQuery = ` 
-            mutation AddTripLocation($input: TripLocationMutationInput!){
+            mutation AddTripLocation($input: AddTripLocationInput!){
               result: addTripLocation(input: $input) {
-                tripLocation {
+                id
+                startDate
+                endDate
+                trip {
                     id
-                    startDate
-                    endDate
-                    city {
+                }
+                city {
+                    name
+                    latitude
+                    longitude                        
+                    country {
                         name
-                        location                        
-                        country {
-                            name
-                            code
-                        }
+                        code: alpha2Code
                     }
-                    trip {
-                        id
-                    }
-                }
-                errors {
-                  field
-                  messages
-                }
+                }  
               }
             }`;
 
 
-        let variables = {input: {trip: tripId, ...location}};
+        let variables = {input: {tripId, ...location}};
 
-        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: mutateTripLocationQuery, variables: variables}));
+        return Q.when(axios.post(`${backendHost}/graphql`, {query: mutateTripLocationQuery, variables: variables}));
     },
 
     getTripItineraries(tripId) {
         const getTripItinerariesQuery = ` 
            query{ 
-            trip(id: ${tripId}) {
+            trip(id: "${tripId}") {
                 locations {
                     id
                     startDate
@@ -51,78 +46,71 @@ export default {
                     }
                     city {
                         name
-                        location
+                        latitude
+                        longitude
                         country {
                             name
-                            code
+                            alpha2Code
                         }
                     }
                 }
             }
            }`;
 
-        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: getTripItinerariesQuery}));
+        return Q.when(axios.post(`${backendHost}/graphql`, {query: getTripItinerariesQuery}));
     },
 
     getItineraryDayDetail(itineraryId, date) {
         const getLocationDayItinerary = ` 
-           query { 
-            locationDayItinerary(date: "${date}", locationId: ${itineraryId}) {
-                place {
-                    id
-                    name
-                    imageUrl
-                    coordinates {
-                        latitude
-                        longitude
-                    }
-                }
-                itinerary : location {
-                    id
-                }
-            }
+           query {\ 
+            locationDayItinerary(date: "${date}", locationId: "${itineraryId}") {\
+                places {\
+                    id\
+                    name\
+                    photos\
+                    coordinates {\
+                        latitude\
+                        longitude\
+                    }\
+                }\
+                itinerary : location {\
+                    id\
+                }\
+            }\
            }`;
 
-        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: getLocationDayItinerary}));
+        return Q.when(axios.post(`${backendHost}/graphql`, {query: getLocationDayItinerary}));
     },
 
     addPlaceToItineraryDay(tripLocationId, placeId, date, order) {
         const addTripLocationItemMutation = ` 
-            mutation AddTripLocationItem($input: AddTripLocationItemMutationInput!){
+            mutation AddTripLocationItem($input: TripLocationItemInput!){
               addTripLocationItem(input: $input) {
-                tripLocationItem {
                   order
                   place {
                     id
                     name
-                    imageUrl
+                    photos
                     coordinates {
                         latitude
                         longitude
                     }
                   }
-                }
-                errors {
-                  field
-                  messages
-                }
               }
             }`;
 
-        let variables = {input: {location: tripLocationId, apiPlace: placeId, order: order, startDate: date, endDate: date}};
-
-        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: addTripLocationItemMutation, variables: variables}));
+        let variables = {input: {locationId: tripLocationId, yelpPlaceId: placeId, order: order, startTime: date, endTime: date}};
+        return Q.when(axios.post(`${backendHost}/graphql`, {query: addTripLocationItemMutation, variables}));
     },
 
     removeItemFromItineraryDay(tripLocationId, placeId, date) {
         const removeTripLocationItemMutation = ` 
-            mutation RemoveTripLocationItem{
-              removeTripLocationItem(location: ${tripLocationId}, apiPlace: "${placeId}", startDate: "${date}", endDate: "${date}") {
-                result
-              }
+            mutation RemoveTripLocationItem($input: TripLocationItemInput!) {
+              removeTripLocationItem(input: $input)
             }`;
 
-        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: removeTripLocationItemMutation}));
+        let variables = {input: {locationId: tripLocationId, yelpPlaceId: placeId, startTime: date, endTime: date}};
+        return Q.when(axios.post(`${backendHost}/graphql`, {query: removeTripLocationItemMutation, variables}));
     },
 
     searchCities(query) {
@@ -136,6 +124,6 @@ export default {
             }
            }`;
 
-        return Q.when(axios.post(`${backendHost}/api/graphql`, {query: searchCities}));
+        return Q.when(axios.post(`${backendHost}/graphql`, {query: searchCities}));
     },
 }

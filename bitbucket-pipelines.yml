@@ -1,18 +1,17 @@
-# Check our guides at https://confluence.atlassian.com/x/x4UWN for more examples.
-# Only use spaces to indent your .yml configuration.
 pipelines:
   default:
     - step:
-        name: Build and test python
-        image: triplar/backend
-        script: # Modify the commands below to build your repository.
+        name: Build and test node backend
+        image: node:10.14.2
+        caches:
+          - backend-node
+        script:
           - cd backend/
-          - python3 manage.py test
-        services:
-          - redis
+          - npm install
+          - npm test
     - step:
-        name: Build and test node
-        image: triplar/frontend
+        name: Build and test react app
+        image: node:10.14.2
         caches:
           - frontend-node
         script:
@@ -27,6 +26,4 @@ pipelines:
 definitions:
   caches:
     frontend-node: frontend/node_modules
-  services:
-    redis:
-      image: redis
+    backend-node: backend/node_modules
