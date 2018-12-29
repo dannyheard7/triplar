@@ -7,7 +7,7 @@ export default {
 
     addLocationToTrip(tripId, location) {
         const mutateTripLocationQuery = ` 
-            mutation AddTripLocation($input: AddTripLocationInput!){
+            mutation AddTripLocation($input: TripLocationInput!){
               result: addTripLocation(input: $input) {
                 id
                 startDate

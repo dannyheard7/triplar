@@ -2,7 +2,6 @@ import Queue from 'bull';
 import {importCities, importCountries} from "./plugins/countriesImporter";
 import mongoose from "mongoose";
 import City from "./models/City";
-import Country from "./models/Country";
 import {MONGO_URL} from "./config/datastore";
 import {REDIS_HOST, REDIS_PORT} from "./config/redis";
 import {oneDayInSeconds, PlacesAPI} from "./plugins/yelpApi";
