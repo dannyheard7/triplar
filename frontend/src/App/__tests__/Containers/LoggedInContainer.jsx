@@ -6,7 +6,7 @@ import ShallowRenderer from 'react-test-renderer/shallow';
 const renderer = new ShallowRenderer();
 const faker = require('faker');
 
-import LoggedInContainer from "App/Containers/LoggedInContainer";
+import LoggedInContainer from "../../Containers/LoggedInContainer";
 
 jest.unmock('axios');
 

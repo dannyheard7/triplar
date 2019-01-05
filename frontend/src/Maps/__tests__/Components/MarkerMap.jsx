@@ -1,6 +1,6 @@
 import React from "react";
 import ShallowRenderer from 'react-test-renderer/shallow';
-import MarkerMap from "Maps/Components/MarkerMap";
+import MarkerMap from "../../Components/MarkerMap";
 
 const renderer = new ShallowRenderer();
 const faker = require('faker');

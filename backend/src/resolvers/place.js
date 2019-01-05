@@ -1,5 +1,6 @@
 import redis from "redis";
 import * as bluebird from "bluebird";
+import {UserInputError} from "apollo-server-express";
 
 import {REDIS_HOST, REDIS_PORT} from "../config/redis";
 import {defaultCategories, PlacesAPI} from "../plugins/yelpApi";
@@ -20,7 +21,11 @@ export default {
 
             return await PlacesAPI.searchNearbyPlaces(term, latitude, longitude, category, limit);
         },
-        place: async (parent, {id}) => await PlacesAPI.getPlacesDetails([id]),
+        place: async (parent, {id}) => {
+            const response = await PlacesAPI.getPlacesDetails([id]);
+            if(response.length > 0) return response[0];
+            else throw new UserInputError("No place found")
+        },
         categories: async () => {
             const categories = await client.getAsync("yelp-categories");
 

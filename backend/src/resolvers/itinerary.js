@@ -1,7 +1,6 @@
 import Trip from '../models/Trip';
-import User from '../models/User';
 
-import {ForbiddenError} from "apollo-server";
+import {ForbiddenError} from "apollo-server-express";
 import City from "../models/City";
 import TripLocation from "../models/TripLocation";
 import {findCityByCityAndCountryName} from "../utils/city";

@@ -2,14 +2,14 @@ import React from "react";
 import {shallow} from "enzyme";
 
 import ShallowRenderer from 'react-test-renderer/shallow';
-import { PlacesSearchContainer } from "Places/Containers/PlacesSearchContainer";
+import { PlacesSearchContainer } from "../../Containers/PlacesSearchContainer";
 
 const renderer = new ShallowRenderer();
 
 const faker = require('faker');
-jest.mock('Places/utils/places.api.js');
+jest.mock('../../utils/places.api.js');
 
-const api = require('Places/utils/places.api.js');
+const api = require('../../utils/places.api.js');
 
 describe('<PlacesSearchContainer />', () => {
     const event = {

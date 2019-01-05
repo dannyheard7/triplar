@@ -1,19 +1,21 @@
 import React from "react";
 import ShallowRenderer from 'react-test-renderer/shallow';
 import axios from "axios";
-import {App} from "App/Containers/App";
+import {App} from "../../Containers/App";
 
 const renderer = new ShallowRenderer();
-const faker = require('faker');
 
 jest.unmock('axios');
 describe('<App />', () => {
 
     describe('when authenticated', () => {
-        const user = {'email': faker.internet.email()};
-
         const props = {
-            auth: {successful: true},
+            auth: {
+                successful: true,
+                user: {
+                    jwt: "1324235234"
+                }
+            }
         };
 
         test('renders correctly', () => {
@@ -24,7 +26,9 @@ describe('<App />', () => {
 
      describe('when not authenticated', () => {
         const props = {
-            auth: {successful: false},
+            auth: {
+                successful: false,
+            },
         };
 
         test('renders correctly', () => {

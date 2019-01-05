@@ -5,8 +5,8 @@ export default {
         return Promise.resolve({status: 201, data:  {'user': faker.internet.email()}});
     },
 
-    getLoginToken(email, password) {
+    passwordAuth(email, password) {
         return Promise.resolve({status: 200, data: {tokenAuth: {user: {email: faker.internet.email()},
-                        'token': faker.random.number() }}});
+                        'jwt': faker.random.number() }}});
     },
 }

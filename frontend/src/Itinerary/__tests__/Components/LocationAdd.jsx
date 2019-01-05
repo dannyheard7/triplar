@@ -9,7 +9,7 @@ import ReduxFormContainer from "../../../Forms/Containers/ReduxFormContainer";
 const renderer = new ShallowRenderer();
 const faker = require('faker');
 
-jest.mock('Itinerary/utils/itinerary.api.js');
+jest.mock('../../utils/itinerary.api.js');
 
 const api = require('../../utils/itinerary.api.js');
 

@@ -1,6 +1,11 @@
-export const setCookie = (name, value, days = 7, path = '/') => {
-  const expires = new Date(Date.now() + days * 864e5).toUTCString();
-  document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=' + path
+export const setCookie = (name, value, days = 7) => {
+  let expires = "";
+  if (days) {
+    const date = new Date();
+    date.setTime(date.getTime() + (days*24*60*60*1000));
+    expires = "; expires=" + date.toUTCString();
+  }
+  document.cookie = name + "=" + (value || "")  + expires + "; path=/";
 };
 
 export const getCookie = (name) => {
@@ -10,6 +15,6 @@ export const getCookie = (name) => {
   }, '')
 };
 
-export const deleteCookie = (name, path) => {
-  setCookie(name, '', -1, path)
+export const deleteCookie = (name) => {
+  setCookie(name, '', -1)
 };

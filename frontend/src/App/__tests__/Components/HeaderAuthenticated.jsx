@@ -2,9 +2,9 @@ import React from "react";
 import {shallow} from 'enzyme';
 import ShallowRenderer from 'react-test-renderer/shallow';
 
-import {HeaderAuthenticated} from "App/Components/HeaderAuthenticated";
+import {HeaderAuthenticated} from "../../Components/HeaderAuthenticated";
 
-const actions = require('Auth/utils/actions');
+const actions = require('../../../Auth/utils/actions');
 const faker = require('faker');
 const renderer = new ShallowRenderer();
 

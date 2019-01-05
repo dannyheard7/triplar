@@ -5,13 +5,12 @@ export default gql`
 
   extend type Query {
     users: [User!] @hasRole(role: "ADMIN")
-    user(id: ID!): User!
+    user(id: ID!): User! @isAuthenticated
+    userInfo(token: String!): User! @isAuthenticated
   }
   
   extend type Mutation {
     createUser(input: UserInput!): User!
-    tokenAuth(email: String!, password: String!): User!
-    verifyToken(token: String!): User!
   }
 
   type User {

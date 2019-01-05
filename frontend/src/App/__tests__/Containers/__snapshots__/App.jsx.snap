@@ -23,7 +23,9 @@ exports[`<App /> when authenticated renders correctly 1`] = `
     }
   }
 >
-  <LoggedInContainer>
+  <LoggedInContainer
+    token="1324235234"
+  >
     <HelmetWrapper
       defer={true}
       encodeSpecialCharacters={true}

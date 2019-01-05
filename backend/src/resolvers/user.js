@@ -9,8 +9,12 @@ export default {
             return await User.find();
         },
         user: async (parent, {id}) => {
-            console.log("I am here")
             return await User.findById(id);
+        },
+        userInfo: async (parent, {token}) => {
+            const user = await User.findByToken({token});
+            user.jwt = token;
+            return user;
         },
     },
     Mutation: {
@@ -23,19 +27,6 @@ export default {
                 password: await User.hashPassword({password}),
                 roles: [await Role.findOneOrCreate({name: "User"})]
             }).save();
-        },
-        tokenAuth: async (parent, args) => {
-            const user = await User.findByLogin(args);
-            user.jwt = jwt.sign({
-                id: user._id,
-                email: user.email
-            }, JWT_SECRET, {expiresIn: JWT_EXPIRES});
-            return user;
-        },
-        verifyToken: async (parent, args) => {
-            const user = await User.findByToken(args);
-            user.jwt = args.token;
-            return user;
         },
     },
 };

@@ -1,7 +1,3 @@
-import Q from "q";
-import axios from "axios";
-import {backendHost} from "../../../App/utils/constants";
-
 const faker = require('faker');
 
 export default {

@@ -1,6 +1,6 @@
 import React from "react";
-import api from "Itinerary/utils/itinerary.api.js";
-import AutosuggestFieldGroup from "Forms/Components/AutosuggestFieldGroup";
+import api from "../../Itinerary/utils/itinerary.api.js";
+import AutosuggestFieldGroup from "../Components/AutosuggestFieldGroup";
 
 export default class CitySearchFieldContainer extends React.Component {
     constructor(props) {

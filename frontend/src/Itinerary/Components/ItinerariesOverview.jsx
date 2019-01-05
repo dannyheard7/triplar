@@ -6,7 +6,7 @@ import Moment from "moment";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-import 'Itinerary/styles/itineraries.css';
+import '../styles/itineraries.css';
 import LocationAddContainer from "./LocationAdd";
 
 

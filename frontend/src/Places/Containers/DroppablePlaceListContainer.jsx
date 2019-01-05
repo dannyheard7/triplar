@@ -1,7 +1,7 @@
 import React from "react";
-import PlaceListItem from "Places/Components/PlaceListItem";
+import PlaceListItem from "../Components/PlaceListItem";
 
-import "Places/styles/places.css";
+import "../styles/places.css";
 import {Draggable, Droppable} from "react-beautiful-dnd";
 
 const grid = 8;

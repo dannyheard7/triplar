@@ -1,12 +1,10 @@
 import React from "react";
 
-import {LocationItinerary} from "Itinerary/Components/LocationItinerary";
+import {LocationItinerary} from "../../Containers/LocationItinerary";
 import ShallowRenderer from "react-test-renderer/shallow";
-import {shallow} from "enzyme/build";
-import MarkerMap from "../../../Maps/Components/MarkerMap";
 
 const renderer = new ShallowRenderer();
-jest.mock('Itinerary/utils/itinerary.api.js');
+jest.mock('../../utils/itinerary.api.js');
 
 describe('<LocationItinerary />', () => {
     const props = {

@@ -18,6 +18,16 @@ exports[`<LoginContainer /> renders correctly 1`] = `
   >
     <LoginForm />
   </Connect(ReduxFormContainer)>
+  <t
+    appId="2240458192891426"
+    callback={[Function]}
+    cssClass="kep-login-facebook"
+    fields="name,email"
+    size="metro"
+    tag="button"
+    textButton="Login with Facebook"
+    typeButton="button"
+  />
 </div>
 `;
 
@@ -37,5 +47,15 @@ exports[`<LoginContainer /> renders correctly when requesting 1`] = `
   <p>
     Attempting to login...
   </p>
+  <t
+    appId="2240458192891426"
+    callback={[Function]}
+    cssClass="kep-login-facebook"
+    fields="name,email"
+    size="metro"
+    tag="button"
+    textButton="Login with Facebook"
+    typeButton="button"
+  />
 </div>
 `;

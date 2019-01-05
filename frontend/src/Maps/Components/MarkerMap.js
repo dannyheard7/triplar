@@ -2,8 +2,8 @@ import React from 'react'
 import {Map, Marker, Popup, TileLayer} from 'react-leaflet'
 import L from 'leaflet';
 
-import 'Maps/styles/leaflet/leaflet.css';
-import 'Maps/styles/maps.css';
+import '../styles/leaflet/leaflet.css';
+import '../styles/maps.css';
 
 
 export default class MarkerMap extends React.Component {

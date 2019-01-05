@@ -1,7 +1,7 @@
 import React from "react";
 import {shallow} from "enzyme";
 
-import AutosuggestFieldGroup from "Forms/Components/AutosuggestFieldGroup.jsx";
+import AutosuggestFieldGroup from "../../Components/AutosuggestFieldGroup.jsx";
 
 describe('<AutosuggestFieldGroup />', () => {
     const props = {

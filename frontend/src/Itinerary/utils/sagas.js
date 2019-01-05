@@ -47,7 +47,9 @@ function* getItineraryDay(itineraryId, date) {
         const places = result.places;
         const items = places.map(place => {return {place: place.id, date: date, itineraryId: result.itinerary.id}});
 
-        yield put({type: UPDATE_PLACES_SUCCESS, places});
+        if(places && places.length > 0) {
+            yield put({type: UPDATE_PLACES_SUCCESS, places});
+        }
         yield put({type: GET_ITINERARY_DAY_ITEMS_SUCCESS, items, itineraryId: result.itinerary.id, date: date});
     } catch (error) {
         yield put({type: GET_ITINERARY_DAY_ITEMS_FAILURE, error});
@@ -84,7 +86,7 @@ function* addItemToItineraryDay(itineraryId, placeId, day, position) {
         let response = yield call(itineraryApi.addPlaceToItineraryDay, itineraryId, placeId, day, position);
         let result = response.data.data.addTripLocationItem;
 
-        yield put({type: ADD_ITEM_TO_ITINERARY_DAY_SUCCESS, item: {place: result.place.id, date: Moment(day).toISOString(), itineraryId: itineraryId}});
+        yield put({type: ADD_ITEM_TO_ITINERARY_DAY_SUCCESS, item: {place: result.place.id, date: day, itineraryId: itineraryId}});
         yield put({type: UPDATE_PLACES_SUCCESS, places: [result.place]});
     } catch (error) {
         yield put({type: ADD_ITEM_TO_ITINERARY_DAY_FAILURE, error});

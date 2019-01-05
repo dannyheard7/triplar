@@ -1,9 +1,8 @@
-import Q from "q";
 import axios from "axios";
-import {backendHost} from 'App/utils/constants';
+import {backendHost} from '../../App/utils/constants';
 
 export default {
-    registerUser(user) {
+    async registerUser(user) {
          const mutateUserQuery = ` 
             mutation CreateUser($input: UserInput!){
               result: createUser(input: $input) {
@@ -14,31 +13,28 @@ export default {
 
         let variables = {input: user};
 
-        return Q.when(axios.post(`${backendHost}/graphql`, {query: mutateUserQuery, variables: JSON.stringify(variables)}));
+        return await axios.post(`${backendHost}/graphql`, {query: mutateUserQuery, variables: JSON.stringify(variables)});
     },
 
-    getLoginToken(user) {
+    async passwordAuth(user) {
+        return await axios.post(`${backendHost}/login`, user);
+    },
+
+    async facebookAuth(token) {
+        return await axios.post(`${backendHost}/login/facebook`, {access_token: token});
+    },
+
+    async verifyToken(token) {
         const getLoginTokenQuery = ` 
-           mutation TokenAuth($email: String!, $password: String!) {
-                result: tokenAuth(email: $email, password: $password) {
+           query {
+                userInfo(token: "${token}") {
                     jwt
                     email
                 }
            }`;
 
-        return Q.when(axios.post(`${backendHost}/graphql`, {query: getLoginTokenQuery, variables: user}));
-    },
 
-    verifyToken(token) {
-        const getLoginTokenQuery = ` 
-           mutation VerifyToken($token: String!) {
-                result: verifyToken(token: $token) {
-                    jwt
-                    email
-                }
-           }`;
-
-
-        return Q.when(axios.post(`${backendHost}/graphql`, {query: getLoginTokenQuery, variables: {token: token}}));
+        return await axios.post(`${backendHost}/graphql`, {query: getLoginTokenQuery},
+            {headers: {Authorization: `JWT ${token}`}});
     },
 }

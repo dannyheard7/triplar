@@ -1,4 +1,4 @@
-import {ForbiddenError} from "apollo-server";
+import {ForbiddenError} from "apollo-server-express";
 
 export const directiveResolvers = {
     isAuthenticated: async (next, source, args, {user}) => {

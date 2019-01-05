@@ -1,8 +1,8 @@
 import React from "react";
 
-import UncontrolledFormFieldGroup from "Forms/Components/UncontrolledFormFieldGroup";
-import NonFieldErrors from "Forms/Components/NonFieldErrors";
-import DateFieldGroup from "Forms/Components/DateFieldGroup";
+import UncontrolledFormFieldGroup from "../../Forms/Components/UncontrolledFormFieldGroup";
+import NonFieldErrors from "../../Forms/Components/NonFieldErrors";
+import DateFieldGroup from "../../Forms/Components/DateFieldGroup";
 import moment from "moment";
 
 

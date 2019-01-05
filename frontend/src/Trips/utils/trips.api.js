@@ -1,13 +1,8 @@
 import axios from "axios";
-import Q from "q";
-import {backendHost} from 'App/utils/constants';
+import {backendHost} from '../../App/utils/constants';
 
 export default {
-    curryAPIFunc(apiFunc, id) {
-        return (object) => apiFunc(id, object)
-    },
-
-    getTrips() {
+    async getTrips() {
         const getTripsQuery = ` 
            query { 
             trips {
@@ -27,10 +22,10 @@ export default {
             }
            }`;
 
-        return Q.when(axios.post(`${backendHost}/graphql`, {query: getTripsQuery}));
+        return await axios.post(`${backendHost}/graphql`, {query: getTripsQuery});
     },
 
-    createTrip(trip) {
+    async createTrip(trip) {
         const createTripQuery = ` 
             mutation CreateTrip($input: TripInput!){
               result: createTrip(input: $input) {
@@ -43,10 +38,10 @@ export default {
 
         let variables = {input: trip};
 
-        return Q.when(axios.post(`${backendHost}/graphql`, {query: createTripQuery, variables: JSON.stringify(variables)}));
+        return await axios.post(`${backendHost}/graphql`, {query: createTripQuery, variables: JSON.stringify(variables)});
     },
 
-    editTrip(tripId, trip) {
+    async editTrip(tripId, trip) {
         const editTripQuery = ` 
             mutation UpdateTrip($input: TripInput!){
               result: updateTrip(input: $input) {
@@ -59,15 +54,15 @@ export default {
 
         let variables = {input: {id: tripId, ...trip}};
 
-        return Q.when(axios.post(`${backendHost}/graphql`, {query: editTripQuery, variables: JSON.stringify(variables)}));
+        return await axios.post(`${backendHost}/graphql`, {query: editTripQuery, variables: JSON.stringify(variables)});
     },
 
-    deleteTrip(tripId) {
+    async deleteTrip(tripId) {
         const deleteTripQuery = ` 
             mutation DeleteTrip {
               deleteTrip(id: "${tripId}")
         }`;
 
-        return Q.when(axios.post(`${backendHost}/graphql`, {query: deleteTripQuery}));
+        return await axios.post(`${backendHost}/graphql`, {query: deleteTripQuery});
     },
 }

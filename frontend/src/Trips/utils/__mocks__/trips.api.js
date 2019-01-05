@@ -1,10 +1,6 @@
 const faker = require('faker');
 
 export default {
-    curryAPIFunc(apiFunc, id) {
-        return (object) => apiFunc(id, object)
-    },
-
     getTrips() {
         return Promise.resolve({status: 200, data: {data: {trips: [faker.random.word(), faker.random.word()]}}});
     },

@@ -1,6 +1,6 @@
 import React from "react";
 import ShallowRenderer from 'react-test-renderer/shallow';
-import HeaderUnauthenticated from "App/Components/HeaderUnauthenticated";
+import HeaderUnauthenticated from "../../Components/HeaderUnauthenticated";
 
 
 const renderer = new ShallowRenderer();

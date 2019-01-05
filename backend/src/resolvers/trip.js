@@ -1,7 +1,7 @@
 import Trip from '../models/Trip';
 import User from '../models/User';
 
-import {ForbiddenError} from "apollo-server";
+import {ForbiddenError} from "apollo-server-express";
 import TripLocation from "../models/TripLocation";
 
 export default {

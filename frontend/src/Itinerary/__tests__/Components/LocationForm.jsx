@@ -1,6 +1,6 @@
 import React from "react";
 
-import LocationForm from "Itinerary/Components/LocationForm";
+import LocationForm from "../../Components/LocationForm";
 import ShallowRenderer from "react-test-renderer/shallow";
 
 const renderer = new ShallowRenderer();

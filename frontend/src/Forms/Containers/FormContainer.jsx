@@ -1,5 +1,5 @@
 import React from "react";
-import {inputParsers} from "Forms/utils/inputParsers.js";
+import {inputParsers} from "../utils/inputParsers.js";
 
 export default class FormContainer extends React.Component {
     constructor(props) {

@@ -22,7 +22,7 @@ pipelines:
     production:
     - step:
        script:
-         - ssh triplar7@triplar.co 'cd triplar && git pull origin production && docker-compose up --build'
+         - ssh triplar7@triplar.co 'cd triplar && git pull origin production && docker-compose up --dist'
 definitions:
   caches:
     frontend-node: frontend/node_modules

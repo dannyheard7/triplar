@@ -2,9 +2,9 @@ import React from "react";
 import Moment from 'moment';
 import {connect} from "react-redux";
 
-import {daysBetweenDates} from 'Trips/utils/utils.js';
-import PlacesSearchContainer from "Places/Containers/PlacesSearchContainer";
-import ItineraryDayContainer from "Itinerary/Containers/ItineraryDayContainer";
+import {daysBetweenDates} from '../utils/utils.js';
+import PlacesSearchContainer from "../../Places/Containers/PlacesSearchContainer";
+import ItineraryDayContainer from "./ItineraryDayContainer";
 import {addItemToItineraryDay, getItineraryDayDetail, removeItemFromItineraryDay} from "../utils/actions";
 import {Helmet} from "react-helmet";
 import {DragDropContext} from "react-beautiful-dnd";

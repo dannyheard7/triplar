@@ -1,7 +1,7 @@
 import React from "react";
 
-import FormFieldGroup from "Forms/Components/FormFieldGroup";
-import NonFieldErrors from "Forms/Components/NonFieldErrors";
+import FormFieldGroup from "../../Forms/Components/FormFieldGroup";
+import NonFieldErrors from "../../Forms/Components/NonFieldErrors";
 
 export default class LoginForm extends React.Component {
     render() {

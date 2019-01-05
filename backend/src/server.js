@@ -6,34 +6,32 @@ import schema from './schema'
 import {directiveResolvers} from "./directives/resolvers";
 import {MONGO_URL} from "./config/datastore";
 import mongoose from "mongoose";
-import User from "./models/User";
+import bodyParser from "body-parser";
+import passport, {facebookLoginRoute, jwtAuthRoute, loginRoute} from "./auth/auth";
 
 mongoose.connect(MONGO_URL);
 
 const execSchema = makeExecutableSchema({
-	typeDefs: schema,
-	resolvers,
+    typeDefs: schema,
+    resolvers,
     directiveResolvers
 });
 
 const server = new ApolloServer({
     schema: execSchema,
-    context: async({ req }) => {
-        const bearerLength = "JWT ".length;
-
-        let user = null;
-        if (req.headers.authorization && req.headers.authorization.length > bearerLength) {
-            const token = req.headers.authorization.slice(bearerLength);
-            user = await User.findByToken({token});
-        }
-
-        return { req: req, user: user };
-    },
+    context: ({req}) => ({user: req.user})
 });
 
 const app = express();
 app.use(cors());
+app.use(bodyParser.json());
 
-server.applyMiddleware({ app, path: '/graphql' });
 
-app.listen({ port: 8000 }, () => console.log('Apollo Server on http://localhost:8000/graphql'));
+app.use(passport.initialize());
+app.post('/login',  loginRoute);
+app.post('/login/facebook',  facebookLoginRoute);
+app.use('/graphql', jwtAuthRoute);
+
+server.applyMiddleware({app, path: '/graphql'});
+
+app.listen({port: 8000}, () => console.log('Apollo Server on http://localhost:8000/graphql'));

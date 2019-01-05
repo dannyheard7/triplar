@@ -1,7 +1,7 @@
 import React from "react";
 import {shallow} from "enzyme";
 
-import {TripList} from "Trips/Components/TripList";
+import {TripList} from "../../Components/TripList";
 import api from "../../utils/trips.api";
 import ShallowRenderer from "react-test-renderer/shallow";
 
@@ -9,7 +9,7 @@ const renderer = new ShallowRenderer();
 const faker = require('faker');
 
 
-jest.mock('Trips/utils/trips.api.js');
+jest.mock('../../utils/trips.api.js');
 describe('<TripList />', () => {
     describe('with no trips prop',() => {
         it('displays no <ListGroupItem /> component', () => {

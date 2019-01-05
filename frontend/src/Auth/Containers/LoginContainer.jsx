@@ -1,12 +1,19 @@
 import React from "react";
-import LoginForm from "Auth/Components/LoginForm.jsx";
-import {loginRequest} from "../utils/actions";
+import LoginForm from "../Components/LoginForm.jsx";
+import {facebookLoginRequest, loginRequest} from "../utils/actions";
 import {connect} from "react-redux";
 import ReduxFormContainer from "../../Forms/Containers/ReduxFormContainer";
 import {withRouter} from "react-router";
 import {Helmet} from "react-helmet";
+import FacebookLogin from 'react-facebook-login';
 
 export class LoginContainer extends React.Component {
+
+    facebookResponse = (response) => {
+        this.props.dispatch(facebookLoginRequest(response.accessToken));
+    };
+
+
     render() {
         return (
             <div>
@@ -21,6 +28,11 @@ export class LoginContainer extends React.Component {
                         <LoginForm/>
                     </ReduxFormContainer>
                 }
+
+                <FacebookLogin
+                    appId="2240458192891426"
+                    fields="name,email"
+                    callback={this.facebookResponse} />
             </div>
         );
     }

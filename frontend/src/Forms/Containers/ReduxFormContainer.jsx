@@ -1,5 +1,5 @@
 import React from "react";
-import {inputParsers} from "Forms/utils/inputParsers.js";
+import {inputParsers} from "../utils/inputParsers.js";
 import {connect} from "react-redux";
 
 class ReduxFormContainer extends React.Component {

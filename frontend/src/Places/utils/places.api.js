@@ -1,9 +1,8 @@
 import axios from "axios";
-import Q from "q";
-import {backendHost} from 'App/utils/constants';
+import {backendHost} from '../../App/utils/constants';
 
 export default {
-    getPopularPlaces(latitude, longitude, category) {
+    async getPopularPlaces(latitude, longitude, category) {
         const popularPlacesQuery = ` 
            query { 
             popularPlaces(latitude: ${latitude}, longitude: ${longitude}, category: "${category}") {
@@ -13,10 +12,10 @@ export default {
             }
            }`;
 
-        return Q.when(axios.post(`${backendHost}/graphql`, {query: popularPlacesQuery}))
+        return await axios.post(`${backendHost}/graphql`, {query: popularPlacesQuery});
     },
 
-    searchPlacesByName(latitude, longitude, query, category) {
+    async searchPlacesByName(latitude, longitude, query, category) {
         const searchPlacesQuery = ` 
            query { 
             searchNearbyPlaces(latitude: ${latitude}, longitude: ${longitude}, term: "${query}", category: "${category}") {
@@ -26,10 +25,10 @@ export default {
             }
            }`;
 
-        return Q.when(axios.post(`${backendHost}/graphql`, {query: searchPlacesQuery}))
+        return await axios.post(`${backendHost}/graphql`, {query: searchPlacesQuery});
     },
 
-    getPlaceDetails(placeId) {
+    async getPlaceDetails(placeId) {
         const searchPlacesQuery = ` 
            query { 
             place(id: "${placeId}") {
@@ -49,10 +48,10 @@ export default {
             }
            }`;
 
-        return Q.when(axios.post(`${backendHost}/graphql`, {query: searchPlacesQuery}))
+        return await axios.post(`${backendHost}/graphql`, {query: searchPlacesQuery});
     },
 
-    getTopLevelCategories() {
+    async getTopLevelCategories() {
         const getTopLevelCategoriesQuery = ` 
            query {
               categories {
@@ -61,10 +60,10 @@ export default {
               }
             }`;
 
-        return Q.when(axios.post(`${backendHost}/graphql`, {query: getTopLevelCategoriesQuery}))
+        return await axios.post(`${backendHost}/graphql`, {query: getTopLevelCategoriesQuery});
     },
 
-    getSubCategories(category, countryCode) {
+    async getSubCategories(category, countryCode) {
         const getSubCategoriesQuery = ` 
            query {
               category(alias: "${category}", countryCode: "${countryCode}") {
@@ -75,7 +74,7 @@ export default {
               }
             }`;
 
-        return Q.when(axios.post(`${backendHost}/graphql`, {query: getSubCategoriesQuery}))
+        return await axios.post(`${backendHost}/graphql`, {query: getSubCategoriesQuery});
     }
 
 }

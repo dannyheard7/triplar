@@ -10,7 +10,7 @@ services:
     image: triplar/backend
     env_file:
       - ./backend/.env
-    command: npm start
+    command: npm run serve
     ports:
       - "8000:8000"
     links:
@@ -19,7 +19,7 @@ services:
     image: triplar/backend
     env_file:
       - ./backend/.env
-    command: npm run worker-dev
+    command: npm run worker-prod
     links:
       - redis
   frontend:

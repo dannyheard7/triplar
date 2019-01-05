@@ -1,7 +1,7 @@
 import React from "react";
-import api from "Places/utils/places.api.js";
+import api from "../utils/places.api.js";
 
-import "Places/styles/places.css";
+import "../styles/places.css";
 import {getPopularPlaces, getTopLevelCategories} from "../utils/actions";
 import {connect} from "react-redux";
 import DroppablePlaceListContainer from "./DroppablePlaceListContainer";

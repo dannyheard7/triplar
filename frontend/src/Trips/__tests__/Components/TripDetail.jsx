@@ -1,7 +1,7 @@
 import React from "react";
 import {shallow} from "enzyme";
 import ShallowRenderer from 'react-test-renderer/shallow';
-import {TripDetail} from "Trips/Components/TripDetail";
+import {TripDetail} from "../../Components/TripDetail";
 import LoadingIndicator from "../../../App/Components/LoadingIndicator";
 
 const renderer = new ShallowRenderer();

@@ -1,8 +1,8 @@
 import React from "react";
 import {shallow} from "enzyme";
 import ShallowRenderer from 'react-test-renderer/shallow';
-import TripForm from "Trips/Components/TripForm";
-import FormContainer from "Forms/Containers/FormContainer";
+import TripForm from "../../../Trips/Components/TripForm";
+import FormContainer from "../../Containers/FormContainer";
 
 const renderer = new ShallowRenderer();
 

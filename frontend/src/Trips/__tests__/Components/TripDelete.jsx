@@ -1,13 +1,13 @@
 import React from "react";
 
-import {TripDelete} from "Trips/Components/TripDelete";
+import {TripDelete} from "../../Components/TripDelete";
 import ShallowRenderer from "react-test-renderer/shallow";
 import {shallow} from "enzyme/build/index";
 import {deleteTrip} from "../../utils/actions";
 
 const renderer = new ShallowRenderer();
 
-jest.mock('Trips/utils/trips.api.js');
+jest.mock('../../utils/trips.api.js');
 
 describe('<TripDelete />', () => {
     const trip = {'id': 1, 'name': "Trip Test", 'created_by': "email@example.com"};

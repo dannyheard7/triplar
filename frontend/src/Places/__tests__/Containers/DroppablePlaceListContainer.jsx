@@ -1,7 +1,7 @@
 import React from "react";
 
 import ShallowRenderer from 'react-test-renderer/shallow';
-import {DroppablePlaceListContainer} from "Places/Containers/DroppablePlaceListContainer";
+import DroppablePlaceListContainer from "../../Containers/DroppablePlaceListContainer";
 
 const renderer = new ShallowRenderer();
 

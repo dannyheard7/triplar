@@ -5,7 +5,7 @@ import {persistReducer, persistStore} from 'redux-persist'
 import sessionStorage from 'redux-persist/lib/storage/session'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
-import authRootSaga from "Auth/utils/sagas";
+import authRootSaga from "./Auth/utils/sagas";
 import {authReducer} from "./Auth/utils/reducers";
 import {all} from "redux-saga/effects";
 import {tripsReducer} from "./Trips/utils/reducers";

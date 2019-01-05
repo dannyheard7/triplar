@@ -1,6 +1,6 @@
 import Moment from 'moment';
 
-import {inputParsers} from "Forms/utils/inputParsers.js";
+import {inputParsers} from "../../utils/inputParsers.js";
 
 const faker = require('faker');
 

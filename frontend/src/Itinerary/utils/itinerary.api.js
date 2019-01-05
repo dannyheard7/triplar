@@ -1,11 +1,8 @@
 import axios from "axios";
-import Q from "q";
-import {backendHost} from 'App/utils/constants';
+import {backendHost} from '../../App/utils/constants';
 
 export default {
-    curryAPIFunc (apiFunc, id) {return (object) => apiFunc(id, object)},
-
-    addLocationToTrip(tripId, location) {
+    async addLocationToTrip(tripId, location) {
         const mutateTripLocationQuery = ` 
             mutation AddTripLocation($input: TripLocationInput!){
               result: addTripLocation(input: $input) {
@@ -30,10 +27,10 @@ export default {
 
         let variables = {input: {tripId, ...location}};
 
-        return Q.when(axios.post(`${backendHost}/graphql`, {query: mutateTripLocationQuery, variables: variables}));
+        return await axios.post(`${backendHost}/graphql`, {query: mutateTripLocationQuery, variables: variables});
     },
 
-    getTripItineraries(tripId) {
+    async getTripItineraries(tripId) {
         const getTripItinerariesQuery = ` 
            query{ 
             trip(id: "${tripId}") {
@@ -57,32 +54,32 @@ export default {
             }
            }`;
 
-        return Q.when(axios.post(`${backendHost}/graphql`, {query: getTripItinerariesQuery}));
+        return await axios.post(`${backendHost}/graphql`, {query: getTripItinerariesQuery});
     },
 
-    getItineraryDayDetail(itineraryId, date) {
+    async getItineraryDayDetail(itineraryId, date) {
         const getLocationDayItinerary = ` 
-           query {\ 
-            locationDayItinerary(date: "${date}", locationId: "${itineraryId}") {\
-                places {\
-                    id\
-                    name\
-                    photos\
-                    coordinates {\
-                        latitude\
-                        longitude\
-                    }\
-                }\
-                itinerary : location {\
-                    id\
-                }\
-            }\
+           query { 
+            locationDayItinerary(date: "${date}", locationId: "${itineraryId}") {
+                places {
+                    id
+                    name
+                    photos
+                    coordinates {
+                        latitude
+                        longitude
+                    }
+                }
+                itinerary : location {
+                    id
+                }
+            }
            }`;
 
-        return Q.when(axios.post(`${backendHost}/graphql`, {query: getLocationDayItinerary}));
+        return await axios.post(`${backendHost}/graphql`, {query: getLocationDayItinerary});
     },
 
-    addPlaceToItineraryDay(tripLocationId, placeId, date, order) {
+    async addPlaceToItineraryDay(tripLocationId, placeId, date, order) {
         const addTripLocationItemMutation = ` 
             mutation AddTripLocationItem($input: TripLocationItemInput!){
               addTripLocationItem(input: $input) {
@@ -100,20 +97,20 @@ export default {
             }`;
 
         let variables = {input: {locationId: tripLocationId, yelpPlaceId: placeId, order: order, startTime: date, endTime: date}};
-        return Q.when(axios.post(`${backendHost}/graphql`, {query: addTripLocationItemMutation, variables}));
+        return await axios.post(`${backendHost}/graphql`, {query: addTripLocationItemMutation, variables});
     },
 
-    removeItemFromItineraryDay(tripLocationId, placeId, date) {
+    async removeItemFromItineraryDay(tripLocationId, placeId, date) {
         const removeTripLocationItemMutation = ` 
             mutation RemoveTripLocationItem($input: TripLocationItemInput!) {
               removeTripLocationItem(input: $input)
             }`;
 
         let variables = {input: {locationId: tripLocationId, yelpPlaceId: placeId, startTime: date, endTime: date}};
-        return Q.when(axios.post(`${backendHost}/graphql`, {query: removeTripLocationItemMutation, variables}));
+        return await axios.post(`${backendHost}/graphql`, {query: removeTripLocationItemMutation, variables});
     },
 
-    searchCities(query) {
+    async searchCities(query) {
         const searchCities = ` 
            query { 
             cities(name: "${query}") {
@@ -124,6 +121,6 @@ export default {
             }
            }`;
 
-        return Q.when(axios.post(`${backendHost}/graphql`, {query: searchCities}));
+        return await axios.post(`${backendHost}/graphql`, {query: searchCities});
     },
 }

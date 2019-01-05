@@ -2,7 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import Moment from "moment";
 
-import 'Trips/styles/trips.css';
+import '../styles/trips.css';
 import {getTrips} from "../utils/actions";
 import { connect } from "react-redux";
 

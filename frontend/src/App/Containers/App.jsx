@@ -1,29 +1,34 @@
-import React from "react";
+import React,  { Suspense, lazy } from "react";
 import {Route, Router, Switch} from "react-router-dom";
 import {connect} from "react-redux";
 import ReactGA from 'react-ga';
 import {Helmet} from "react-helmet";
 
 import {history} from "../../store";
-
-import LoggedInContainer from "App/Containers/LoggedInContainer";
-import HeaderAuthenticated from "App/Components/HeaderAuthenticated";
-import HeaderUnauthenticated from "App/Components/HeaderUnauthenticated";
-import Footer from "App/Components/Footer";
-import LoginContainer from "Auth/Containers/LoginContainer";
-import RegistrationContainer from "Auth/Containers/RegistrationContainer";
-import TripCreateContainer from "Trips/Components/TripCreate";
-import TripEditContainer from "../../Trips/Components/TripEdit";
-import TripDelete from "../../Trips/Components/TripDelete";
-import PlaceDetail from "../../Places/Components/PlaceDetail";
 import {getCookie} from "../utils/utils";
 import {verifyToken} from "../../Auth/utils/actions";
-import TripDetail from "../../Trips/Components/TripDetail";
-import TripList from "../../Trips/Components/TripList";
-import ItinerariesOverview from "../../Itinerary/Components/ItinerariesOverview";
-import LocationItinerary from "../../Itinerary/Components/LocationItinerary";
+import '../styles/app.css';
 
-import 'App/styles/app.css';
+import LoggedInContainer from "./LoggedInContainer";
+import HeaderAuthenticated from "../Components/HeaderAuthenticated";
+import HeaderUnauthenticated from "../Components/HeaderUnauthenticated";
+import LoadingIndicator from "../Components/LoadingIndicator";
+import Footer from "../Components/Footer";
+
+const LoginContainer = lazy(() => import("../../Auth/Containers/LoginContainer"));
+const RegistrationContainer = lazy(() => import("../../Auth/Containers/RegistrationContainer"));
+
+const TripList = lazy(() => import("../../Trips/Components/TripList"));
+const TripCreateContainer = lazy(() => import("../../Trips/Components/TripCreate"));
+const TripEditContainer = lazy(() => import("../../Trips/Components/TripEdit"));
+const TripDetail = lazy(() => import("../../Trips/Components/TripDetail"));
+const TripDelete = lazy(() => import("../../Trips/Components/TripDelete"));
+
+const ItinerariesOverview = lazy(() => import("../../Itinerary/Components/ItinerariesOverview"));
+const LocationItinerary = lazy(() => import("../../Itinerary/Containers/LocationItinerary"));
+
+const PlaceDetail = lazy(() => import("../../Places/Components/PlaceDetail"));
+
 
 export class App extends React.Component {
     componentDidMount() {
@@ -44,27 +49,35 @@ export class App extends React.Component {
         history.listen(location => ReactGA.pageview(location.pathname));
     }
 
+    wrapWithSuspense(Component) {
+        return props => (
+            <Suspense fallback={<LoadingIndicator/>}>
+                <Component {...props} />
+            </Suspense>
+        );
+    }
+
     render() {
         if(this.props.auth.successful) {
             return (
                 <Router history={history}>
-                    <LoggedInContainer token={this.props.auth.token}>
+                    <LoggedInContainer token={this.props.auth.user.jwt}>
                         {this.getHeaderInfo()}
                         <div className="wrapper">
                             <HeaderAuthenticated/>
                             <div className="content">
-                                <Route path="/(|trips)" exact component={TripList}/>
-                                <Route path="/(|trips)" exact component={TripCreateContainer}/>
+                                <Route path="/(|trips)" exact component={this.wrapWithSuspense(TripList)}/>
+                                <Route path="/(|trips)" exact component={this.wrapWithSuspense(TripCreateContainer)}/>
 
-                                <Route path="/trips/:id" component={TripDetail}/>
-                                <Route path="/trips/:id/edit" component={TripEditContainer}/>
-                                <Route path="/trips/:id/delete" component={TripDelete} />
+                                <Route path="/trips/:id" component={this.wrapWithSuspense(TripDetail)}/>
+                                <Route path="/trips/:id/edit" component={this.wrapWithSuspense(TripEditContainer)}/>
+                                <Route path="/trips/:id/delete" component={this.wrapWithSuspense(TripDelete)} />
 
-                                <Route path="/trips/:id" component={ItinerariesOverview}/>
+                                <Route path="/trips/:id" component={this.wrapWithSuspense(ItinerariesOverview)}/>
 
-                                <Route path="/trips/:tripId/itinerary/:itineraryId" component={LocationItinerary}/>
+                                <Route path="/trips/:tripId/itinerary/:itineraryId" component={this.wrapWithSuspense(LocationItinerary)}/>
 
-                                <Route path="*/place/:placeId" component={PlaceDetail}/>
+                                <Route path="*/place/:placeId" component={this.wrapWithSuspense(PlaceDetail)}/>
                             </div>
                             <Footer/>
                         </div>
@@ -79,8 +92,8 @@ export class App extends React.Component {
                         <HeaderUnauthenticated/>
                         <div className="content">
                             <Switch>
-                                <Route path="/register" exact component={RegistrationContainer}/>
-                                <Route path="/" component={LoginContainer}/>
+                                <Route path="/register" exact component={this.wrapWithSuspense(RegistrationContainer)}/>
+                                <Route path="/" component={this.wrapWithSuspense(LoginContainer)}/>
                             </Switch>
                         </div>
                         <Footer/>
@@ -105,13 +118,7 @@ export class App extends React.Component {
 }
 
 const mapStateToProps = state => {
-    if(state.auth.successful) {
-        return {
-            auth: {...state.auth, token: getCookie('userToken')}
-        }
-    } else {
-        return {auth: state.auth}
-    }
+    return {auth: state.auth};
 };
 
 export default connect(mapStateToProps)(App);

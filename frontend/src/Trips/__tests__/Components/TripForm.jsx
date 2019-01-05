@@ -1,6 +1,6 @@
 import React from "react";
 
-import TripForm from "Trips/Components/TripForm";
+import TripForm from "../../Components/TripForm";
 import ShallowRenderer from "react-test-renderer/shallow";
 
 const renderer = new ShallowRenderer();

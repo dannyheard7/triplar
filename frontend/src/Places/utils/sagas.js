@@ -25,11 +25,13 @@ function* getPopularPlaces(lat, lng, category) {
             let response = yield call(api.getPopularPlaces, lat, lng, category);
             let result = response.data.data.popularPlaces;
 
-            yield put({type: UPDATE_PLACES_SUCCESS, places: result});
+            if(result && result.length > 0) {
+                yield put({type: UPDATE_PLACES_SUCCESS, places: result});
+            }
 
             result = {places: result.map(x => x['id']), category: category, lat: lat, lng: lng, lastFetched: Date.now()};
-
             yield put({type: GET_POPULAR_PLACES_SUCCESS, popularPlaces: result});
+
         } catch (error) {
             yield put({type: GET_POPULAR_PLACES_FAILURE, error});
         }

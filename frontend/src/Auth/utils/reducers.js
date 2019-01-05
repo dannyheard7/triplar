@@ -14,7 +14,7 @@ const initialState = {
     successful: false,
     errors: [],
     user: {},
-    token: null
+    jwt: null
 };
 
 export function authReducer(state = initialState, action) {
@@ -34,7 +34,7 @@ export function authReducer(state = initialState, action) {
                 errors: state.errors.concat([{body: action.error.toString()}])
             };
         case SET_USER:
-            return {...state, token: action.token, user: action.user};
+            return {...state, jwt: action.jwt, user: action.user};
         case UNSET_USER:
             return {...state, user: {}, successful: false, requesting: false};
         default:
