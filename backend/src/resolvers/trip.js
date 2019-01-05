@@ -1,20 +1,11 @@
 import Trip from '../models/Trip';
 import User from '../models/User';
-
-import {ForbiddenError} from "apollo-server-express";
 import TripLocation from "../models/TripLocation";
 
 export default {
     Query: {
         trips: async (parent, args, {user}) => await Trip.find({createdBy: user._id}),
-        trip: async (parent, {id}, {user}) => {
-            const trip = await Trip.findById(id);
-
-            if (trip.createdBy.equals(user.id)) {
-                return trip;
-            }
-            throw new ForbiddenError("You are not authorized to view this trip");
-        }
+        trip: async (parent, {id}, {user}) => await Trip.retrieveAndVerifyPermissions(id, user)
     },
     Mutation: {
         createTrip: async (parent, {input}, {user}) => {
@@ -23,23 +14,20 @@ export default {
         },
         updateTrip: async (parent, {input}, {user}) => {
             const {id} = input;
-            const trip =  await Trip.findById(id);
+            const trip = await Trip.retrieveAndVerifyPermissions(id, user);
 
-            if(trip.createdBy.equals(user._id)) {
-                trip.set({...input});
-                return await trip.save();
-            } else {
-                throw new ForbiddenError("You are not authorized to update this trip.");
-            }
+            trip.set({...input});
+            return await trip.save();
         },
         deleteTrip: async (parent, {id}, {user}) => {
-            const trip =  await Trip.findById(id);
+            const trip = await Trip.retrieveAndVerifyPermissions(id, user);
 
-            if(trip.createdBy.equals(user._id)) {
+            try {
                 await trip.remove();
                 return true;
-            } else {
-                throw new ForbiddenError("You are not authorized to delete this trip.");
+            }catch (e) {
+                console.log(e.message);
+                return false;
             }
         },
     },

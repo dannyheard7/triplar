@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import {ForbiddenError} from "apollo-server-express";
 import TripLocation from "./TripLocation";
 
 const uniqueValidator = require('mongoose-unique-validator');
@@ -19,6 +20,16 @@ tripSchema.pre('remove', function(next) {
     TripLocation.remove({_id: { $in: this.locations}}).exec();
     next();
 });
+
+tripSchema.statics.retrieveAndVerifyPermissions = async function(id, user) {
+    const trip = await this.findById(id);
+
+    if(trip.createdBy.equals(user._id)) {
+        return trip;
+    } else {
+        throw new ForbiddenError("You are not authorized to modify this trip.");
+    }
+};
 
 
 export default mongoose.model('Trip', tripSchema);
