@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken';
 import {JWT_SECRET, saltRounds} from "../config/auth";
-import {ValidationError} from "apollo-server-express";
 import bcrypt from "bcryptjs";
 import mongoose from 'mongoose';
 import Role from "./Role";
+import Trip from "./Trip";
 
 const uniqueValidator = require('mongoose-unique-validator');
 const Schema = mongoose.Schema;
@@ -92,5 +92,10 @@ UserSchema.methods.hasRole = async function (role) {
 
     return false;
 };
+
+UserSchema.pre('remove', function(next) {
+    Trip.remove({createdBy: this._id}).exec();
+    next();
+});
 
 export default mongoose.model('User', UserSchema);

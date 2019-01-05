@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import TripLocationItem from "./TripLocationItem";
 
 const uniqueValidator = require('mongoose-unique-validator');
 const Schema = mongoose.Schema;
@@ -11,6 +12,11 @@ const tripLocationSchema = new Schema({
     items: [{type: Schema.ObjectId, ref: 'TripLocationItem'}]
 }, {collection:'TripLocation'});
 tripLocationSchema.plugin(uniqueValidator);
+
+tripLocationSchema.pre('remove', function(next) {
+    TripLocationItem.remove({_id: { $in: this.items}}).exec();
+    next();
+});
 
 
 export default mongoose.model('TripLocation', tripLocationSchema);
