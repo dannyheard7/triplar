@@ -26,12 +26,14 @@ export class PlacesSearchContainer extends React.Component {
     }
 
     componentDidMount() {
-        this.getPopularPlaces(this.state.selectedCategory);
         this.props.dispatch(getTopLevelCategories());
+
+        if(this.props.city.latitude && this.props.city.longitude) {
+            this.getPopularPlaces(this.state.selectedCategory)
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-
         if(prevProps.city !== this.props.city) {
             this.setState({selectedCategory: "", selectedSubCategory: ""},
                 () => this.getPopularPlaces(this.state.selectedCategory));

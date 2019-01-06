@@ -1,0 +1,12 @@
+.tripList {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 0.5rem;
+}
+
+.tripDates {
+  font-size: 1.3rem;
+  color: grey;
+}
+
+/*# sourceMappingURL=Trip.module.css.map */

@@ -5,6 +5,10 @@ import LoadingIndicator from "../../App/Components/LoadingIndicator";
 import {Link} from "react-router-dom";
 import {Helmet} from "react-helmet";
 import {getTrips} from "../utils/actions";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faEdit, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
+
+import styles from '../styles/Trip.module.css';
 
 Moment.locale('en');
 
@@ -27,15 +31,19 @@ export class TripDetail extends React.Component {
                     <Helmet>
                         <title>{this.props.trip.name + " | Triplar"}</title>
                     </Helmet>
-                    <h1 id="trip-name">{trip.name}</h1>
-                    <p>{Moment(trip.startDate).format('Do MMMM')} - {Moment(trip.endDate).format('Do MMMM')}</p>
+                    <div className="row">
+                        <h1 id="trip-name">{trip.name}</h1>
+                        <p className={styles.tripDates}>{Moment(trip.startDate).format('Do MMMM')} - {Moment(trip.endDate).format('Do MMMM')}</p>
+                        <span>
+                            <Link to={`/trips/${trip.id}/edit`}>
+                                <button className="btn btn-primary btn-thin"><FontAwesomeIcon icon={faEdit}/></button>
+                            </Link>
+                            <Link to={`/trips/${trip.id}/delete`}>
+                                <button className="btn btn-danger btn-thin"><FontAwesomeIcon icon={faTrashAlt}/></button>
+                            </Link>
+                        </span>
+                    </div>
                     {trip.createdBy && <p className="created-by">Created by: {trip.createdBy.firstName} {trip.createdBy.lastName}</p>}
-                    <Link to={`/trips/${trip.id}/edit`}>
-                        <button className="btn btn-light">Edit</button>
-                    </Link>
-                    <Link to={`/trips/${trip.id}/delete`}>
-                        <button className="btn btn-danger">Delete Trip</button>
-                    </Link>
                 </div>
             )
         }

@@ -2,7 +2,8 @@ import React from "react";
 import {Link} from "react-router-dom";
 import Moment from "moment";
 
-import '../styles/trips.css';
+import styles from '../styles/Trip.module.css';
+
 import {getTrips} from "../utils/actions";
 import { connect } from "react-redux";
 
@@ -15,7 +16,7 @@ export class TripList extends React.Component {
         return (
             <div>
                 <h1>Your Trips</h1>
-                <div className="trip-list">
+                <div className={styles.tripList}>
                     {this.props.trips.map(this.createListItem)}
                 </div>
             </div>

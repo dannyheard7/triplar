@@ -18,7 +18,7 @@ describe('<PlacesSearchContainer />', () => {
     };
 
     const city = {name: faker.address.city(), country: {name: faker.address.country(), code: faker.address.countryCode},
-        location: {lat: faker.address.latitude, lng: faker.address.longitude}};
+        latitude: faker.address.latitude, longitude: faker.address.longitude};
     const places = [{'id': faker.random.number(), 'name': faker.random.word(), 'imageUrl': faker.internet.url()}];
 
     const props = {

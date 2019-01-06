@@ -6,7 +6,7 @@ exports[`<TripList /> renders a correctly 1`] = `
     Your Trips
   </h1>
   <div
-    className="trip-list"
+    className="tripList"
   />
 </div>
 `;

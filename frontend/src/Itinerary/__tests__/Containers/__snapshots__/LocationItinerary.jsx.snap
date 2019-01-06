@@ -5,9 +5,7 @@ exports[`<LocationItinerary /> <LocationItinerary /> renders correctly 1`] = `
   onDragEnd={[Function]}
   onDragStart={[Function]}
 >
-  <div
-    className="destination-itinerary"
-  >
+  <div>
     <HelmetWrapper
       defer={true}
       encodeSpecialCharacters={true}
@@ -16,16 +14,13 @@ exports[`<LocationItinerary /> <LocationItinerary /> renders correctly 1`] = `
         undefined: Bristol | Triplar
       </title>
     </HelmetWrapper>
-    <div
-      className="destination-plan"
-    >
-      <h3>
-        Bristol
-      </h3>
-      <p>
-        Friday 10th August
-         - 
-        Sunday 12th August
+    <div>
+      <div
+        className="row"
+      >
+        <h3>
+          Bristol
+        </h3>
         <select
           onChange={[Function]}
         >
@@ -45,7 +40,7 @@ exports[`<LocationItinerary /> <LocationItinerary /> renders correctly 1`] = `
             Sunday 12th August
           </option>
         </select>
-      </p>
+      </div>
       <Connect(ItineraryDayContainer)
         day="2018-08-10T00:00:00.000Z"
         dragging={false}

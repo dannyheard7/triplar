@@ -33,6 +33,11 @@ p {
   margin: $margin 0;
 }
 
+a, a:visited  {
+  text-decoration: none;
+  color: #205460;
+}
+
 .wrapper {
   display: grid;
   grid-template-columns: 1fr 6fr 1fr;
@@ -161,6 +166,11 @@ button {
   color: $btn-light-text-color;
 }
 
+.btn-thin {
+  padding: $padding 1.5*$padding;
+  margin: 0 $margin;
+}
+
 .card {
   padding: $padding;
   border-radius: $border-radius;
@@ -193,4 +203,16 @@ input {
 
 select {
   border-radius: $border-radius;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+  }
+
+  margin: $margin 0;
 }

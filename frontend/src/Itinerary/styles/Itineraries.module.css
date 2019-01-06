@@ -1,0 +1,21 @@
+.itinerariesOverview {
+  margin: 1rem 0;
+}
+
+.itinerariesList {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 0.5rem;
+}
+
+.destinationItinerary {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid gray;
+}
+
+.destinationPlanTitle {
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=Itineraries.module.css.map */

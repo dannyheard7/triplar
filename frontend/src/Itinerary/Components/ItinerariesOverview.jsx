@@ -6,7 +6,7 @@ import Moment from "moment";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-import '../styles/itineraries.css';
+import styles from  '../styles/Itineraries.module.css';
 import LocationAddContainer from "./LocationAdd";
 
 
@@ -34,13 +34,13 @@ export class ItinerariesOverview extends React.Component {
         const locations = this.props.locations;
 
         return (
-            <div className="itineraries-overview">
+            <div className={styles.itinerariesOverview}>
                 <h2>Locations</h2>
-                <div className="itineraries-list">
+                <div className={styles.itinerariesList}>
                     {locations.map((location) =>
                         <div className="card" key={location.id}>
                             <Link to={`/trips/${trip.id}/itinerary/${location.id}`}>
-                                <h3 className="card-title">{location.city.name}{location.city.country && ", " + location.city.country.name}</h3>
+                                <h3 className={["card-title", styles.destinationPlanTitle].join(' ')}>{location.city.name}{location.city.country && ", " + location.city.country.name}</h3>
                             </Link>
                             <p className="card-text">
                                 {Moment(location.startDate).format('Do MMMM')} - {Moment(location.endDate).format('Do MMMM')}

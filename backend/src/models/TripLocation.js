@@ -16,14 +16,14 @@ const tripLocationSchema = new Schema({
 tripLocationSchema.plugin(uniqueValidator);
 
 tripLocationSchema.pre('remove', function(next) {
-    TripLocationItem.remove({_id: { $in: this.items}}).exec();
+    TripLocationItem.deleteMany({_id: { $in: this.items}}).exec();
     next();
 });
 
 tripLocationSchema.statics.retrieveAndVerifyPermissions = async function(id, user) {
     const tripLocation = await this.findById(id).populate('trip');
 
-    if(location.trip.createdBy.equals(user._id)) {
+    if(tripLocation.trip.createdBy.equals(user._id)) {
         return tripLocation;
     } else {
         throw new ForbiddenError("You are not authorized to modify this trip.");

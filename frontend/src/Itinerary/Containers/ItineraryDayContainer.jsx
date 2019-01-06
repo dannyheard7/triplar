@@ -1,5 +1,4 @@
 import React from "react";
-import ItineraryDay from "../Components/ItineraryDay";
 import DroppablePlaceListContainer from "../../Places/Containers/DroppablePlaceListContainer";
 import {connect} from "react-redux";
 import MarkerMap from "../../Maps/Components/MarkerMap";
@@ -37,7 +36,6 @@ export class ItineraryDayContainer extends React.Component {
             <div>
                 <button className="btn btn-light" onClick={this.onMapIconClick}><FontAwesomeIcon icon={faMapMarkedAlt}/></button>
                 {this.state.showMap && <MarkerMap center={position} zoom={13} markers={placePositions}/>}
-                <ItineraryDay day={this.props.day}/>
                 <DroppablePlaceListContainer places={this.props.places} path={this.props.path} dragging={this.props.dragging}
                                              droppableId="itinerary-day-droppable" keyFunc={(id) => id + itinerary.id}/>
             </div>

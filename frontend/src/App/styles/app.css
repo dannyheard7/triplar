@@ -16,6 +16,11 @@ p {
   margin: 0.5rem 0;
 }
 
+a, a:visited {
+  text-decoration: none;
+  color: #205460;
+}
+
 .wrapper {
   display: grid;
   grid-template-columns: 1fr 6fr 1fr;
@@ -128,6 +133,11 @@ button:first-of-type {
   color: black;
 }
 
+.btn-thin {
+  padding: 0.5rem 0.75rem;
+  margin: 0 0.5rem;
+}
+
 .card {
   padding: 0.5rem;
   border-radius: 3px;
@@ -156,6 +166,16 @@ input {
 
 select {
   border-radius: 3px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+}
+.row h1, .row h2, .row h3, .row h4, .row h5, .row h6 {
+  margin: 0;
 }
 
 /*# sourceMappingURL=app.css.map */

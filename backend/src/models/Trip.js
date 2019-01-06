@@ -17,7 +17,7 @@ const tripSchema = new Schema({
 tripSchema.plugin(uniqueValidator);
 
 tripSchema.pre('remove', function(next) {
-    TripLocation.remove({_id: { $in: this.locations}}).exec();
+    TripLocation.deleteMany({_id: { $in: this.locations}}).exec();
     next();
 });
 

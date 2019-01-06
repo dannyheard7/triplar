@@ -5,6 +5,8 @@ import LoadingIndicator from "../../App/Components/LoadingIndicator";
 import Modal from 'react-responsive-modal';
 import MarkerMap from "../../Maps/Components/MarkerMap";
 
+import styles from "../styles/Places.module.css";
+
 export class PlaceDetail extends React.Component {
     constructor(props) {
         super(props);
@@ -41,14 +43,13 @@ export class PlaceDetail extends React.Component {
             }
 
             return (
-                <Modal open={true} onClose={this.closeModal} contentLabel={place.name} >
+                <Modal open={true} onClose={this.closeModal} contentLabel={place.name}
+                       classNames={{ modal: styles.customModal }}>
                     <h2>{place.name}</h2>
                     {place.location && <p> {place.location.displayAddress} </p>}
                     {place.rating && <p>Rating: {place.rating}</p>}
                     {place.displayPhone && <p>Phone: <a href={`tel:${place.displayPhone}`}>{place.displayPhone}</a></p>}
-                    {place.photos && place.photos.map((image) => <img src={image} alt={place.name} height="100px" key={image}/>)}
                     {place.coordinates && <MarkerMap markers={[marker]} center={position} zoom={14}/> }
-                    <button onClick={this.closeModal}>Close</button>
                 </Modal>
             );
         }

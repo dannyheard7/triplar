@@ -75,19 +75,19 @@ export class LocationItinerary extends React.Component {
 
         return (
             <DragDropContext onDragEnd={this.onDragEnd} onDragStart={this.onDragStart}>
-                <div className="destination-itinerary">
+                <div>
                     <Helmet>
                         <title>{trip.name + ": " + itinerary.city.name + " | Triplar"}</title>
                     </Helmet>
-                    <div className="destination-plan">
-                        <h3>{itinerary.city.name}</h3>
-                        <p>{Moment(itinerary.startDate).format('dddd Do MMMM')} - {Moment(itinerary.endDate).format('dddd Do MMMM')}
+                    <div>
+                        <div className="row">
+                            <h3>{itinerary.city.name}</h3>
                             <select onChange={this.onChangeSelectedDay}>
                                 {days.map((day) =>
                                     <option key={day} value={day.format("YYYY-MM-DD")}>{day.format('dddd Do MMMM')}</option>
                                 )}
                             </select>
-                        </p>
+                        </div>
                         <ItineraryDayContainer day={this.state.selectedDate} itinerary={itinerary} key={this.state.selectedDate}
                                                path={path} dragging={this.state.dragging}/>
                     </div>
