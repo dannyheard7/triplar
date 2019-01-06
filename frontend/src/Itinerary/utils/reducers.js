@@ -2,9 +2,9 @@ import {
     ADD_ITEM_TO_ITINERARY_DAY,
     ADD_ITEM_TO_ITINERARY_DAY_FAILURE,
     ADD_ITEM_TO_ITINERARY_DAY_SUCCESS,
-    ADD_LOCATION_TO_TRIP,
-    ADD_LOCATION_TO_TRIP_FAILURE,
-    ADD_LOCATION_TO_TRIP_SUCCESS,
+    ADD_TRIP_LOCATION,
+    ADD_TRIP_LOCATION_FAILURE,
+    ADD_TRIP_LOCATION_SUCCESS, DELETE_TRIP_LOCATION, DELETE_TRIP_LOCATION_SUCCESS,
     GET_ITINERARY_DAY_ITEMS,
     GET_ITINERARY_DAY_ITEMS_FAILURE,
     GET_ITINERARY_DAY_ITEMS_SUCCESS,
@@ -46,16 +46,19 @@ function removeItemFromItineraryItems(itineraryItems, item) {
 export function itinerariesReducer(state = initialState, action) {
     switch (action.type) {
         case GET_TRIP_ITINERARIES:
-        case ADD_LOCATION_TO_TRIP:
+        case ADD_TRIP_LOCATION:
         case GET_ITINERARY_DAY_ITEMS:
         case ADD_ITEM_TO_ITINERARY_DAY:
         case REMOVE_ITEM_FROM_ITINERARY_DAY:
             return {...state, errors: []};
         case GET_TRIP_ITINERARIES_SUCCESS:
             return {...state, locationItineraries: action.tripItineraries, errors: []};
-        case ADD_LOCATION_TO_TRIP_SUCCESS:
+        case ADD_TRIP_LOCATION_SUCCESS:
             return {...state, locationItineraries: updateItineraryInItineraries(state.locationItineraries, action.tripLocation),
                 errors: []};
+        case DELETE_TRIP_LOCATION_SUCCESS:
+            return {...state, locationItineraries: state.locationItineraries.filter(x => x.id !== action.locationId),
+                itineraryItems: state.itineraryItems.filter(x => x.itineraryId !== action.locationId)};
         case GET_ITINERARY_DAY_ITEMS_SUCCESS:
             return {...state, itineraryItems: [...removeItineraryItemsForDay(state.itineraryItems, action.itineraryId, action.date), ...action.items],
                 errors: []};
@@ -65,7 +68,7 @@ export function itinerariesReducer(state = initialState, action) {
         case REMOVE_ITEM_FROM_ITINERARY_DAY_SUCCESS:
             return {...state, itineraryItems: removeItemFromItineraryItems(state.itineraryItems, action.item)};
         case GET_TRIP_ITINERARIES_FAILURE:
-        case ADD_LOCATION_TO_TRIP_FAILURE:
+        case ADD_TRIP_LOCATION_FAILURE:
         case GET_ITINERARY_DAY_ITEMS_FAILURE:
         case ADD_ITEM_TO_ITINERARY_DAY_FAILURE:
         case REMOVE_ITEM_FROM_ITINERARY_DAY_FAILURE:

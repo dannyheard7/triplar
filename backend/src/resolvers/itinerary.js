@@ -43,6 +43,24 @@ export default {
                 throw new Error("Could not add trip location");
             }
         },
+        updateTripLocation: async (parent, {input}, {user}) => {
+            const {id, startDate, endDate} = input;
+            const tripLocation =  await TripLocation.retrieveAndVerifyPermissions(id, user);
+
+            tripLocation.set({startDate, endDate});
+            return await tripLocation.save();
+        },
+        deleteTripLocation: async (parent, {id}, {user}) => {
+            const tripLocation =  await TripLocation.retrieveAndVerifyPermissions(id, user);
+
+            try {
+                await tripLocation.remove();
+                return true;
+            } catch(e) {
+                console.log(e.message);
+                return false;
+            }
+        },
         addTripLocationItem: async(parent, {input}, {user}) => {
             const {locationId} = input;
             const location =  await TripLocation.retrieveAndVerifyPermissions(locationId, user);
@@ -54,11 +72,11 @@ export default {
             return tripLocationItem;
         },
         removeTripLocationItem: async(parent, {input}, {user}) => {
-            const {locationId} = input;
+            const {locationId, yelpPlaceId} = input;
             const location =  await TripLocation.retrieveAndVerifyPermissions(locationId, user);
 
             try {
-                const tripLocationItem = await TripLocationItem.findOne({location: location._id, yelpPlaceId: input.yelpPlaceId});
+                const tripLocationItem = await TripLocationItem.findOne({location: location._id, yelpPlaceId});
                 await tripLocationItem.remove();
 
                 location.items.remove(tripLocationItem._id);

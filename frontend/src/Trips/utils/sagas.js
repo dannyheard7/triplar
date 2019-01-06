@@ -57,8 +57,8 @@ function* deleteTripFlow({tripId}) {
         let response = yield call(api.deleteTrip, tripId);
         let result = response.data.data.deleteTrip;
 
-        if(result === true) {
-            yield put({type: DELETE_TRIP_SUCCESS, tripId: tripId});
+        if(result) {
+            yield put({type: DELETE_TRIP_SUCCESS, tripId});
             yield put(push('/trips'));
         } else {
             yield put({type: DELETE_TRIP_FAILURE, result});
@@ -67,8 +67,6 @@ function* deleteTripFlow({tripId}) {
         yield put({type: DELETE_TRIP_FAILURE, error});
     }
 }
-
-
 
 export default function* tripsRootSaga() {
     yield takeEvery(GET_TRIPS, getTripsFlow);

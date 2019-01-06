@@ -8,6 +8,9 @@ import ItineraryDayContainer from "./ItineraryDayContainer";
 import {addItemToItineraryDay, getItineraryDayDetail, removeItemFromItineraryDay} from "../utils/actions";
 import {Helmet} from "react-helmet";
 import {DragDropContext} from "react-beautiful-dnd";
+import {Link} from "react-router-dom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faEdit, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 
 
 export class LocationItinerary extends React.Component {
@@ -87,6 +90,14 @@ export class LocationItinerary extends React.Component {
                                     <option key={day} value={day.format("YYYY-MM-DD")}>{day.format('dddd Do MMMM')}</option>
                                 )}
                             </select>
+                            <span>
+                                <Link to={`${path}/edit`} title={`Edit Location ${itinerary.city.name}`}>
+                                    <button className="btn btn-primary btn-thin"><FontAwesomeIcon icon={faEdit}/></button>
+                                </Link>
+                                <Link to={`${path}/delete`} title={`Delete Location ${itinerary.city.name}`}>
+                                    <button className="btn btn-danger btn-thin"><FontAwesomeIcon icon={faTrashAlt}/></button>
+                                </Link>
+                            </span>
                         </div>
                         <ItineraryDayContainer day={this.state.selectedDate} itinerary={itinerary} key={this.state.selectedDate}
                                                path={path} dragging={this.state.dragging}/>

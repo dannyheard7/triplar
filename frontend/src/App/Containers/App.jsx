@@ -26,6 +26,7 @@ const TripDelete = lazy(() => import("../../Trips/Components/TripDelete"));
 
 const ItinerariesOverview = lazy(() => import("../../Itinerary/Components/ItinerariesOverview"));
 const LocationItinerary = lazy(() => import("../../Itinerary/Containers/LocationItinerary"));
+const LocationDelete = lazy(() => import("../../Itinerary/Components/LocationDelete"));
 
 const PlaceDetail = lazy(() => import("../../Places/Components/PlaceDetail"));
 
@@ -76,6 +77,7 @@ export class App extends React.Component {
                                 <Route path="/trips/:id" component={this.wrapWithSuspense(ItinerariesOverview)}/>
 
                                 <Route path="/trips/:tripId/itinerary/:itineraryId" component={this.wrapWithSuspense(LocationItinerary)}/>
+                                <Route path="/trips/:tripId/itinerary/:itineraryId/delete" component={this.wrapWithSuspense(LocationDelete)}/>
 
                                 <Route path="*/place/:placeId" component={this.wrapWithSuspense(PlaceDetail)}/>
                             </div>

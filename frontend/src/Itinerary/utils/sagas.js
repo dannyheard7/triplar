@@ -1,14 +1,18 @@
 import {call, put, takeEvery} from 'redux-saga/effects'
+import {push} from "react-router-redux";
 import Moment from "moment";
 
-import itineraryApi from "../../Itinerary/utils/itinerary.api";
+import itineraryApi from "./itinerary.api";
 import {
     ADD_ITEM_TO_ITINERARY_DAY,
     ADD_ITEM_TO_ITINERARY_DAY_FAILURE,
     ADD_ITEM_TO_ITINERARY_DAY_SUCCESS,
-    ADD_LOCATION_TO_TRIP,
-    ADD_LOCATION_TO_TRIP_FAILURE,
-    ADD_LOCATION_TO_TRIP_SUCCESS,
+    ADD_TRIP_LOCATION,
+    ADD_TRIP_LOCATION_FAILURE,
+    ADD_TRIP_LOCATION_SUCCESS,
+    DELETE_TRIP_LOCATION,
+    DELETE_TRIP_LOCATION_FAILURE,
+    DELETE_TRIP_LOCATION_SUCCESS,
     GET_ITINERARY_DAY_ITEMS,
     GET_ITINERARY_DAY_ITEMS_FAILURE,
     GET_ITINERARY_DAY_ITEMS_SUCCESS,
@@ -49,14 +53,30 @@ function* getItineraryDay({itineraryId, date}) {
     }
 }
 
-function* addLocationToItinerary({tripId, location}) {
+function* addTripLocationFlow({tripId, location}) {
     try {
         let response = yield call(itineraryApi.addLocationToTrip, tripId, location);
         let result = response.data.data.result;
 
-        yield put({type: ADD_LOCATION_TO_TRIP_SUCCESS, tripLocation: result});
+        yield put({type: ADD_TRIP_LOCATION_SUCCESS, tripLocation: result});
     } catch (error) {
-        yield put({type: ADD_LOCATION_TO_TRIP_FAILURE, error});
+        yield put({type: ADD_TRIP_LOCATION_FAILURE, error});
+    }
+}
+
+function* deleteTripLocationFlow({locationId, tripId}) {
+    try {
+        let response = yield call(itineraryApi.deleteTripLocation, locationId);
+        let result = response.data.data.deleteTripLocation;
+
+        if(result) {
+            yield put({type: DELETE_TRIP_LOCATION_SUCCESS, locationId});
+            yield put(push(`/trips/${tripId}`));
+        } else {
+            yield put({type: DELETE_TRIP_LOCATION_FAILURE, result});
+        }
+    } catch (error) {
+        yield put({type: DELETE_TRIP_LOCATION_FAILURE, error});
     }
 }
 
@@ -90,7 +110,8 @@ function* removeItemFromItineraryDay({itineraryId, placeId, day}) {
 export default function* itinerariesRootSaga() {
     yield takeEvery(REMOVE_ITEM_FROM_ITINERARY_DAY, removeItemFromItineraryDay);
     yield takeEvery(ADD_ITEM_TO_ITINERARY_DAY, addItemToItineraryDay);
-    yield takeEvery(ADD_LOCATION_TO_TRIP, addLocationToItinerary);
+    yield takeEvery(ADD_TRIP_LOCATION, addTripLocationFlow);
+    yield takeEvery(DELETE_TRIP_LOCATION, deleteTripLocationFlow);
     yield takeEvery(GET_ITINERARY_DAY_ITEMS, getItineraryDay);
     yield takeEvery(GET_TRIP_ITINERARIES, getTripItineraries);
 }

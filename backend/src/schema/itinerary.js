@@ -9,6 +9,8 @@ export default gql`
   
   extend type Mutation {
     addTripLocation(input: TripLocationInput!): TripLocation! @isAuthenticated
+    updateTripLocation(input: TripLocationUpdateInput!): TripLocation! @isAuthenticated
+    deleteTripLocation(id: ID!): Boolean! @isAuthenticated
     addTripLocationItem(input: TripLocationItemInput!): TripLocationItem! @isAuthenticated
     removeTripLocationItem(input: TripLocationItemInput!): Boolean! @isAuthenticated
   }
@@ -32,6 +34,11 @@ export default gql`
     startDate: Date!,
     endDate: Date!,
     tripId: ID!
+  }
+  
+  input TripLocationUpdateInput {
+    startDate: Date!,
+    endDate: Date!
   }
   
   type TripLocationItem {

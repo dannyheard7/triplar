@@ -30,6 +30,7 @@ exports[`<TripDetail /> with trip prop renders correctly 1`] = `
     <span>
       <Link
         replace={false}
+        title="Edit Trip test"
         to="/trips/1/edit"
       >
         <button
@@ -69,6 +70,7 @@ exports[`<TripDetail /> with trip prop renders correctly 1`] = `
       </Link>
       <Link
         replace={false}
+        title="Delete Trip test"
         to="/trips/1/delete"
       >
         <button

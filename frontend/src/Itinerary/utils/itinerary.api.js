@@ -30,6 +30,15 @@ export default {
         return await axios.post(`${backendHost}/graphql`, {query: mutateTripLocationQuery, variables: variables});
     },
 
+    async deleteTripLocation(locationId) {
+        const deleteTripLocationQuery = ` 
+            mutation DeleteTripLocation {
+              deleteTripLocation(id: "${locationId}")
+        }`;
+
+        return await axios.post(`${backendHost}/graphql`, {query: deleteTripLocationQuery});
+    },
+
     async getTripItineraries(tripId) {
         const getTripItinerariesQuery = ` 
            query{ 
