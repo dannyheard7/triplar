@@ -1,8 +1,11 @@
-import {all, call, put, take, takeEvery} from 'redux-saga/effects'
+import {call, put, takeEvery} from 'redux-saga/effects'
 import {
     CREATE_TRIP,
     CREATE_TRIP_FAILURE,
-    CREATE_TRIP_SUCCESS, DELETE_TRIP, DELETE_TRIP_FAILURE, DELETE_TRIP_SUCCESS,
+    CREATE_TRIP_SUCCESS,
+    DELETE_TRIP,
+    DELETE_TRIP_FAILURE,
+    DELETE_TRIP_SUCCESS,
     EDIT_TRIP,
     EDIT_TRIP_FAILURE,
     EDIT_TRIP_SUCCESS,
@@ -25,7 +28,7 @@ function* getTripsFlow() {
     }
 }
 
-function* createTripFlow(trip) {
+function* createTripFlow({trip}) {
     try {
         let response = yield call(api.createTrip, trip);
         let result = response.data.data.result;
@@ -37,14 +40,7 @@ function* createTripFlow(trip) {
     }
 }
 
-function* createTripWatcher() {
-    while(true) {
-        const {trip} = yield take(CREATE_TRIP);
-        yield call(createTripFlow, trip);
-    }
-}
-
-function* editTripFlow(tripId, trip) {
+function* editTripFlow({tripId, trip}) {
     try {
         let response = yield call(api.editTrip, tripId, trip);
         let result = response.data.data.result;
@@ -55,14 +51,8 @@ function* editTripFlow(tripId, trip) {
     }
 }
 
-function* editTripWatcher() {
-    while(true) {
-        const {tripId, trip} = yield take(EDIT_TRIP);
-        yield call(editTripFlow, tripId, trip);
-    }
-}
 
-function* deleteTripFlow(tripId) {
+function* deleteTripFlow({tripId}) {
     try {
         let response = yield call(api.deleteTrip, tripId);
         let result = response.data.data.deleteTrip;
@@ -78,19 +68,11 @@ function* deleteTripFlow(tripId) {
     }
 }
 
-function* deleteTripWatcher() {
-    while(true) {
-        const {tripId} = yield take(DELETE_TRIP);
-        yield call(deleteTripFlow, tripId);
-    }
-}
 
 
 export default function* tripsRootSaga() {
     yield takeEvery(GET_TRIPS, getTripsFlow);
-    yield all([
-        createTripWatcher(),
-        editTripWatcher(),
-        deleteTripWatcher(),
-    ])
+    yield takeEvery(DELETE_TRIP, deleteTripFlow);
+    yield takeEvery(EDIT_TRIP, editTripFlow);
+    yield takeEvery(CREATE_TRIP, createTripFlow);
 }

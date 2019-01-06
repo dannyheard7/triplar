@@ -44,8 +44,8 @@ describe('<LocationAdd />', () => {
     }));
 
     // TODO: Move to redux
-    test.skip('addLocationToTrip called with correct arguments', () => {
-        const spy = jest.spyOn(api.default, 'addLocationToTrip');
+    test.skip('addTripLocation called with correct arguments', () => {
+        const spy = jest.spyOn(api.default, 'addTripLocation');
         const trip = {id: faker.random.number()};
 
         const container = shallow(<LocationAdd trip={trip} />);

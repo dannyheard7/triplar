@@ -1,4 +1,4 @@
-import {all, call, put, take} from 'redux-saga/effects'
+import {call, put, takeEvery} from 'redux-saga/effects'
 import Moment from "moment";
 
 import itineraryApi from "../../Itinerary/utils/itinerary.api";
@@ -21,7 +21,7 @@ import {
 } from "./actions";
 import {UPDATE_PLACES_SUCCESS} from "../../Places/utils/actions";
 
-function* getTripItineraries(tripId) {
+function* getTripItineraries({tripId}) {
     try {
         let response = yield call(itineraryApi.getTripItineraries, tripId);
         let result = response.data.data.trip.locations;
@@ -32,14 +32,7 @@ function* getTripItineraries(tripId) {
     }
 }
 
-function* getTripItinerariesWatcher() {
-    while(true) {
-        const {tripId} = yield take(GET_TRIP_ITINERARIES);
-        yield call(getTripItineraries, tripId);
-    }
-}
-
-function* getItineraryDay(itineraryId, date) {
+function* getItineraryDay({itineraryId, date}) {
     try {
         let response = yield call(itineraryApi.getItineraryDayDetail, itineraryId, date);
         let result = response.data.data.locationDayItinerary;
@@ -56,14 +49,7 @@ function* getItineraryDay(itineraryId, date) {
     }
 }
 
-function* getItineraryDayWatcher() {
-    while(true) {
-        const {itineraryId, date} = yield take(GET_ITINERARY_DAY_ITEMS);
-        yield call(getItineraryDay, itineraryId, date);
-    }
-}
-
-function* addLocationToItinerary(tripId, location) {
+function* addLocationToItinerary({tripId, location}) {
     try {
         let response = yield call(itineraryApi.addLocationToTrip, tripId, location);
         let result = response.data.data.result;
@@ -74,14 +60,7 @@ function* addLocationToItinerary(tripId, location) {
     }
 }
 
-function* addLocationToTripWatcher() {
-    while(true) {
-        const {tripId, location} = yield take(ADD_LOCATION_TO_TRIP);
-        yield call(addLocationToItinerary, tripId, location);
-    }
-}
-
-function* addItemToItineraryDay(itineraryId, placeId, day, position) {
+function* addItemToItineraryDay({itineraryId, placeId, day, position}) {
     try {
         let response = yield call(itineraryApi.addPlaceToItineraryDay, itineraryId, placeId, day, position);
         let result = response.data.data.addTripLocationItem;
@@ -93,14 +72,7 @@ function* addItemToItineraryDay(itineraryId, placeId, day, position) {
     }
 }
 
-function* addItemToItineraryDayWatcher() {
-    while(true) {
-        const {itineraryId, placeId, day, position} = yield take(ADD_ITEM_TO_ITINERARY_DAY);
-        yield call(addItemToItineraryDay, itineraryId, placeId, day, position);
-    }
-}
-
-function* removeItemFromItineraryDay(itineraryId, placeId, day) {
+function* removeItemFromItineraryDay({itineraryId, placeId, day}) {
     try {
         const response = yield call(itineraryApi.removeItemFromItineraryDay, itineraryId, placeId, day);
 
@@ -115,20 +87,10 @@ function* removeItemFromItineraryDay(itineraryId, placeId, day) {
     }
 }
 
-function* removeItemFromItineraryDayWatcher() {
-    while(true) {
-        const {itineraryId, placeId, day} = yield take(REMOVE_ITEM_FROM_ITINERARY_DAY);
-        yield call(removeItemFromItineraryDay, itineraryId, placeId, day);
-    }
-}
-
-
 export default function* itinerariesRootSaga() {
-    yield all([
-        getTripItinerariesWatcher(),
-        getItineraryDayWatcher(),
-        addLocationToTripWatcher(),
-        addItemToItineraryDayWatcher(),
-        removeItemFromItineraryDayWatcher()
-    ])
+    yield takeEvery(REMOVE_ITEM_FROM_ITINERARY_DAY, removeItemFromItineraryDay);
+    yield takeEvery(ADD_ITEM_TO_ITINERARY_DAY, addItemToItineraryDay);
+    yield takeEvery(ADD_LOCATION_TO_TRIP, addLocationToItinerary);
+    yield takeEvery(GET_ITINERARY_DAY_ITEMS, getItineraryDay);
+    yield takeEvery(GET_TRIP_ITINERARIES, getTripItineraries);
 }

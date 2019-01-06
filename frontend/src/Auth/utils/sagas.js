@@ -51,7 +51,6 @@ function* loginWatcher() {
 
         const action = yield take([UNSET_USER, LOGIN_ERROR]);
         if (action.type === UNSET_USER) yield cancel(task);
-        yield deleteCookie('userToken');
 
         yield call(logout)
     }
@@ -87,13 +86,12 @@ function* facebookLoginWatcher() {
 
         const action = yield take([UNSET_USER, LOGIN_ERROR]);
         if (action.type === UNSET_USER) yield cancel(task);
-        yield deleteCookie('userToken');
 
         yield call(logout)
     }
 }
 
-function* verifyToken(jwt) {
+function* verifyToken({jwt}) {
     try {
         let response = yield call(api.verifyToken, jwt);
         let result = response.data.data.userInfo;
@@ -106,19 +104,12 @@ function* verifyToken(jwt) {
     }
 }
 
-function* verifyTokenWatcher() {
-    while(true) {
-        const {jwt} = yield take(VERIFY_TOKEN);
-        yield call(verifyToken, jwt);
-    }
-}
-
 
 export default function* authRootSaga() {
     yield takeEvery(UNSET_USER, logout);
+    yield takeEvery(VERIFY_TOKEN, verifyToken);
     yield all([
         loginWatcher(),
-        facebookLoginWatcher(),
-        verifyTokenWatcher()
+        facebookLoginWatcher()
     ]);
 }

@@ -1,4 +1,4 @@
-import {all, call, put, select, take, takeEvery} from 'redux-saga/effects'
+import {call, put, select, takeEvery} from 'redux-saga/effects'
 import {
     GET_PLACE_DETAILS,
     GET_PLACE_DETAILS_FAILURE,
@@ -8,7 +8,8 @@ import {
     GET_POPULAR_PLACES_SUCCESS,
     GET_TOP_LEVEL_CATEGORIES,
     GET_TOP_LEVEL_CATEGORIES_FAILURE,
-    GET_TOP_LEVEL_CATEGORIES_SUCCESS, UPDATE_PLACES_SUCCESS,
+    GET_TOP_LEVEL_CATEGORIES_SUCCESS,
+    UPDATE_PLACES_SUCCESS,
 } from "./actions";
 import api from "./places.api";
 
@@ -16,7 +17,7 @@ const oneDayInMilliseconds = (60*60*24*1000);
 export const getStatePopularPlaces = (state) => state.places.popularPlaces;
 export const getStateTopLevelCategories = (state) => state.places.topLevelCategories;
 
-function* getPopularPlaces(lat, lng, category) {
+function* getPopularPlaces({lat, lng, category}) {
     let popularPlaces = yield select(getStatePopularPlaces);
 
     if(popularPlaces.findIndex(x => x.lat === lat && x.lng === lng && x.category === category &&
@@ -38,14 +39,7 @@ function* getPopularPlaces(lat, lng, category) {
     }
 }
 
-function* getPopularPlacesWatcher() {
-    while(true) {
-        const {lat, lng, category} = yield take(GET_POPULAR_PLACES);
-        yield call(getPopularPlaces, lat, lng, category);
-    }
-}
-
-function* getPlaceDetails(placeId) {
+function* getPlaceDetails({placeId}) {
     try {
         let response = yield call(api.getPlaceDetails, placeId);
         let result = response.data.data.place;
@@ -56,12 +50,6 @@ function* getPlaceDetails(placeId) {
     }
 }
 
-function* getPlaceDetailsWatcher() {
-    while(true) {
-        const {placeId} = yield take(GET_PLACE_DETAILS);
-        yield call(getPlaceDetails, placeId);
-    }
-}
 
 function* getTopLevelCategories() {
     let topLevelCategories = yield select(getStateTopLevelCategories);
@@ -82,8 +70,6 @@ function* getTopLevelCategories() {
 
 export default function* placesRootSaga() {
     yield takeEvery(GET_TOP_LEVEL_CATEGORIES, getTopLevelCategories);
-    yield all([
-        getPopularPlacesWatcher(),
-        getPlaceDetailsWatcher()
-    ])
+    yield takeEvery(GET_POPULAR_PLACES, getPopularPlaces);
+    yield takeEvery(GET_PLACE_DETAILS, getPlaceDetails);
 }

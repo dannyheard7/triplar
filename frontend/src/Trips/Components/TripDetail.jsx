@@ -35,10 +35,10 @@ export class TripDetail extends React.Component {
                         <h1 id="trip-name">{trip.name}</h1>
                         <p className={styles.tripDates}>{Moment(trip.startDate).format('Do MMMM')} - {Moment(trip.endDate).format('Do MMMM')}</p>
                         <span>
-                            <Link to={`/trips/${trip.id}/edit`}>
+                            <Link to={`/trips/${trip.id}/edit`} title={`Edit Trip ${trip.name}`}>
                                 <button className="btn btn-primary btn-thin"><FontAwesomeIcon icon={faEdit}/></button>
                             </Link>
-                            <Link to={`/trips/${trip.id}/delete`}>
+                            <Link to={`/trips/${trip.id}/delete`} title={`Delete Trip ${trip.name}`}>
                                 <button className="btn btn-danger btn-thin"><FontAwesomeIcon icon={faTrashAlt}/></button>
                             </Link>
                         </span>
