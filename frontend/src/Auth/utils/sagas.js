@@ -1,12 +1,12 @@
 import {all, call, cancel, cancelled, fork, put, take, takeEvery} from 'redux-saga/effects'
 import {
-    FACEBOOK_LOGIN_REQUESTING,
+    FACEBOOK_LOGIN_REQUEST,
     LOGIN_ERROR,
-    LOGIN_REQUESTING,
+    LOGIN_REQUEST,
     LOGIN_SUCCESS,
     setUser,
     UNSET_USER,
-    VERIFY_TOKEN,
+    VERIFY_TOKEN_REQUEST,
     VERIFY_TOKEN_ERROR,
     VERIFY_TOKEN_SUCCESS
 } from './actions'
@@ -45,7 +45,7 @@ function* loginFlow(loginDetails) {
 
 function* loginWatcher() {
     while (true) {
-        const {loginDetails} = yield take(LOGIN_REQUESTING);
+        const {loginDetails} = yield take(LOGIN_REQUEST);
 
         const task = yield fork(loginFlow, loginDetails);
 
@@ -81,7 +81,7 @@ function* facebookLoginFlow(token) {
 
 function* facebookLoginWatcher() {
     while (true) {
-        const {token} = yield take(FACEBOOK_LOGIN_REQUESTING);
+        const {token} = yield take(FACEBOOK_LOGIN_REQUEST);
         const task = yield fork(facebookLoginFlow, token);
 
         const action = yield take([UNSET_USER, LOGIN_ERROR]);
@@ -107,7 +107,7 @@ function* verifyToken({jwt}) {
 
 export default function* authRootSaga() {
     yield takeEvery(UNSET_USER, logout);
-    yield takeEvery(VERIFY_TOKEN, verifyToken);
+    yield takeEvery(VERIFY_TOKEN_REQUEST, verifyToken);
     yield all([
         loginWatcher(),
         facebookLoginWatcher()

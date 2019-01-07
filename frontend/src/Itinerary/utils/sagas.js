@@ -4,22 +4,22 @@ import Moment from "moment";
 
 import itineraryApi from "./itinerary.api";
 import {
-    ADD_ITEM_TO_ITINERARY_DAY,
+    ADD_ITEM_TO_ITINERARY_DAY_REQUEST,
     ADD_ITEM_TO_ITINERARY_DAY_FAILURE,
     ADD_ITEM_TO_ITINERARY_DAY_SUCCESS,
-    ADD_TRIP_LOCATION,
+    ADD_TRIP_LOCATION_REQUEST,
     ADD_TRIP_LOCATION_FAILURE,
     ADD_TRIP_LOCATION_SUCCESS,
-    DELETE_TRIP_LOCATION,
+    DELETE_TRIP_LOCATION_REQUEST,
     DELETE_TRIP_LOCATION_FAILURE,
     DELETE_TRIP_LOCATION_SUCCESS,
-    GET_ITINERARY_DAY_ITEMS,
+    GET_ITINERARY_DAY_ITEMS_REQUEST,
     GET_ITINERARY_DAY_ITEMS_FAILURE,
     GET_ITINERARY_DAY_ITEMS_SUCCESS,
-    GET_TRIP_ITINERARIES,
+    GET_TRIP_ITINERARIES_REQUEST,
     GET_TRIP_ITINERARIES_FAILURE,
     GET_TRIP_ITINERARIES_SUCCESS,
-    REMOVE_ITEM_FROM_ITINERARY_DAY,
+    REMOVE_ITEM_FROM_ITINERARY_DAY_REQUEST,
     REMOVE_ITEM_FROM_ITINERARY_DAY_FAILURE,
     REMOVE_ITEM_FROM_ITINERARY_DAY_SUCCESS
 } from "./actions";
@@ -108,10 +108,10 @@ function* removeItemFromItineraryDay({itineraryId, placeId, day}) {
 }
 
 export default function* itinerariesRootSaga() {
-    yield takeEvery(REMOVE_ITEM_FROM_ITINERARY_DAY, removeItemFromItineraryDay);
-    yield takeEvery(ADD_ITEM_TO_ITINERARY_DAY, addItemToItineraryDay);
-    yield takeEvery(ADD_TRIP_LOCATION, addTripLocationFlow);
-    yield takeEvery(DELETE_TRIP_LOCATION, deleteTripLocationFlow);
-    yield takeEvery(GET_ITINERARY_DAY_ITEMS, getItineraryDay);
-    yield takeEvery(GET_TRIP_ITINERARIES, getTripItineraries);
+    yield takeEvery(REMOVE_ITEM_FROM_ITINERARY_DAY_REQUEST, removeItemFromItineraryDay);
+    yield takeEvery(ADD_ITEM_TO_ITINERARY_DAY_REQUEST, addItemToItineraryDay);
+    yield takeEvery(ADD_TRIP_LOCATION_REQUEST, addTripLocationFlow);
+    yield takeEvery(DELETE_TRIP_LOCATION_REQUEST, deleteTripLocationFlow);
+    yield takeEvery(GET_ITINERARY_DAY_ITEMS_REQUEST, getItineraryDay);
+    yield takeEvery(GET_TRIP_ITINERARIES_REQUEST, getTripItineraries);
 }
