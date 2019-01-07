@@ -1,5 +1,3 @@
-import jwt from "jsonwebtoken";
-import {JWT_EXPIRES, JWT_SECRET} from "../config/auth";
 import User from '../models/User';
 import Role from '../models/Role';
 

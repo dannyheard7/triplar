@@ -16,7 +16,7 @@ import {itinerariesReducer} from "./Itinerary/utils/reducers";
 import {placesReducer} from "./Places/utils/reducers";
 import placesRootSaga from "./Places/utils/sagas";
 import {UNSET_USER} from "./Auth/utils/actions";
-import {errorReducer} from "./App/utils/reducers";
+import {errorReducer, loadingReducer} from "./App/utils/reducers";
 
 
 function* rootSaga() {
@@ -33,7 +33,8 @@ const combinedReducers = combineReducers({
     trips: tripsReducer,
     itineraries: itinerariesReducer,
     places: placesReducer,
-    errors: errorReducer
+    errors: errorReducer,
+    loading: loadingReducer
 });
 
 const rootReducer = (state, action) => {
