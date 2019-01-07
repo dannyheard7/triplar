@@ -1,9 +1,9 @@
 import {
-    LOGIN_ERROR,
+    LOGIN_FAILURE,
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
     SET_USER,
-    VERIFY_TOKEN_REQUEST, VERIFY_TOKEN_ERROR,
+    VERIFY_TOKEN_REQUEST, VERIFY_TOKEN_FAILURE,
     VERIFY_TOKEN_SUCCESS,
     UNSET_USER
 } from "./actions";
@@ -24,8 +24,8 @@ export function authReducer(state = initialState, action) {
         case LOGIN_SUCCESS:
         case VERIFY_TOKEN_SUCCESS:
             return {...state, requesting: false, successful: true};
-        case LOGIN_ERROR:
-        case VERIFY_TOKEN_ERROR:
+        case LOGIN_FAILURE:
+        case VERIFY_TOKEN_FAILURE:
             return {
                 ...state,
                 requesting: false,

@@ -1,15 +1,19 @@
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_ERROR = 'LOGIN_ERROR';
+export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 
 export const FACEBOOK_LOGIN_REQUEST = 'FACEBOOK_LOGIN_REQUEST';
 
 export const VERIFY_TOKEN_REQUEST = 'VERIFY_TOKEN_REQUEST';
 export const VERIFY_TOKEN_SUCCESS = 'VERIFY_TOKEN_SUCCESS';
-export const VERIFY_TOKEN_ERROR = 'VERIFY_TOKEN_ERROR';
+export const VERIFY_TOKEN_FAILURE = 'VERIFY_TOKEN_FAILURE';
 
 export const SET_USER = 'SET_USER';
 export const UNSET_USER = 'UNSET_USER';
+
+export const REGISTER_REQUEST = 'REGISTER_REQUEST';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAILURE = 'REGISTER_FAILURE';
 
 export function loginRequest (loginDetails) {
   return {
@@ -39,4 +43,11 @@ export function unsetUser() {
   return {
     type: UNSET_USER,
   }
+}
+
+export function registerRequest (userDetails) {
+    return {
+        type: REGISTER_REQUEST,
+        userDetails
+    }
 }

@@ -26,11 +26,18 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-
 app.use(passport.initialize());
 app.post('/login',  loginRoute);
 app.post('/login/facebook',  facebookLoginRoute);
 app.use('/graphql', jwtAuthRoute);
+
+app.use(function(err, req, res, next) {
+    if (res.headersSent) {
+        return next(err)
+    }
+    res.status(err.code);
+    res.json({ error: { code: err.code, message: err.message } });
+});
 
 server.applyMiddleware({app, path: '/graphql'});
 

@@ -12,12 +12,13 @@ const UserSchema = new Schema({
     firstName: String,
     lastName: String,
     email: {type: String, required: true, unique: true},
-    password: {type: String, required: function() { return this.facebookProvider.id === null } },
+    password: {type: String, required: function() { return this.facebookProvider === null } },
     roles: [{type: Schema.Types.ObjectId, ref: 'Role'}],
     facebookProvider: {type: {id: String, token: String}, select: false},
 }, {collection:'User'});
 
-UserSchema.plugin(uniqueValidator);
+
+UserSchema.plugin(uniqueValidator, { message: '{PATH} is already in use' });
 
 
 UserSchema.statics.hashPassword = async function (opts) {

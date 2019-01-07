@@ -15,6 +15,7 @@ exports[`<LoginContainer /> renders correctly 1`] = `
   </h1>
   <Connect(ReduxFormContainer)
     action={[MockFunction]}
+    nonFieldErrors={Array []}
   >
     <LoginForm />
   </Connect(ReduxFormContainer)>

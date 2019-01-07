@@ -2,6 +2,7 @@ import FacebookTokenStrategy from 'passport-facebook-token';
 
 import User from "../models/User";
 import {FACEBOOK_APP_ID, FACEBOOK_APP_SECRET} from "../config/auth";
+import {RestError} from "../utils/errors";
 
 export const facebookLoginStrategy = new FacebookTokenStrategy({clientID: FACEBOOK_APP_ID, clientSecret: FACEBOOK_APP_SECRET},
     async (accessToken, refreshToken, profile, done) => {
@@ -10,9 +11,9 @@ export const facebookLoginStrategy = new FacebookTokenStrategy({clientID: FACEBO
             if (user) return done(null, user);
         } catch (e) {
             console.log(e.message);
-            return done(e, null);
+            return done(e);
         }
 
-        return done(null, null, {message: 'Something went wrong.'});
+        return done(new RestError('Server error.', 500));
     }
 );

@@ -13,8 +13,8 @@ export class LoginContainer extends React.Component {
         this.props.dispatch(facebookLoginRequest(response.accessToken));
     };
 
-
     render() {
+        const errors = this.props.errors ? [this.props.errors] : [];
         return (
             <div>
                 <Helmet>
@@ -24,7 +24,7 @@ export class LoginContainer extends React.Component {
 
                 {this.props.auth.requesting ?
                     <p>Attempting to login...</p> :
-                    <ReduxFormContainer action={loginRequest}>
+                    <ReduxFormContainer action={loginRequest} nonFieldErrors={errors}>
                         <LoginForm/>
                     </ReduxFormContainer>
                 }
@@ -39,9 +39,8 @@ export class LoginContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  auth: state.auth,
+    auth: state.auth,
+    errors: state.errors.LOGIN
 });
 
-// make Redux state piece of `login` and our action `loginRequest`
-// available in this.props within our component
 export default withRouter(connect(mapStateToProps)(LoginContainer))
