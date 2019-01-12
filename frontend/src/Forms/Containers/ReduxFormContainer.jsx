@@ -40,19 +40,11 @@ class ReduxFormContainer extends React.Component {
     }
 
     render() {
-        let fieldErrors = [];
-        if(this.props.fieldErrors) {
-            fieldErrors = this.props.fieldErrors.reduce((dict, {field, messages}) => {
-                dict[field] = messages;
-                return dict;
-            }, {});
-        }
-
         let nonFieldErrors = this.props.nonFieldErrors ?  this.props.nonFieldErrors : [];
 
         const props = {
             onSubmit: this.handleSubmit,
-            fieldErrors,
+            fieldErrors: this.props.fieldErrors,
             nonFieldErrors
 
         };

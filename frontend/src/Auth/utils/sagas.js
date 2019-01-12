@@ -119,8 +119,10 @@ function* registerUserFlow({userDetails}) {
             yield put({type: REGISTER_SUCCESS});
             yield put(push('/login/'))
         } else {
-            let errors = data.errors;
-            console.log(errors);
+            let errors = {nonFieldErrors: "Server errors"};
+            if(data.errors && data.errors.length > 0) {
+                errors = data.errors[0].state;
+            }
             yield put({type: REGISTER_FAILURE, error: errors});
         }
     } catch (error) {

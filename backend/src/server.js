@@ -19,7 +19,14 @@ const execSchema = makeExecutableSchema({
 
 const server = new ApolloServer({
     schema: execSchema,
-    context: ({req}) => ({user: req.user})
+    context: ({req}) => ({user: req.user}),
+    debug: false,
+    formatError: error => ({
+        message: error.message,
+        state: error.originalError && error.originalError.state,
+        locations: error.locations,
+        path: error.path,
+    }),
 });
 
 const app = express();

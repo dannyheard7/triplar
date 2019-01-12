@@ -9,7 +9,7 @@ import {connect} from "react-redux";
 
 export class RegistrationContainer extends React.Component {
     render() {
-        const errors = this.props.errors ? [this.props.errors] : [];
+        const errors = this.props.errors ? this.props.errors : [];
 
         return (
             <div>
@@ -17,7 +17,7 @@ export class RegistrationContainer extends React.Component {
                     <title>Register | Triplar</title>
                 </Helmet>
                 <h1>Register</h1>
-                <ReduxFormContainer action={registerRequest} nonFieldErrors={errors}>
+                <ReduxFormContainer action={registerRequest} fieldErrors={errors}>
                     <RegistrationForm />
                 </ReduxFormContainer>
             </div>

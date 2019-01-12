@@ -1,5 +1,8 @@
+import {UserInputError} from "apollo-server-express";
+
 import User from '../models/User';
 import Role from '../models/Role';
+import {convertMongooseValidationErrorToGraphqlValidationError} from "../utils/validationError";
 
 export default {
     Query: {
@@ -18,13 +21,21 @@ export default {
     Mutation: {
         createUser: async (parent, {input}) => {
             const {firstName, lastName, email, password} = input;
-            return await new User({
-                firstName,
-                email,
-                lastName,
-                password: await User.hashPassword({password}),
-                roles: [await Role.findOneOrCreate({name: "User"})]
-            }).save();
+            try {
+                await new User({
+                    firstName,
+                    email,
+                    lastName,
+                    password: await User.hashPassword({password}),
+                    roles: [await Role.findOneOrCreate({name: "User"})]
+                }).save();
+            } catch (e) {
+                if(e.name === 'ValidationError') {
+                    convertMongooseValidationErrorToGraphqlValidationError(e);
+                } else {
+                    throw new UserInputError(e.message);
+                }
+            }
         },
     },
 };

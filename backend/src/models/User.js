@@ -18,7 +18,7 @@ const UserSchema = new Schema({
 }, {collection:'User'});
 
 
-UserSchema.plugin(uniqueValidator, { message: '{PATH} is already in use' });
+UserSchema.plugin(uniqueValidator, { message: '{PATH} is already in use'});
 
 
 UserSchema.statics.hashPassword = async function (opts) {
