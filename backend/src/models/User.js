@@ -1,11 +1,13 @@
 import jwt from 'jsonwebtoken';
-import {JWT_SECRET, saltRounds} from "../config/auth";
+import uniqueValidator from 'mongoose-unique-validator';
 import bcrypt from "bcryptjs";
 import mongoose from 'mongoose';
+
 import Role from "./Role";
 import Trip from "./Trip";
+import {JWT_SECRET, saltRounds} from "../config/auth";
 
-const uniqueValidator = require('mongoose-unique-validator');
+
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -18,7 +20,7 @@ const UserSchema = new Schema({
 }, {collection:'User'});
 
 
-UserSchema.plugin(uniqueValidator, { message: '{PATH} is already in use'});
+UserSchema.plugin(uniqueValidator, { message: '{PATH} is already in use' });
 
 
 UserSchema.statics.hashPassword = async function (opts) {

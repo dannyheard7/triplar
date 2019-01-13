@@ -6,12 +6,8 @@ import {convertMongooseValidationErrorToGraphqlValidationError} from "../utils/v
 
 export default {
     Query: {
-        users: async (parent, args, {user}) => {
-            return await User.find();
-        },
-        user: async (parent, {id}) => {
-            return await User.findById(id);
-        },
+        users: async (parent, args, {user}) =>  await User.find(),
+        user: async (parent, {id}) => await User.findById(id),
         userInfo: async (parent, {token}) => {
             const user = await User.findByToken({token});
             user.jwt = token;
@@ -22,13 +18,8 @@ export default {
         createUser: async (parent, {input}) => {
             const {firstName, lastName, email, password} = input;
             try {
-                await new User({
-                    firstName,
-                    email,
-                    lastName,
-                    password: await User.hashPassword({password}),
-                    roles: [await Role.findOneOrCreate({name: "User"})]
-                }).save();
+                await new User({firstName, email, lastName, password: await User.hashPassword({password}),
+                    roles: [await Role.findOneOrCreate({name: "User"})]}).save();
             } catch (e) {
                 if(e.name === 'ValidationError') {
                     convertMongooseValidationErrorToGraphqlValidationError(e);

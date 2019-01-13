@@ -33,7 +33,7 @@ export class TripDetail extends React.Component {
                     </Helmet>
                     <div className="row">
                         <h1 id="trip-name">{trip.name}</h1>
-                        <p className={styles.tripDates}>{Moment(trip.startDate).format('Do MMMM')} - {Moment(trip.endDate).format('Do MMMM')}</p>
+                        <p className={styles.tripDates}>{Moment(trip.arrivalDate).format('Do MMMM')} - {Moment(trip.departureDate).format('Do MMMM')}</p>
                         <span>
                             <Link to={`/trips/${trip.id}/edit`} title={`Edit Trip ${trip.name}`}>
                                 <button className="btn btn-primary btn-thin"><FontAwesomeIcon icon={faEdit}/></button>

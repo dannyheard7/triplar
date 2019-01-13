@@ -10,7 +10,7 @@ export async function findCityByCityAndCountryName(cityName, countryName) {
         await City.find({name: cityName}).sort({'population': -1}).populate("country").exec((err, cities) => {
             const city = cities.filter(city => city.country.name === countryName)[0];
             if(city) resolve(city);
-            else reject();
+            else reject("Could not find a matching city");
         });
     });
 }

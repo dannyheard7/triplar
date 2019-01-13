@@ -33,8 +33,8 @@ describe('<TripDetail />', () => {
                 'id': 1,
                 'name': "test",
                 'created_by': "email@example.com",
-                'startDate': "2018-08-10",
-                "endDate": "2018-08-12",
+                'arrivalDate': "2018-08-10",
+                "departureDate": "2018-08-12",
                 'locations': [{'id': 1, 'city': {'name_std': "Bristol", 'country': "United Kingdom"}}]
             };
             const result = renderer.render(<TripDetail {...props} />);

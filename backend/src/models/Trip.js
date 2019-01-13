@@ -8,7 +8,16 @@ const Schema = mongoose.Schema;
 const tripSchema = new Schema({
     name: {type: String, required: true},
     startDate: {type: Date, required: true},
-    endDate: {type: Date, required: true},
+    endDate: {
+        type: Date,
+        required: true,
+        validate: {
+            validator: function (value) {
+                return this.arrivalDate <= value;
+            },
+            message: "End date must be after start date"
+        }
+    },
     dateCreated: {type: Date, default: Date.now},
     dateModified: {type: Date, default:  Date.now},
     createdBy: {type: Schema.Types.ObjectId, ref: 'User', required: true},

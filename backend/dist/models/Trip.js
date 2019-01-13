@@ -17,11 +17,11 @@ var tripSchema = new Schema({
     type: String,
     required: true
   },
-  startDate: {
+  arrivalDate: {
     type: Date,
     required: true
   },
-  endDate: {
+  departureDate: {
     type: Date,
     required: true
   },

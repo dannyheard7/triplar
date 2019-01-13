@@ -24,6 +24,7 @@ import {
     REMOVE_ITEM_FROM_ITINERARY_DAY_SUCCESS
 } from "./actions";
 import {UPDATE_PLACES_SUCCESS} from "../../Places/utils/actions";
+import {REGISTER_FAILURE, REGISTER_SUCCESS} from "../../Auth/utils/actions";
 
 function* getTripItineraries({tripId}) {
     try {
@@ -56,9 +57,12 @@ function* getItineraryDay({itineraryId, date}) {
 function* addTripLocationFlow({tripId, location}) {
     try {
         let response = yield call(itineraryApi.addLocationToTrip, tripId, location);
-        let result = response.data.data.result;
 
-        yield put({type: ADD_TRIP_LOCATION_SUCCESS, tripLocation: result});
+        if(response.data.data) {
+            yield put({type: ADD_TRIP_LOCATION_SUCCESS, tripLocation: response.data.data.result});
+        } else {
+            yield put({type: ADD_TRIP_LOCATION_FAILURE, error: response.data.errors});
+        }
     } catch (error) {
         yield put({type: ADD_TRIP_LOCATION_FAILURE, error});
     }

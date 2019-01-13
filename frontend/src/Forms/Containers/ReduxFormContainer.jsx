@@ -40,17 +40,20 @@ class ReduxFormContainer extends React.Component {
     }
 
     render() {
-        let nonFieldErrors = this.props.nonFieldErrors ?  this.props.nonFieldErrors : [];
-
         const props = {
             onSubmit: this.handleSubmit,
             fieldErrors: this.props.fieldErrors,
-            nonFieldErrors
+            nonFieldErrors: this.props.nonFieldErrors
 
         };
 
         return React.cloneElement(this.props.children, {...props});
     }
+}
+
+ReduxFormContainer.defaultProps = {
+    fieldErrors: [],
+    nonFieldErrors: []
 }
 
 export default connect()(ReduxFormContainer)

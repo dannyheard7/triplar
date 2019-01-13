@@ -1,9 +1,12 @@
+import {UserInputError, ApolloError} from 'apollo-server-express';
+
 import Trip from '../models/Trip';
 import City from "../models/City";
 import TripLocation from "../models/TripLocation";
 import {findCityByCityAndCountryName} from "../utils/city";
 import TripLocationItem from "../models/TripLocationItem";
 import {PlacesAPI} from "../plugins/yelpApi";
+import {convertMongooseValidationErrorToGraphqlValidationError} from "../utils/validationError";
 
 export default {
     Query: {
@@ -27,27 +30,30 @@ export default {
     },
     Mutation: {
         addTripLocation: async (parent, {input}, {user}) => {
-            const {city, startDate, endDate, tripId} = input;
+            const {city, arrivalDate, departureDate, tripId} = input;
             const trip = await Trip.retrieveAndVerifyPermissions(tripId, user);
 
             let [cityName, countryName] = city.split(',').map(x => x.trim());
             const cityObj = await findCityByCityAndCountryName(cityName, countryName);
 
             try {
-                const tripLocation = await TripLocation.create({city: cityObj._id, startDate, endDate, trip: trip._id});
+                const tripLocation = await TripLocation.create({city: cityObj._id, arrivalDate, departureDate, trip: trip._id});
                 trip.locations.push(tripLocation._id);
                 await trip.save();
                 return tripLocation;
             } catch(e) {
-                console.log(e.message);
-                throw new Error("Could not add trip location");
+                if(e.name === 'ValidationError') {
+                    convertMongooseValidationErrorToGraphqlValidationError(e);
+                } else {
+                    throw new UserInputError(e.message);
+                }
             }
         },
         updateTripLocation: async (parent, {input}, {user}) => {
-            const {id, startDate, endDate} = input;
+            const {id, arrivalDate, departureDate} = input;
             const tripLocation =  await TripLocation.retrieveAndVerifyPermissions(id, user);
 
-            tripLocation.set({startDate, endDate});
+            tripLocation.set({arrivalDate, departureDate});
             return await tripLocation.save();
         },
         deleteTripLocation: async (parent, {id}, {user}) => {
@@ -57,7 +63,6 @@ export default {
                 await tripLocation.remove();
                 return true;
             } catch(e) {
-                console.log(e.message);
                 return false;
             }
         },
@@ -98,7 +103,7 @@ export default {
             const places = await PlacesAPI.getPlacesDetails([yelpPlaceId]);
 
             if(places.length > 0) return places[0];
-            else throw new Error("Cannot load place info");
+            else throw new ApolloError("Cannot load place info");
         }
     }
 };

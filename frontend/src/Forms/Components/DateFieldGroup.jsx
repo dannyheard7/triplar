@@ -39,9 +39,9 @@ export default class DateFieldGroup extends FormFieldGroup {
                        data-parse="date" placeholder="DD/MM/YYYY" readOnly={true} id={this.props.name} />
                 {this.props.help && <small className="form-text text-muted">{this.props.help}</small>}
                 {this.props.errors &&
-                <li className="list-unstyled">
+                <ul className="list-unstyled">
                     {this.props.errors.map(this.createErrorItem)}
-                </li>
+                </ul>
                 }
             </div>
         );

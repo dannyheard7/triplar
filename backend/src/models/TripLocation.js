@@ -8,8 +8,17 @@ const Schema = mongoose.Schema;
 
 const tripLocationSchema = new Schema({
     city: {type: Number, ref: 'TripLocation', required: true },
-    startDate: {type: Date, required: true},
-    endDate: {type: Date, required: true},
+    arrivalDate: {type: Date, required: true},
+    departureDate: {
+        type: Date,
+        required: true,
+        validate: {
+            validator: function (value) {
+                return this.arrivalDate <= value;
+            },
+            message: "Departure date must be after arrival date"
+        }
+    },
     trip:  {type: Schema.ObjectId, ref: 'Trip', required: true },
     items: [{type: Schema.ObjectId, ref: 'TripLocationItem'}]
 }, {collection:'TripLocation'});

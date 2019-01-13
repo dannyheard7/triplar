@@ -18,11 +18,11 @@ var tripLocationSchema = new Schema({
     ref: 'TripLocation',
     required: true
   },
-  startDate: {
+  arrivalDate: {
     type: Date,
     required: true
   },
-  endDate: {
+  departureDate: {
     type: Date,
     required: true
   },

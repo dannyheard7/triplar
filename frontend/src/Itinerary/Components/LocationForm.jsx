@@ -11,8 +11,8 @@ export default class LocationForm extends React.Component {
         super(props);
 
         this.state = {
-            startDate: props.location.startDate ? moment(props.location.startDate) : moment(),
-            endDate: props.location.endDate ? moment(props.location.endDate) : moment()
+            arrivalDate: props.location.arrivalDate ? moment(props.location.arrivalDate) : moment(),
+            departureDate: props.location.departureDate ? moment(props.location.departureDate) : moment()
         };
 
         this.onDateChange = this.onDateChange.bind(this);
@@ -20,10 +20,10 @@ export default class LocationForm extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if(prevProps.location.startDate !== this.props.location.startDate || prevProps.location.endDate !== this.props.location.endDate) {
+        if(prevProps.location.arrivalDate !== this.props.location.arrivalDate || prevProps.location.departureDate !== this.props.location.departureDate) {
             this.setState( {
-                startDate: moment(this.props.location.startDate),
-                endDate: moment(this.props.location.endDate)
+                arrivalDate: moment(this.props.location.arrivalDate),
+                departureDate: moment(this.props.location.departureDate)
             });
         }
     }
@@ -37,31 +37,31 @@ export default class LocationForm extends React.Component {
     calculateEndDate(startDate) {
         const location = this.props.location;
 
-        if(this.state.endDate && this.state.endDate.format("YYYY-MM-DD") !== location.endDate) {
-            return this.state.endDate;
+        if(this.state.departureDate && this.state.departureDate.format("YYYY-MM-DD") !== location.departureDate) {
+            return this.state.departureDate;
         } else {
             return startDate.clone().add(1, 'days');
         }
     }
 
     render() {
-        const errors = this.props.errors;
+        const fieldErrors = this.props.fieldErrors;
         const itinerary = (this.props.location) ? this.props.location : {};
         const location = itinerary.city ? itinerary.city.name_std + ", " + itinerary.city.country : "";
 
-        const startDate = this.state.startDate;
-        const endDate = this.calculateEndDate(this.state.startDate);
+        const arrivalDate = this.state.arrivalDate;
+        const departureDate = this.calculateEndDate(this.state.arrivalDate);
 
         return (
             <form onSubmit={this.props.onSubmit}>
-                <NonFieldErrors errors={errors.non_field_errors}/>
-                <CitySearchFieldContainer errors={errors.locations} value={location} name="city"/>
-                <DateFieldGroup errors={errors.startDate} label="Arrival" name="startDate"
-                                value={startDate.format("DD/MM/YYYY")} required={true}
-                                onChange={(date) => this.onDateChange("startDate", date)}/>
-                <DateFieldGroup errors={errors.endDate} label="Departure" name="endDate"
-                                value={endDate.format("DD/MM/YYYY")} required={true}
-                                 onChange={(date) => this.onDateChange("endDate", date)}/>
+                <NonFieldErrors errors={this.props.nonFieldErrors}/>
+                <CitySearchFieldContainer errors={fieldErrors.locations} value={location} name="city"/>
+                <DateFieldGroup errors={fieldErrors.arrivalDate} label="Arrival" name="arrivalDate"
+                                value={arrivalDate.format("DD/MM/YYYY")} required={true}
+                                onChange={(date) => this.onDateChange("arrivalDate", date)}/>
+                <DateFieldGroup errors={fieldErrors.departureDate} label="Departure" name="departureDate"
+                                value={departureDate.format("DD/MM/YYYY")} required={true}
+                                onChange={(date) => this.onDateChange("departureDate", date)}/>
                 <button type="submit" className="btn btn-primary">{this.props.submitLabel}</button>
             </form>
         );

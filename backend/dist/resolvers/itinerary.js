@@ -132,7 +132,7 @@ var _default = {
               case 0:
                 input = _ref3.input;
                 user = _ref4.user;
-                city = input.city, startDate = input.startDate, endDate = input.endDate, tripId = input.tripId;
+                city = input.city, startDate = input.arrivalDate, endDate = input.departureDate, tripId = input.tripId;
                 _context2.next = 5;
                 return _Trip.default.findById(tripId);
 
@@ -156,8 +156,8 @@ var _default = {
                 _context2.next = 14;
                 return _TripLocation.default.create({
                   city: cityObj._id,
-                  startDate: startDate,
-                  endDate: endDate,
+                  arrivalDate: startDate,
+                  departureDate: endDate,
                   trip: trip._id
                 });
 

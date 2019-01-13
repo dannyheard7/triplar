@@ -11,8 +11,8 @@ export default class TripForm extends React.Component {
         super(props);
 
         this.state = {
-            startDate: props.trip.startDate ? moment(props.trip.startDate) : moment(),
-            endDate: props.trip.endDate ? moment(props.trip.endDate) : null
+            arrivalDate: props.trip.arrivalDate ? moment(props.trip.arrivalDate) : moment(),
+            departureDate: props.trip.departureDate ? moment(props.trip.departureDate) : null
         };
 
         this.onDateChange = this.onDateChange.bind(this);
@@ -20,10 +20,10 @@ export default class TripForm extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.trip.startDate !== this.props.trip.startDate || prevProps.trip.endDate !== this.props.trip.endDate) {
+        if (prevProps.trip.arrivalDate !== this.props.trip.arrivalDate || prevProps.trip.departureDate !== this.props.trip.departureDate) {
             this.setState({
-                startDate: this.props.trip.startDate ? moment(this.props.trip.startDate) : moment(),
-                endDate: this.props.trip.endDate ? moment(this.props.trip.startDate) : moment(),
+                arrivalDate: this.props.trip.arrivalDate ? moment(this.props.trip.arrivalDate) : moment(),
+                departureDate: this.props.trip.departureDate ? moment(this.props.trip.arrivalDate) : moment(),
             });
         }
     }
@@ -35,29 +35,29 @@ export default class TripForm extends React.Component {
     }
 
     calculateEndDate(startDate) {
-        if(this.props.trip.endDate && this.state.endDate.format("YYYY-MM-DD") === this.props.trip.endDate) {
-            return this.state.endDate
+        if(this.props.trip.departureDate && this.state.departureDate.format("YYYY-MM-DD") === this.props.trip.departureDate) {
+            return this.state.departureDate
         } else {
             return startDate.clone().add(3, 'days');
         }
     }
 
     render() {
-        const errors = this.props.errors;
+        const fieldErrors = this.props.fieldErrors;
         const trip = this.props.trip;
 
-        const startDate = this.state.startDate;
+        const startDate = this.state.arrivalDate;
         const endDate = this.calculateEndDate(startDate);
 
         return (
             <form onSubmit={this.props.onSubmit}>
-                <NonFieldErrors errors={errors.non_field_errors}/>
-                <UncontrolledFormFieldGroup errors={errors.name} label="Trip Name" name="name" type="text"
+                <NonFieldErrors errors={this.props.nonFieldErrors}/>
+                <UncontrolledFormFieldGroup errors={fieldErrors.name} label="Trip Name" name="name" type="text"
                                             value={trip.name} required={true}/>
-                <DateFieldGroup errors={errors.startDate} label="Start Date" name="startDate"
+                <DateFieldGroup errors={fieldErrors.arrivalDate} label="Start Date" name="startDate"
                                 onChange={(date) => this.onDateChange("startDate", date)}
                                 value={startDate.format("DD/MM/YYYY")} required={true}/>
-                <DateFieldGroup errors={errors.endDate} label="End Date" name="endDate"
+                <DateFieldGroup errors={fieldErrors.departureDate} label="End Date" name="endDate"
                                 onChange={(date) => this.onDateChange("endDate", date)}
                                 value={endDate.format("DD/MM/YYYY")} required={true}/>
                 <button type="submit" className="btn btn-primary">{this.props.submitLabel}</button>
@@ -68,5 +68,5 @@ export default class TripForm extends React.Component {
 
 TripForm.defaultProps = {
     trip: {}
-}
+};
 

@@ -109,12 +109,12 @@ var _default = {
               case 0:
                 input = _ref4.input;
                 user = _ref5.user;
-                name = input.name, startDate = input.startDate, endDate = input.endDate;
+                name = input.name, startDate = input.arrivalDate, endDate = input.departureDate;
                 _context3.next = 5;
                 return _Trip.default.create({
                   name: name,
-                  startDate: startDate,
-                  endDate: endDate,
+                  arrivalDate: startDate,
+                  departureDate: endDate,
                   createdBy: user
                 });
 

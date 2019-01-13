@@ -24,21 +24,21 @@ export default gql`
   type TripLocation {
     id: ID,
     city: City!
-    startDate: Date!,
-    endDate: Date!,
+    arrivalDate: Date!,
+    departureDate: Date!,
     trip: Trip!
   }
   
   input TripLocationInput {
     city: String!,
-    startDate: Date!,
-    endDate: Date!,
+    arrivalDate: Date!,
+    departureDate: Date!,
     tripId: ID!
   }
   
   input TripLocationUpdateInput {
-    startDate: Date!,
-    endDate: Date!
+    arrivalDate: Date!,
+    departureDate: Date!
   }
   
   type TripLocationItem {

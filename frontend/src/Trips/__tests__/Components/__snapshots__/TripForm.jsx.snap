@@ -2,7 +2,9 @@
 
 exports[`<TripForm /> renders correctly 1`] = `
 <form>
-  <NonFieldErrors />
+  <NonFieldErrors
+    errors={Array []}
+  />
   <FormFieldGroup
     label="Trip Name"
     name="name"
