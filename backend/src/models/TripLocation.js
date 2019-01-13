@@ -16,7 +16,7 @@ const tripLocationSchema = new Schema({
             validator: function (value) {
                 return this.arrivalDate <= value;
             },
-            message: "Departure date must be after arrival date"
+            message: "Departure date must not be before arrival date"
         }
     },
     trip:  {type: Schema.ObjectId, ref: 'Trip', required: true },

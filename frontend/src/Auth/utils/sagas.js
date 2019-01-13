@@ -122,7 +122,6 @@ function* registerUserFlow({userDetails}) {
             yield put({type: REGISTER_FAILURE, error: data.errors});
         }
     } catch (error) {
-        console.log(error);
         yield put({type: REGISTER_FAILURE, error});
     }
 }

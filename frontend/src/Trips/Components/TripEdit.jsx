@@ -9,12 +9,13 @@ export class TripEdit extends React.Component {
     curryAction = (action, id) => (object) => action(id, object);
 
     render() {
+        const errors = this.props.errors ? this.props.errors : [];
         let action = this.curryAction(editTrip, this.props.trip.id);
 
         return (
             <div className="card">
                 <ReduxFormContainer action={action} >
-                    <TripForm submitLabel="Save" trip={this.props.trip}/>
+                    <TripForm submitLabel="Save" trip={this.props.trip} fieldErrors={errors}/>
                 </ReduxFormContainer>
             </div>
         );
@@ -27,7 +28,8 @@ TripEdit.defaultProps = {
 
 function mapStateToProps(state, ownProps) {
   return {
-      trip: state.trips.trips.find(x => x.id === ownProps.match.params.id)
+      trip: state.trips.trips.find(x => x.id === ownProps.match.params.id),
+      errors: state.errors.EDIT_TRIP
   };
 }
 

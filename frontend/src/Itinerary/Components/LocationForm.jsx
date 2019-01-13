@@ -55,7 +55,7 @@ export default class LocationForm extends React.Component {
         return (
             <form onSubmit={this.props.onSubmit}>
                 <NonFieldErrors errors={this.props.nonFieldErrors}/>
-                <CitySearchFieldContainer errors={fieldErrors.locations} value={location} name="city"/>
+                <CitySearchFieldContainer errors={fieldErrors.city} value={location} name="city"/>
                 <DateFieldGroup errors={fieldErrors.arrivalDate} label="Arrival" name="arrivalDate"
                                 value={arrivalDate.format("DD/MM/YYYY")} required={true}
                                 onChange={(date) => this.onDateChange("arrivalDate", date)}/>

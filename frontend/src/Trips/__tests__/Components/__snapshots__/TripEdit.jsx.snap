@@ -8,6 +8,7 @@ exports[`<TripEditContainer /> renders correctly 1`] = `
     action={[Function]}
   >
     <TripForm
+      fieldErrors={Array []}
       submitLabel="Save"
       trip={Object {}}
     />

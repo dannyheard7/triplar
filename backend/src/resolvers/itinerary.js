@@ -3,7 +3,6 @@ import {UserInputError, ApolloError} from 'apollo-server-express';
 import Trip from '../models/Trip';
 import City from "../models/City";
 import TripLocation from "../models/TripLocation";
-import {findCityByCityAndCountryName} from "../utils/city";
 import TripLocationItem from "../models/TripLocationItem";
 import {PlacesAPI} from "../plugins/yelpApi";
 import {convertMongooseValidationErrorToGraphqlValidationError} from "../utils/validationError";
@@ -33,8 +32,9 @@ export default {
             const {city, arrivalDate, departureDate, tripId} = input;
             const trip = await Trip.retrieveAndVerifyPermissions(tripId, user);
 
+
             let [cityName, countryName] = city.split(',').map(x => x.trim());
-            const cityObj = await findCityByCityAndCountryName(cityName, countryName);
+            const cityObj = await City.findByCityAndCountryName(cityName, countryName);
 
             try {
                 const tripLocation = await TripLocation.create({city: cityObj._id, arrivalDate, departureDate, trip: trip._id});
@@ -89,7 +89,6 @@ export default {
 
                 return true;
             } catch(e) {
-                console.log(e.message);
                 return false;
             }
         }

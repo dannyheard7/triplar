@@ -1,16 +1,16 @@
 import {call, put, takeEvery} from 'redux-saga/effects'
 import {
-    CREATE_TRIP_REQUEST,
     CREATE_TRIP_FAILURE,
+    CREATE_TRIP_REQUEST,
     CREATE_TRIP_SUCCESS,
-    DELETE_TRIP_REQUEST,
     DELETE_TRIP_FAILURE,
+    DELETE_TRIP_REQUEST,
     DELETE_TRIP_SUCCESS,
-    EDIT_TRIP_REQUEST,
     EDIT_TRIP_FAILURE,
+    EDIT_TRIP_REQUEST,
     EDIT_TRIP_SUCCESS,
-    GET_TRIPS_REQUEST,
     GET_TRIPS_FAILURE,
+    GET_TRIPS_REQUEST,
     GET_TRIPS_SUCCESS
 } from './actions'
 import api from "./trips.api";
@@ -31,10 +31,13 @@ function* getTripsFlow() {
 function* createTripFlow({trip}) {
     try {
         let response = yield call(api.createTrip, trip);
-        let result = response.data.data.result;
 
-        yield put({type: CREATE_TRIP_SUCCESS, trip: result});
-        yield put(push('/trips/' + result.id))
+        if(response.data.data) {
+            yield put({type: CREATE_TRIP_SUCCESS, trip: response.data.data.result});
+            yield put(push('/trips/' + response.data.data.result.id))
+        } else {
+            yield put({type: CREATE_TRIP_FAILURE, error: response.data.errors});
+        }
     } catch (error) {
         yield put({type: CREATE_TRIP_FAILURE, error});
     }
@@ -43,9 +46,13 @@ function* createTripFlow({trip}) {
 function* editTripFlow({tripId, trip}) {
     try {
         let response = yield call(api.editTrip, tripId, trip);
-        let result = response.data.data.result;
 
-        yield put({type: EDIT_TRIP_SUCCESS, trip: result});
+        if(response.data.data) {
+            yield put({type: EDIT_TRIP_SUCCESS, trip: response.data.data.result});
+            yield put(push('/trips/' + response.data.data.result.id))
+        } else {
+            yield put({type: EDIT_TRIP_FAILURE, error: response.data.errors});
+        }
     } catch (error) {
         yield put({type: EDIT_TRIP_FAILURE, error});
     }

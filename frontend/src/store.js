@@ -48,7 +48,8 @@ const rootReducer = (state, action) => {
 const persistConfig = {
     key: 'root',
     storage: sessionStorage,
-    stateReconciler: autoMergeLevel2
+    stateReconciler: autoMergeLevel2,
+    blacklist: ['errors']
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

@@ -10,7 +10,6 @@ export const facebookLoginStrategy = new FacebookTokenStrategy({clientID: FACEBO
             const user = await User.upsertFacebookUser(accessToken, refreshToken, profile);
             if (user) return done(null, user);
         } catch (e) {
-            console.log(e.message);
             return done(e);
         }
 

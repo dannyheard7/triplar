@@ -45,7 +45,6 @@ export function itinerariesReducer(state = initialState, action) {
         case GET_ITINERARY_DAY_ITEMS_SUCCESS:
             return {...state, itineraryItems: [...removeItineraryItemsForDay(state.itineraryItems, action.itineraryId, action.date), ...action.items]};
         case ADD_ITEM_TO_ITINERARY_DAY_SUCCESS:
-            console.log(action.item);
             return {...state, itineraryItems: [...state.itineraryItems, action.item]};
         case REMOVE_ITEM_FROM_ITINERARY_DAY_SUCCESS:
             return {...state, itineraryItems: removeItemFromItineraryItems(state.itineraryItems, action.item)};

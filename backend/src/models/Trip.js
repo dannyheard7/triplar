@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import validator from "validator";
 import {ForbiddenError} from "apollo-server-express";
 import TripLocation from "./TripLocation";
 
@@ -6,16 +7,25 @@ const uniqueValidator = require('mongoose-unique-validator');
 const Schema = mongoose.Schema;
 
 const tripSchema = new Schema({
-    name: {type: String, required: true},
+    name: {
+        type: String,
+        required: true,
+        validate: {
+            validator: function (value) {
+                return !validator.isEmpty(value)
+            },
+            message: "Name must not be empty"
+        }
+    },
     startDate: {type: Date, required: true},
     endDate: {
         type: Date,
         required: true,
         validate: {
             validator: function (value) {
-                return this.arrivalDate <= value;
+                return this.startDate <= value;
             },
-            message: "End date must be after start date"
+            message: "End date must be not be before start date"
         }
     },
     dateCreated: {type: Date, default: Date.now},
