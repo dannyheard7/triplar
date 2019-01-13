@@ -19,4 +19,6 @@ backend/.tmp
 
 backend/src/plugins/data
 
+log/
+
 

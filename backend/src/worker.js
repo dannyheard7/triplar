@@ -7,6 +7,7 @@ import {REDIS_HOST, REDIS_PORT} from "./config/redis";
 import {oneDayInSeconds, PlacesAPI} from "./plugins/yelpApi";
 import redis from "redis";
 import * as bluebird from "bluebird";
+import logger from "./utils/logger";
 
 bluebird.promisifyAll(redis);
 const client = redis.createClient(REDIS_PORT, REDIS_HOST);
@@ -22,7 +23,7 @@ geoImporterQueue.process(async function (job, done) {
         await importCities(countries);
         done();
     } catch (e) {
-        console.log(e.message);
+        logger.error(e.message);
         throw e;
     } finally {
         mongoose.connection.close();
@@ -62,7 +63,7 @@ categoriesImporterQueue.process(async function (job, done) {
         await client.setAsync("yelp-categories", JSON.stringify(allCategories), 'EX', oneDayInSeconds);
         done();
     } catch (e) {
-        console.log(e.message);
+        logger.error(e.message);
         throw e;
     }
 });

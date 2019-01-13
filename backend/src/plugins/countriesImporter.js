@@ -1,7 +1,9 @@
 import axios from "axios";
-import Country from "../models/Country";
-import * as fs from 'fs';
+import fs from 'fs';
 import extract from 'extract-zip';
+
+import logger from '../utils/logger'
+import Country from "../models/Country";
 import City from "../models/City";
 
 export async function importCountries() {
@@ -76,7 +78,7 @@ export async function importCities(countries) {
             await City.insertMany(cities);
         }
     } catch (e) {
-        console.log(e.message);
+        logger.error(e.message);
         throw e;
     }
 }

@@ -1,13 +1,23 @@
 import express from 'express';
 import {ApolloServer, makeExecutableSchema} from 'apollo-server-express';
 import cors from 'cors';
+import mongoose from "mongoose";
+import winston from "winston";
+import bodyParser from "body-parser";
+
 import resolvers from './resolvers';
 import schema from './schema'
 import {directiveResolvers} from "./directives/resolvers";
 import {MONGO_URL} from "./config/datastore";
-import mongoose from "mongoose";
-import bodyParser from "body-parser";
 import passport, {facebookLoginRoute, jwtAuthRoute, loginRoute} from "./auth/auth";
+import logger from "./utils/logger";
+
+
+if (process.env.NODE_ENV !== 'production') {
+    logger.add(new winston.transports.Console({
+        format: winston.format.simple()
+    }));
+}
 
 mongoose.connect(MONGO_URL);
 
@@ -48,4 +58,5 @@ app.use(function(err, req, res, next) {
 
 server.applyMiddleware({app, path: '/graphql'});
 
-app.listen({port: 8000}, () => console.log('Apollo Server on http://localhost:8000/graphql'));
+app.listen({port: 8000}, () => logger.info('Apollo Server on http://localhost:8000/graphql'));
+
