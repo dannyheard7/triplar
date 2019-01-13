@@ -27,12 +27,14 @@ export class TripCreate extends React.Component {
     }
 
     render () {
+        const errors = this.props.errors ? this.props.errors : [];
+
         return (
             <div>
                 <button className="btn btn-primary" onClick={this.onClick}>New Trip</button>
                 {this.state.showTripCreate &&
                     <div className="card">
-                        <ReduxFormContainer errors={this.props.errors} action={createTrip}>
+                        <ReduxFormContainer fieldErrors={errors} action={createTrip}>
                             <TripForm submitLabel="Create" />
                         </ReduxFormContainer>
                     </div>
@@ -42,5 +44,7 @@ export class TripCreate extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {return {errors: state.trips.errors}};
+const mapStateToProps = (state) =>  ({
+    errors: state.errors.CREATE_TRIP
+});
 export default connect(mapStateToProps)(TripCreate)

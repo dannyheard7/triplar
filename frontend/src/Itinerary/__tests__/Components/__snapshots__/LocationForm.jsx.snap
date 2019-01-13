@@ -2,21 +2,23 @@
 
 exports[`<LocationForm /> renders correctly 1`] = `
 <form>
-  <NonFieldErrors />
+  <NonFieldErrors
+    errors={Array []}
+  />
   <CitySearchFieldContainer
     name="city"
     value="Bristol, United Kingdom"
   />
   <DateFieldGroup
     label="Arrival"
-    name="startDate"
+    name="arrivalDate"
     onChange={[Function]}
     required={true}
     value="20/09/2011"
   />
   <DateFieldGroup
     label="Departure"
-    name="endDate"
+    name="departureDate"
     onChange={[Function]}
     required={true}
     value="21/09/2011"

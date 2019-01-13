@@ -128,6 +128,7 @@ exports[`<LocationItinerary /> <LocationItinerary /> renders correctly 1`] = `
         dragging={false}
         itinerary={
           Object {
+            "arrivalDate": "2018-08-10T00:00:00.000Z",
             "city": Object {
               "country": "United Kingdom",
               "location": Object {
@@ -136,8 +137,7 @@ exports[`<LocationItinerary /> <LocationItinerary /> renders correctly 1`] = `
               },
               "name": "Bristol",
             },
-            "endDate": "2018-08-12T00:00:00.000Z",
-            "startDate": "2018-08-10T00:00:00.000Z",
+            "departureDate": "2018-08-12T00:00:00.000Z",
             "trip": Object {
               "id": 1,
             },

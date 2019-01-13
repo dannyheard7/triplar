@@ -2,7 +2,6 @@ import React from "react";
 import {shallow} from "enzyme";
 
 import ShallowRenderer from 'react-test-renderer/shallow';
-import FormContainer from "../../../Forms/Containers/FormContainer";
 import LocationAddContainer, {LocationAdd} from "../../Components/LocationAdd";
 import ReduxFormContainer from "../../../Forms/Containers/ReduxFormContainer";
 
@@ -37,7 +36,7 @@ describe('<LocationAdd />', () => {
         const stub = jest.fn();
         const container = shallow(<LocationAdd trip={{id: faker.random.number()}} onSuccess={stub} />);
         container.setState({showLocationAdd: true});
-        container.find(FormContainer).prop('onSuccess')(data);
+        container.find(ReduxFormContainer).prop('onSuccess')(data);
 
         expect(spy).toBeCalledWith(data);
         expect(stub).toBeCalledWith(data.tripLocation)

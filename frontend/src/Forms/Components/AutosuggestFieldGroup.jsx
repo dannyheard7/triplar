@@ -9,9 +9,9 @@ export default class AutosuggestFieldGroup extends FormFieldGroup {
           <input {...inputProps} className="form-control" name={this.props.name} required/>
             {this.props.help && <small className="form-text text-muted">{this.props.help}</small>}
             {this.props.errors &&
-                <li className="list-unstyled">
+                <ul className="list-unstyled">
                     {this.props.errors.map(this.createErrorItem)}
-                </li>
+                </ul>
             }
       </div>
     );

@@ -7,8 +7,8 @@ export default {
             mutation AddTripLocation($input: TripLocationInput!){
               result: addTripLocation(input: $input) {
                 id
-                startDate
-                endDate
+                arrivalDate
+                departureDate
                 trip {
                     id
                 }
@@ -45,8 +45,8 @@ export default {
             trip(id: "${tripId}") {
                 locations {
                     id
-                    startDate
-                    endDate
+                    arrivalDate
+                    departureDate
                     trip {
                         id
                     }

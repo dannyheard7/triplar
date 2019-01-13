@@ -18,7 +18,7 @@ export class LocationItinerary extends React.Component {
         super(props);
 
         this.state = {
-            selectedDate: props.itinerary.startDate,
+            selectedDate: props.itinerary.arrivalDate,
             dragging: false,
         };
 
@@ -33,7 +33,7 @@ export class LocationItinerary extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.itinerary.id !== prevProps.itinerary.id) {
-            this.setState({selectedDate: this.props.itinerary.startDate}, this.componentDidMount);
+            this.setState({selectedDate: this.props.itinerary.arrivalDate}, this.componentDidMount);
         }
     }
 
@@ -74,7 +74,7 @@ export class LocationItinerary extends React.Component {
         const tripId = trip ? trip.id : this.props.match.params.tripId;
         const path = `/trips/${tripId}/itinerary/${itinerary.id}`;
 
-        const days = daysBetweenDates(itinerary.startDate, itinerary.endDate);
+        const days = daysBetweenDates(itinerary.arrivalDate, itinerary.departureDate);
 
         return (
             <DragDropContext onDragEnd={this.onDragEnd} onDragStart={this.onDragStart}>

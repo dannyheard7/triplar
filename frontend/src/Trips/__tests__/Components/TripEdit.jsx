@@ -5,7 +5,6 @@ import ShallowRenderer from 'react-test-renderer/shallow';
 const renderer = new ShallowRenderer();
 
 import {TripEdit} from "../../Components/TripEdit";
-import FormContainer from "../../../Forms/Containers/FormContainer";
 
 jest.mock('../../utils/trips.api.js');
 const api = require('../../utils/trips.api.js');

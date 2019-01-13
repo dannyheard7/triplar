@@ -14,10 +14,11 @@ describe('<LocationForm />', () => {
                 name_std: "Bristol",
                 country: "United Kingdom"
             },
-            startDate: "2011-09-20",
-            endDate: "2011-09-21"
+            arrivalDate: "2011-09-20",
+            departureDate: "2011-09-21"
         },
-        errors: {}
+        fieldErrors: {},
+        nonFieldErrors: []
     };
 
     test('renders correctly', () => {

@@ -3,6 +3,7 @@
 exports[`<LocationAdd /> renders correctly 1`] = `
 <Connect(ReduxFormContainer)
   action={[Function]}
+  fieldErrors={Array []}
 >
   <LocationForm
     location={

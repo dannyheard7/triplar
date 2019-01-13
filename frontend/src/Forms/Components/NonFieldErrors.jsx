@@ -1,21 +1,13 @@
 import React from "react";
 
-export default class NonFieldErrors extends React.Component {
-    render () {
+export default function NonFieldErrors(props) {
+    if(props.errors && props.errors.length > 0) {
         return (
-            <div>
-                {this.props.errors &&
-                    <li bsStyle="list-unstyled">
-                        {this.props.errors.map(this.createErrorItem)}
-                    </li>
-                }
-            </div>
+            <ul bsStyle="list-unstyled">
+                {props.errors.map(error => <li>{error.message}</li>)}
+            </ul>
         )
-    }
-
-    createErrorItem(error) {
-        return (
-            <ul>{error}</ul>
-        )
+    } else {
+        return (null);
     }
 }

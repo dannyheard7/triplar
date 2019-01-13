@@ -43,7 +43,7 @@ export class ItinerariesOverview extends React.Component {
                                 <h3 className={["card-title", styles.destinationPlanTitle].join(' ')}>{location.city.name}{location.city.country && ", " + location.city.country.name}</h3>
                             </Link>
                             <p className="card-text">
-                                {Moment(location.startDate).format('Do MMMM')} - {Moment(location.endDate).format('Do MMMM')}
+                                {Moment(location.arrivalDate).format('Do MMMM')} - {Moment(location.departureDate).format('Do MMMM')}
                             </p>
                         </div>
                     )}

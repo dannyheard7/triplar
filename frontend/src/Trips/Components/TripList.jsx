@@ -29,7 +29,7 @@ export class TripList extends React.Component {
                 <h3 className="card-title"><Link to={"/trips/" + trip.id}>{trip.name}</Link></h3>
                 <p className="card-text">
                     <span>{trip.locations && trip.locations.map((location, index) => (index ? ', ': '') + location.city.name)}</span><br />
-                    {Moment(trip.startDate).format('Do MMMM') } - {Moment(trip.endDate).format('Do MMMM') }
+                    {Moment(trip.arrivalDate).format('Do MMMM') } - {Moment(trip.departureDate).format('Do MMMM') }
                 </p>
             </div>
         );

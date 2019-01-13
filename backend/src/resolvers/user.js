@@ -1,16 +1,13 @@
-import jwt from "jsonwebtoken";
-import {JWT_EXPIRES, JWT_SECRET} from "../config/auth";
+import {UserInputError} from "apollo-server-express";
+
 import User from '../models/User';
 import Role from '../models/Role';
+import {convertMongooseValidationErrorToGraphqlValidationError} from "../utils/validationError";
 
 export default {
     Query: {
-        users: async (parent, args, {user}) => {
-            return await User.find();
-        },
-        user: async (parent, {id}) => {
-            return await User.findById(id);
-        },
+        users: async (parent, args, {user}) =>  await User.find(),
+        user: async (parent, {id}) => await User.findById(id),
         userInfo: async (parent, {token}) => {
             const user = await User.findByToken({token});
             user.jwt = token;
@@ -20,13 +17,16 @@ export default {
     Mutation: {
         createUser: async (parent, {input}) => {
             const {firstName, lastName, email, password} = input;
-            return await new User({
-                firstName,
-                email,
-                lastName,
-                password: await User.hashPassword({password}),
-                roles: [await Role.findOneOrCreate({name: "User"})]
-            }).save();
+            try {
+                await new User({firstName, email, lastName, password: await User.hashPassword({password}),
+                    roles: [await Role.findOneOrCreate({name: "User"})]}).save();
+            } catch (e) {
+                if(e.name === 'ValidationError') {
+                    convertMongooseValidationErrorToGraphqlValidationError(e);
+                } else {
+                    throw new UserInputError(e.message);
+                }
+            }
         },
     },
 };

@@ -1,6 +1,7 @@
 import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
 import {JWT_SECRET} from "../config/auth";
 import User from "../models/User";
+import {RestError} from "../utils/errors";
 
 const params = {
     secretOrKey: JWT_SECRET,
@@ -12,7 +13,7 @@ const jwtAuthStrategy = new JWTStrategy(params, async (payload, done) => {
         const user = (await User.findById(payload.user._id)) || null;
         return done(null, user);
     } catch(error) {
-        done(error);
+        return done(new RestError('Expired token.', 400));
     }
 });
 

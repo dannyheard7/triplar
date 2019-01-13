@@ -1,9 +1,9 @@
 import {
-    LOGIN_ERROR,
-    LOGIN_REQUESTING,
+    LOGIN_FAILURE,
+    LOGIN_REQUEST,
     LOGIN_SUCCESS,
     SET_USER,
-    VERIFY_TOKEN, VERIFY_TOKEN_ERROR,
+    VERIFY_TOKEN_REQUEST, VERIFY_TOKEN_FAILURE,
     VERIFY_TOKEN_SUCCESS,
     UNSET_USER
 } from "./actions";
@@ -12,26 +12,24 @@ import {
 const initialState = {
     requesting: false,
     successful: false,
-    errors: [],
     user: {},
     jwt: null
 };
 
 export function authReducer(state = initialState, action) {
     switch (action.type) {
-        case LOGIN_REQUESTING:
-        case VERIFY_TOKEN:
-            return {...state, requesting: true, successful: false, errors: []};
+        case LOGIN_REQUEST:
+        case VERIFY_TOKEN_REQUEST:
+            return {...state, requesting: true, successful: false};
         case LOGIN_SUCCESS:
         case VERIFY_TOKEN_SUCCESS:
             return {...state, requesting: false, successful: true};
-        case LOGIN_ERROR:
-        case VERIFY_TOKEN_ERROR:
+        case LOGIN_FAILURE:
+        case VERIFY_TOKEN_FAILURE:
             return {
                 ...state,
                 requesting: false,
-                successful: false,
-                errors: state.errors.concat([{body: action.error.toString()}])
+                successful: false
             };
         case SET_USER:
             return {...state, jwt: action.jwt, user: action.user};

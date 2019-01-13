@@ -1,6 +1,8 @@
 import axios from "axios";
 import redis from "redis";
 import * as bluebird from "bluebird";
+
+import logger from '../utils/logger';
 import hashCode from "../utils/hashCode";
 import {REDIS_HOST, REDIS_PORT} from "../config/redis";
 import removeByVal from "../utils/removeByVal";
@@ -41,11 +43,11 @@ export class PlacesAPI {
             if (response.data && response.data.data) {
                 return response.data.data;
             } else {
-                console.log(response);
+                logger.error(response);
                 throw new Error("Problem with the yelp service");
             }
         } catch (e) {
-            console.log(e.message);
+            logger.error(e.message);
             return [];
         }
     }

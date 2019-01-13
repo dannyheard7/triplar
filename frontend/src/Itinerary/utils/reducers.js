@@ -1,26 +1,16 @@
 import {
-    ADD_ITEM_TO_ITINERARY_DAY,
-    ADD_ITEM_TO_ITINERARY_DAY_FAILURE,
     ADD_ITEM_TO_ITINERARY_DAY_SUCCESS,
-    ADD_TRIP_LOCATION,
-    ADD_TRIP_LOCATION_FAILURE,
-    ADD_TRIP_LOCATION_SUCCESS, DELETE_TRIP_LOCATION, DELETE_TRIP_LOCATION_SUCCESS,
-    GET_ITINERARY_DAY_ITEMS,
-    GET_ITINERARY_DAY_ITEMS_FAILURE,
+    ADD_TRIP_LOCATION_SUCCESS,
+    DELETE_TRIP_LOCATION_SUCCESS,
     GET_ITINERARY_DAY_ITEMS_SUCCESS,
-    GET_TRIP_ITINERARIES,
-    GET_TRIP_ITINERARIES_FAILURE,
     GET_TRIP_ITINERARIES_SUCCESS,
-    REMOVE_ITEM_FROM_ITINERARY_DAY,
-    REMOVE_ITEM_FROM_ITINERARY_DAY_FAILURE,
     REMOVE_ITEM_FROM_ITINERARY_DAY_SUCCESS
 } from "./actions";
 
 
 const initialState = {
     locationItineraries: [],
-    itineraryItems: [],
-    errors: []
+    itineraryItems: []
 };
 
 function updateItineraryInItineraries(itineraries, updatedItinerary) {
@@ -45,34 +35,19 @@ function removeItemFromItineraryItems(itineraryItems, item) {
 
 export function itinerariesReducer(state = initialState, action) {
     switch (action.type) {
-        case GET_TRIP_ITINERARIES:
-        case ADD_TRIP_LOCATION:
-        case GET_ITINERARY_DAY_ITEMS:
-        case ADD_ITEM_TO_ITINERARY_DAY:
-        case REMOVE_ITEM_FROM_ITINERARY_DAY:
-            return {...state, errors: []};
         case GET_TRIP_ITINERARIES_SUCCESS:
-            return {...state, locationItineraries: action.tripItineraries, errors: []};
+            return {...state, locationItineraries: action.tripItineraries};
         case ADD_TRIP_LOCATION_SUCCESS:
-            return {...state, locationItineraries: updateItineraryInItineraries(state.locationItineraries, action.tripLocation),
-                errors: []};
+            return {...state, locationItineraries: updateItineraryInItineraries(state.locationItineraries, action.tripLocation)};
         case DELETE_TRIP_LOCATION_SUCCESS:
             return {...state, locationItineraries: state.locationItineraries.filter(x => x.id !== action.locationId),
                 itineraryItems: state.itineraryItems.filter(x => x.itineraryId !== action.locationId)};
         case GET_ITINERARY_DAY_ITEMS_SUCCESS:
-            return {...state, itineraryItems: [...removeItineraryItemsForDay(state.itineraryItems, action.itineraryId, action.date), ...action.items],
-                errors: []};
+            return {...state, itineraryItems: [...removeItineraryItemsForDay(state.itineraryItems, action.itineraryId, action.date), ...action.items]};
         case ADD_ITEM_TO_ITINERARY_DAY_SUCCESS:
-            console.log(action.item);
             return {...state, itineraryItems: [...state.itineraryItems, action.item]};
         case REMOVE_ITEM_FROM_ITINERARY_DAY_SUCCESS:
             return {...state, itineraryItems: removeItemFromItineraryItems(state.itineraryItems, action.item)};
-        case GET_TRIP_ITINERARIES_FAILURE:
-        case ADD_TRIP_LOCATION_FAILURE:
-        case GET_ITINERARY_DAY_ITEMS_FAILURE:
-        case ADD_ITEM_TO_ITINERARY_DAY_FAILURE:
-        case REMOVE_ITEM_FROM_ITINERARY_DAY_FAILURE:
-            return {...state, errors: action.errors};
         default:
             return state;
     }

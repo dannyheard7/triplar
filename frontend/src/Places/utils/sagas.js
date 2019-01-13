@@ -1,12 +1,12 @@
 import {call, put, select, takeEvery} from 'redux-saga/effects'
 import {
-    GET_PLACE_DETAILS,
+    GET_PLACE_DETAILS_REQUEST,
     GET_PLACE_DETAILS_FAILURE,
     GET_PLACE_DETAILS_SUCCESS,
-    GET_POPULAR_PLACES,
+    GET_POPULAR_PLACES_REQUEST,
     GET_POPULAR_PLACES_FAILURE,
     GET_POPULAR_PLACES_SUCCESS,
-    GET_TOP_LEVEL_CATEGORIES,
+    GET_TOP_LEVEL_CATEGORIES_REQUEST,
     GET_TOP_LEVEL_CATEGORIES_FAILURE,
     GET_TOP_LEVEL_CATEGORIES_SUCCESS,
     UPDATE_PLACES_SUCCESS,
@@ -69,7 +69,7 @@ function* getTopLevelCategories() {
 }
 
 export default function* placesRootSaga() {
-    yield takeEvery(GET_TOP_LEVEL_CATEGORIES, getTopLevelCategories);
-    yield takeEvery(GET_POPULAR_PLACES, getPopularPlaces);
-    yield takeEvery(GET_PLACE_DETAILS, getPlaceDetails);
+    yield takeEvery(GET_TOP_LEVEL_CATEGORIES_REQUEST, getTopLevelCategories);
+    yield takeEvery(GET_POPULAR_PLACES_REQUEST, getPopularPlaces);
+    yield takeEvery(GET_PLACE_DETAILS_REQUEST, getPlaceDetails);
 }

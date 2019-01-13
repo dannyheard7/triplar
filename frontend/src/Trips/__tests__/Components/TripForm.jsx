@@ -9,10 +9,11 @@ const renderer = new ShallowRenderer();
 describe('<TripForm />', () => {
     const props = {
         trip: {
-            startDate: "2011-09-15",
-            endDate: "2011-09-17"
+            arrivalDate: "2011-09-15",
+            departureDate: "2011-09-17"
         },
-        errors: {}
+        fieldErrors: {},
+        nonFieldErrors: []
     };
 
     test('renders correctly', () => {

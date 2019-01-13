@@ -1,33 +1,33 @@
 import React from "react";
 
 import RegistrationForm from "../Components/RegistrationForm";
-import api from "../utils/auth.api";
-import FormContainer from "../../Forms/Containers/FormContainer";
 import {Helmet} from "react-helmet";
+import ReduxFormContainer from "../../Forms/Containers/ReduxFormContainer";
+import {registerRequest} from "../utils/actions";
+import {withRouter} from "react-router";
+import {connect} from "react-redux";
 
-export default class RegistrationContainer extends React.Component {
-
-    constructor(props) {
-        super(props);
-
-        this.onSuccess = this.onSuccess.bind(this);
-    }
-
-    onSuccess(data) {
-        this.props.history.push('/login')
-    }
-
+export class RegistrationContainer extends React.Component {
     render() {
+        const errors = this.props.errors ? this.props.errors : [];
+
         return (
             <div>
                 <Helmet>
                     <title>Register | Triplar</title>
                 </Helmet>
                 <h1>Register</h1>
-                <FormContainer onSuccess={this.onSuccess} apiFunction={api.registerUser}>
+                <ReduxFormContainer action={registerRequest} fieldErrors={errors}>
                     <RegistrationForm />
-                </FormContainer>
+                </ReduxFormContainer>
             </div>
         );
     }
 }
+
+const mapStateToProps = state => ({
+    errors: state.errors.REGISTER
+});
+
+
+export default withRouter(connect(mapStateToProps)(RegistrationContainer))
