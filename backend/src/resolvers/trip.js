@@ -44,6 +44,12 @@ export default {
     },
     Trip: {
         createdBy: async ({createdBy}) => await User.findById(createdBy),
-        locations: async ({locations}) => await TripLocation.find({_id: {$in: locations}})
+        locations: async ({locations}) => {
+            try {
+                return await TripLocation.find({_id: {$in: locations}})
+            } catch(e) {
+                return []
+            }
+        }
     }
 };

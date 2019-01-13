@@ -20,9 +20,12 @@ import {push} from "react-router-redux";
 function* getTripsFlow() {
     try {
         let response = yield call(api.getTrips);
-        let result = response.data.data.trips;
 
-        yield put({type: GET_TRIPS_SUCCESS, trips: result});
+        if(response.data.data) {
+            yield put({type: GET_TRIPS_SUCCESS, trips: response.data.data.trips});
+        } else {
+            yield put({type: GET_TRIPS_FAILURE, error: response.data.errors});
+        }
     } catch (error) {
         yield put({type: GET_TRIPS_FAILURE, error});
     }
