@@ -9,7 +9,8 @@
     "serve": "node dist/server.js",
     "worker-dev": "nodemon --exec babel-node src/worker.js",
     "worker-prod": "node dist/worker.js",
-    "test": "jest"
+    "test": "jest --watch",
+    "testCI": "jest --ci"
   },
   "author": "",
   "license": "ISC",

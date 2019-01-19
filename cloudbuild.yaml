@@ -1,0 +1,14 @@
+steps:
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['install']
+    dir: 'backend/'
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['run', 'testCI']
+    dir: 'backend/'
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['install']
+    dir: 'frontend/'
+  - name: 'gcr.io/cloud-builders/npm'
+    args: ['run', 'testCI']
+    dir: 'frontend/'
+timeout: "160s"
