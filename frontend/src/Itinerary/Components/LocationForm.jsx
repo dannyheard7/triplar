@@ -37,7 +37,7 @@ export default class LocationForm extends React.Component {
     calculateEndDate(startDate) {
         const location = this.props.location;
 
-        if(this.state.departureDate && this.state.departureDate.format("YYYY-MM-DD") !== location.departureDate) {
+        if(this.state.departureDate && location.departureDate && this.state.departureDate !== location.departureDate) {
             return this.state.departureDate;
         } else {
             return startDate.clone().add(1, 'days');

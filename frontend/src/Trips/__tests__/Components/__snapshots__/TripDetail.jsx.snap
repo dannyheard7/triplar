@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<TripDetail /> with trip prop renders correctly 1`] = `
+exports[`<TripDetail /> renders correctly 1`] = `
 <div
   id="trip-detail"
 >
@@ -25,7 +25,7 @@ exports[`<TripDetail /> with trip prop renders correctly 1`] = `
     >
       10th August
        - 
-      12th August
+      19th January
     </p>
     <span>
       <Link

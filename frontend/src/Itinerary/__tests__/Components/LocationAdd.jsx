@@ -2,7 +2,7 @@ import React from "react";
 import {shallow} from "enzyme";
 
 import ShallowRenderer from 'react-test-renderer/shallow';
-import LocationAddContainer, {LocationAdd} from "../../Components/LocationAdd";
+import {LocationAdd} from "../../Components/LocationAdd";
 import ReduxFormContainer from "../../../Forms/Containers/ReduxFormContainer";
 
 const renderer = new ShallowRenderer();
@@ -13,20 +13,11 @@ jest.mock('../../utils/itinerary.api.js');
 const api = require('../../utils/itinerary.api.js');
 
 describe('<LocationAdd />', () => {
-    const event = {
-        preventDefault: () => {},
-        target: {
-            value: "",
-            name: "",
-        },
-    };
-
     const data = {tripLocation: {'id': faker.random.number(),
                 'city': {'name_std': faker.address.city(), 'country': faker.address.country()}}};
 
-
     test('renders correctly', () => {
-        const result = renderer.render(<LocationAdd trip={{id: 1}} />);
+        const result = renderer.render(<LocationAdd trip={{id: 1, startDate: '2018-08-14', endDate: '2018-08-18'}} />);
         expect(result).toMatchSnapshot();
     });
 

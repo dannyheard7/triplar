@@ -9,45 +9,28 @@ const renderer = new ShallowRenderer();
 const faker = require('faker');
 
 describe('<TripDetail />', () => {
-    describe('with trip prop', () => {
+    const props = {
+        trip: null,
+        locations: [],
+        dispatch: jest.fn(),
+        match: {params: {id: faker.random.number()}}
+    };
 
-        const props = {
-            trip: null,
-            locations: null,
-            dispatch: jest.fn()
+    test('renders correctly', () => {
+        props.trip = {
+            'id': 1,
+            'name': "test",
+            'created_by': "email@example.com",
+            'startDate': "2018-08-10",
+            "endDAte": "2018-08-12",
+            'locations': [{'id': 1, 'city': {'name_std': "Bristol", 'country': "United Kingdom"}}]
         };
-
-        beforeAll(function () {
-            // TODO: Need a better way to deal with this. Maybe a helper function that generates one?
-            props.trip = {
-                'id': faker.random.number(), 'name': faker.random.word(), 'created_by': faker.internet.email(),
-                'locations': [{
-                    'id': faker.random.number,
-                    'city': {'name_std': faker.address.city(), 'country': faker.address.country()}
-                }]
-            };
-        });
-
-        test('renders correctly', () => {
-            props.trip = {
-                'id': 1,
-                'name': "test",
-                'created_by': "email@example.com",
-                'arrivalDate': "2018-08-10",
-                "departureDate": "2018-08-12",
-                'locations': [{'id': 1, 'city': {'name_std': "Bristol", 'country': "United Kingdom"}}]
-            };
-            const result = renderer.render(<TripDetail {...props} />);
-            expect(result).toMatchSnapshot();
-        });
+        const result = renderer.render(<TripDetail {...props} />);
+        expect(result).toMatchSnapshot();
     });
 
     test('renders loading text when no trip is passed', async () => {
-         const props = {
-            trip: {'id': faker.random.number(), 'name': faker.random.word(), 'created_by': faker.internet.email()},
-            match: {params: {id: faker.random.number()}},
-             locations: []
-        };
+         props.trip= {'id': faker.random.number(), 'name': faker.random.word(), 'created_by': faker.internet.email()};
 
         let container = shallow(<TripDetail {...props} trip={null} dispatch={jest.fn()}/>);
         expect(container.find(LoadingIndicator).length).toEqual(1);

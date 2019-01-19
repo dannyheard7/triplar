@@ -15,7 +15,7 @@ export default {
             const {name, startDate, endDate} = input;
 
             try {
-                return await Trip.create({name, startDate: startDate, endDate: endDate, createdBy: user})
+                return await Trip.create({name, startDate, endDate, createdBy: user})
             } catch(e) {
                 if(e.name === 'ValidationError') {
                     convertMongooseValidationErrorToGraphqlValidationError(e);
